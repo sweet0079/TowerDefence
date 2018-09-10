@@ -9,3 +9,6 @@ export { userInfo as userInfo }
 
 import  ccAudioPlayer from './ccAudioPlayer'
 export { ccAudioPlayer as ccAudioPlayer }
+
+import * as RandomParameters from './RandomParameters'
+export { RandomParameters as RandomParameters }

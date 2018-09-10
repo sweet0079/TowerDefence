@@ -1,11 +1,11 @@
-/** 单个防御塔的控制组件 */
+/** 单个防御塔的攻击相关控制组件 */
 import GameManager from '../Manager/GameManager'
 import enemyControl from './enemy'
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class TowerAttack extends cc.Component {
 
     //----- 编辑器属性 -----//
     /** 子弹预制体 */
@@ -48,6 +48,10 @@ export default class NewClass extends cc.Component {
         }
     }
     //----- 公有方法 -----//
+    //初始化
+    init(){
+        this.time = 0;
+    }
     //----- 私有方法 -----//
     //获得节点间的距离
     private getDistance(SelfPos:cc.Vec2,OtherPos:cc.Vec2){
@@ -92,8 +96,9 @@ export default class NewClass extends cc.Component {
             let rotateRadians = this.getAngle(rotateVector);
             let rotateDegrees = ((-1 * rotateRadians) * 57.29577951) + 90;
             // 3
-            let speed = 0.5 / Math.PI;
-            let rotateDuration = Math.abs(rotateRadians * speed);
+            // let speed = 0.5 / Math.PI;
+            // let rotateDuration = Math.abs(rotateRadians * speed);
+            let rotateDuration = this.speed / 4;
             // 4
             this.node.runAction(
                 cc.sequence(
@@ -109,7 +114,7 @@ export default class NewClass extends cc.Component {
     {
         let currBullet = this.ArrowTowerBullet();
         
-        let moveDuration = this.speed / 2;
+        let moveDuration = this.speed / 4;
         // let shootVector:cc.Vec2 = this.EnemyList[0].getPosition().sub(this.node.getPosition());
         // let normalizedShootVector:cc.Vec2 = shootVector.normalizeSelf().mul(-1);
         

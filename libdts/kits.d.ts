@@ -1,3 +1,13 @@
+declare namespace _kits.Item {
+    interface TowerInfo {
+        /** 颜色 */
+        Color: number,
+        /** 等级 */
+        Level: number,
+        /** 节点 */
+        node: cc.Node,
+    }
+}
 
 declare namespace _kits.Enemy {
     interface Point {

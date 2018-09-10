@@ -1,0 +1,56 @@
+
+export default class NodePoolInstance {
+    static instance: NodePoolInstance
+    /** 获取单例 */
+    static getinstance() {
+        if (NodePoolInstance.instance) return NodePoolInstance.instance;
+        else return new NodePoolInstance();
+    }
+    /** 返回一个新的单例 */
+    static newinstance() {
+        return new NodePoolInstance();
+    }
+
+    private constructor() {
+        NodePoolInstance.instance = this;
+        this.enemyPool = new cc.NodePool();
+        this.towerPool = new cc.NodePool();
+    }
+
+    private enemyPool: cc.NodePool;
+    private towerPool: cc.NodePool;
+
+    createEnemy(enemyPrefab:cc.Prefab) {
+        let enemy = null;
+        if (this.enemyPool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            enemy = this.enemyPool.get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            enemy = cc.instantiate(enemyPrefab);
+        }
+        return enemy;
+        // shape.parent = parentNode; // 将生成的敌人加入节点树
+        // enemy.getComponent('Enemy').init(); //接下来就可以调用 enemy 身上的脚本进行初始化
+    }
+
+    dissEnemy(enemy:cc.Node) {
+        // enemy 应该是一个 cc.Node
+        this.enemyPool.put(enemy); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
+    }
+
+    createTower(towerPrefab:cc.Prefab) {
+        let tower: cc.Node = null;
+        if (this.towerPool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            tower = this.towerPool.get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            tower = cc.instantiate(towerPrefab);
+        }
+        return tower;
+        // shape.parent = parentNode; // 将生成的敌人加入节点树
+        // enemy.getComponent('Enemy').init(); //接下来就可以调用 enemy 身上的脚本进行初始化
+    }
+
+    dissTower(tower:cc.Node) {
+        // enemy 应该是一个 cc.Node
+        this.towerPool.put(tower); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
+    }
+}

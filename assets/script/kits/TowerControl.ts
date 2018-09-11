@@ -39,6 +39,7 @@ export default class TowerControl extends cc.Component {
         this.level = level;
         this.showLevel();
         this.node.setPosition(node.getPosition());
+        this.node.rotation = 0;
         if(this.towerattack)
         {
             this.towerattack.init();
@@ -76,6 +77,14 @@ export default class TowerControl extends cc.Component {
     levelUP(){
         this.level++;
         this.showLevel();
+    }
+
+    getPlaceNode(){
+        return this.towerCollider.getplaceNode();
+    }
+
+    setPlaceNode(node){
+        this.towerCollider.setplaceNode(node);
     }
     //----- 私有方法 -----//
     //更新显示等级

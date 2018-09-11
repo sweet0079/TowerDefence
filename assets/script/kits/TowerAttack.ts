@@ -14,7 +14,7 @@ export default class TowerAttack extends cc.Component {
     //攻击力
     private att: number = 1;
     //范围
-    private range: number = 300;
+    private range: number = 150;
     //攻击间隔
     private speed: number = 0.78;
     //已间隔时间
@@ -51,6 +51,7 @@ export default class TowerAttack extends cc.Component {
     //初始化
     init(){
         this.time = 0;
+        this.node.stopActionByTag(100);
     }
     //----- 私有方法 -----//
     //获得节点间的距离
@@ -98,14 +99,14 @@ export default class TowerAttack extends cc.Component {
             // 3
             // let speed = 0.5 / Math.PI;
             // let rotateDuration = Math.abs(rotateRadians * speed);
-            let rotateDuration = this.speed / 4;
+            let rotateDuration = this.speed / 5;
             // 4
-            this.node.runAction(
-                cc.sequence(
-                    cc.rotateTo(rotateDuration, rotateDegrees),
-                        cc.callFunc(()=>{
-                            this.shoot(currEnemy,this.att);
-                            })));
+            let act = cc.sequence(cc.rotateTo(rotateDuration, rotateDegrees),
+                    cc.callFunc(()=>{
+                        this.shoot(currEnemy,this.att);
+                    }));
+            act.setTag(100);
+            this.node.runAction(act);
         }
     }
 
@@ -114,7 +115,7 @@ export default class TowerAttack extends cc.Component {
     {
         let currBullet = this.ArrowTowerBullet();
         
-        let moveDuration = this.speed / 4;
+        let moveDuration = this.speed / 10;
         // let shootVector:cc.Vec2 = this.EnemyList[0].getPosition().sub(this.node.getPosition());
         // let normalizedShootVector:cc.Vec2 = shootVector.normalizeSelf().mul(-1);
         
@@ -128,7 +129,7 @@ export default class TowerAttack extends cc.Component {
                 cc.callFunc(()=>{
                     enemy.getComponent(enemyControl).minHp(damage);
                     currBullet.destroy();
-                    })));
+                })));
     }
 
     //生成子弹

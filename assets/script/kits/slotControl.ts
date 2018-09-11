@@ -33,7 +33,13 @@ export default class slotControl extends itemBase {
             }
             else
             {
-                console.log("合成失败");
+                let placenode:cc.Node = Towercon.getPlaceNode();
+                this.NowTowerInfo.node.getComponent(TowerControl).setPlaceNode(placenode);
+                placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
+                // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
+                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
+                this.NowTowerInfo = Towercon.getTowerInfo();
+                console.log("交换");
                 return false;
             }
         }

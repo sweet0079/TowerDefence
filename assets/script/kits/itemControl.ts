@@ -21,9 +21,10 @@ export default class itemControl extends itemBase {
     // update (dt) {}
     //----- 公有方法 -----//
     putTower(Tower:cc.Node){
+        console.log("putTower" + this.node.name);
+        let Towercon = Tower.getComponent(TowerControl);
         if(this.NowTowerInfo)
         {
-            let Towercon = Tower.getComponent(TowerControl);
             if(Towercon.getTowerInfo().Color == this.NowTowerInfo.Color 
             && Towercon.getTowerInfo().Level == this.NowTowerInfo.Level)
             {
@@ -35,14 +36,19 @@ export default class itemControl extends itemBase {
             }
             else
             {
-                console.log(this.NowTowerInfo);
-                console.log("合成失败");
+                let placenode:cc.Node = Towercon.getPlaceNode();
+                this.NowTowerInfo.node.getComponent(TowerControl).setPlaceNode(placenode);
+                placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
+                // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
+                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
+                this.NowTowerInfo = Towercon.getTowerInfo();
+                console.log("交换");
                 return false;
             }
         }
         else
         {
-            this.NowTowerInfo = Tower.getComponent(TowerControl).getTowerInfo();
+            this.NowTowerInfo = Towercon.getTowerInfo();
             console.log("移动成功");
             return true;
         }

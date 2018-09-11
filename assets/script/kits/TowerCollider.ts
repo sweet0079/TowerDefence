@@ -23,16 +23,16 @@ export default class TowerCollider extends cc.Component {
     start () {
         this.towerControl = this.node.parent.getComponent(TowerControl);
 
-        this.node.on(cc.Node.EventType.TOUCH_START,(event:cc.Event.EventTouch)=>{
+        this.node.parent.on(cc.Node.EventType.TOUCH_START,(event:cc.Event.EventTouch)=>{
             this._clickStart(event);
         },this);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE,(event:cc.Event.EventTouch)=>{
+        this.node.parent.on(cc.Node.EventType.TOUCH_MOVE,(event:cc.Event.EventTouch)=>{
             this._clickMove(event);
         },this);
-        this.node.on(cc.Node.EventType.TOUCH_END,(event:cc.Event.EventTouch)=>{
+        this.node.parent.on(cc.Node.EventType.TOUCH_END,(event:cc.Event.EventTouch)=>{
             this._clickEnd(event);
         },this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL,(event:cc.Event.EventTouch)=>{
+        this.node.parent.on(cc.Node.EventType.TOUCH_CANCEL,(event:cc.Event.EventTouch)=>{
             this._clickEnd(event);
         },this);
     }
@@ -40,16 +40,16 @@ export default class TowerCollider extends cc.Component {
     // update (dt) {}
 
     onDestroy(){
-        this.node.off(cc.Node.EventType.TOUCH_START,(event:cc.Event.EventTouch)=>{
+        this.node.parent.off(cc.Node.EventType.TOUCH_START,(event:cc.Event.EventTouch)=>{
             this._clickStart(event);
         },this);
-        this.node.off(cc.Node.EventType.TOUCH_MOVE,(event:cc.Event.EventTouch)=>{
+        this.node.parent.off(cc.Node.EventType.TOUCH_MOVE,(event:cc.Event.EventTouch)=>{
             this._clickMove(event);
         },this);
-        this.node.off(cc.Node.EventType.TOUCH_END,(event:cc.Event.EventTouch)=>{
+        this.node.parent.off(cc.Node.EventType.TOUCH_END,(event:cc.Event.EventTouch)=>{
             this._clickEnd(event);
         },this);
-        this.node.off(cc.Node.EventType.TOUCH_CANCEL,(event:cc.Event.EventTouch)=>{
+        this.node.parent.off(cc.Node.EventType.TOUCH_CANCEL,(event:cc.Event.EventTouch)=>{
             this._clickEnd(event);
         },this);
     }
@@ -57,6 +57,10 @@ export default class TowerCollider extends cc.Component {
     setplaceNode(node:cc.Node)
     {
         this.PlaceNode = node;
+    }
+
+    getplaceNode(){
+        return this.PlaceNode;
     }
 
     //初始化
@@ -69,7 +73,10 @@ export default class TowerCollider extends cc.Component {
     onCollisionEnter(other:cc.Collider, self:cc.Collider){
         if(other.node.group == "item")
         {
-            this.OtherNode = other.node;
+            if(other.node != this.OtherNode)
+            {
+                this.OtherNode = other.node;
+            }
         }
         else
         {
@@ -80,7 +87,10 @@ export default class TowerCollider extends cc.Component {
     onCollisionExit(other:cc.Collider, self:cc.Collider) {
         if(other.node.group == "item")
         {
-            this.OtherNode = null;
+            if(other.node == this.OtherNode)
+            {
+                this.OtherNode = null;
+            }
         }
         else
         {
@@ -122,7 +132,8 @@ export default class TowerCollider extends cc.Component {
             }
             else
             {
-                this.takeBack();
+                this.PlaceNode = this.OtherNode;
+                this.node.parent.position = this.OtherNode.position;
             }
         }
         else

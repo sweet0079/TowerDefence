@@ -20,6 +20,9 @@ export default class itemBase extends cc.Component {
 
     // update (dt) {}
     //----- 公有方法 -----//
+    setNowTowerInfo(info:_kits.Item.TowerInfo){
+        this.NowTowerInfo = info;
+    }
     putTower(Tower:cc.Node){
     }
     delTower(){

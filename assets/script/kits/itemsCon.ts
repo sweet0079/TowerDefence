@@ -2,6 +2,7 @@
 import * as lib from '../lib/lib'
 import itemBase from './itemBase'
 import TowerControl from './TowerControl'
+import GameManager from '../Manager/GameManager'
 import nodePool from '../Manager/NodePoolInstance'
 
 const {ccclass, property} = cc._decorator;
@@ -21,7 +22,7 @@ export default class itemsCon extends cc.Component {
     // onLoad () {}
 
     start () {
-
+        GameManager.getinstance().pushMonsterVector(this.node);
     }
 
     // update (dt) {}
@@ -35,7 +36,7 @@ export default class itemsCon extends cc.Component {
             let level = 1;
             tower.parent = this.towerLayer;
             let item = this.findisEmpty();
-            console.log(color);
+            // console.log(color);
             tower.getComponent(TowerControl).init(color,level,item.node);
             item.putTower(tower);
         }

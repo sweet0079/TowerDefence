@@ -1,0 +1,12 @@
+[
+    {
+        "stage1": "10001",
+        "TowerGold": "2",
+        "GetGold": "2",
+        "monsterID": "10001",
+        "Quantity": "10",
+        "HP": "5",
+        "TowerQuantity": "4",
+        "Upgrade": "5"
+    }
+]

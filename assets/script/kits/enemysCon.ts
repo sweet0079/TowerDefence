@@ -1,6 +1,7 @@
 /** 敌人管理组件 */
 import * as lib from '../lib/lib'
-import enemyControl from './enemy'
+import enemyCon from './enemy'
+import GameManager from '../Manager/GameManager'
 import nodePool from '../Manager/NodePoolInstance'
 
 const {ccclass, property} = cc._decorator;
@@ -23,7 +24,7 @@ export default class enemysCon extends cc.Component {
     start () {
         this.schedule(()=>{
             this.createEnemy();
-        },0.6);
+        },0.6,9);
         var url = "test"
         var _type = cc.RawAsset;
         cc.loader.loadRes(url, _type,(err, res) =>{
@@ -58,9 +59,10 @@ export default class enemysCon extends cc.Component {
     //----- 公有方法 -----//
     //----- 私有方法 -----//
     private createEnemy(){
-        let enemy = nodePool.getinstance().createEnemy(this.enemyPfb);
+        let enemy:cc.Node = nodePool.getinstance().createEnemy(this.enemyPfb);
         // let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-        enemy.getComponent(enemyControl).init(this.PointsVector);
+        enemy.getComponent(enemyCon).init(this.PointsVector,1);
         enemy.parent = this.enemyLayer;
+        GameManager.getinstance().pushMonsterVector(enemy);
     }
 }

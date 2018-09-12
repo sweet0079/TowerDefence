@@ -17,3 +17,40 @@ declare namespace _kits.Enemy {
         roundPos: cc.Vec2,
     }
 }
+
+declare namespace _kits.JSON {
+    interface Tower {
+        /** 颜色 */
+        color: number,
+        /** 攻击范围 */
+        range: number,
+        /** 攻速 */
+        speed: number,
+        /** 减速率 */
+        splashRadius: number,
+        /** 毒伤 */
+        poison: number,
+        /** 毒时间 */
+        poisonTime: number,
+        /** AOE */
+        aoeLenght: number
+    }
+    interface Level {
+        /** 关卡 */
+        stage1: string,
+        /** 炮塔价格 */
+        TowerGold: string,
+        /** 小球金币 */
+        GetGold: string,
+        /** 对应什么类型的怪 */
+        monsterID: string,
+        /** 生成数量 */
+        Quantity: string,
+        /** 小球血量 */
+        HP: string,
+        /** 炮塔槽数量 */
+        TowerQuantity: string,
+        /** 升级槽数量 */
+        Upgrade: string
+    }
+}

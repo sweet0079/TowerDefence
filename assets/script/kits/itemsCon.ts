@@ -1,9 +1,11 @@
 /** 单元管理组件 */
 import * as lib from '../lib/lib'
 import itemBase from './itemBase'
+import uiCon from './UIControl'
 import TowerControl from './TowerControl'
 import GameManager from '../Manager/GameManager'
 import nodePool from '../Manager/NodePoolInstance'
+import JsonManager from '../Manager/JsonReaderManager'
 
 const {ccclass, property} = cc._decorator;
 
@@ -15,19 +17,28 @@ export default class itemsCon extends cc.Component {
     @property(cc.Node) towerLayer: cc.Node = null;
     //单元数组
     @property([itemBase]) items: Array<itemBase> = [];
+    //UI控制节点
+    @property(uiCon) uiControl: uiCon = null;
 
     //----- 编辑器属性 -----//
+    //建塔需要的金币
+    private price:number = 1;
+    private _GameManager = GameManager.getinstance();
     //----- 属性声明 -----//
     //----- 生命周期 -----//
-    // onLoad () {}
+    // onLoad () {
+        // JsonManager.getinstance();}
 
-    start () {
-        GameManager.getinstance().pushMonsterVector(this.node);
-    }
+    // start () {
+    // }
 
     // update (dt) {}
     //----- 按钮回调 -----//
     createTower(){
+        if(this.price > this._GameManager.getMoney())
+        {
+            return;
+        }
         if(this.findisEmpty())
         {
             let tower = nodePool.getinstance().createTower(this.towerPfb);
@@ -39,14 +50,34 @@ export default class itemsCon extends cc.Component {
             // console.log(color);
             tower.getComponent(TowerControl).init(color,level,item.node);
             item.putTower(tower);
+            this._GameManager.addMoney(-this.price);
+            this.uiControl.showMoney(this._GameManager.getMoney());
         }
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
-    //----- 私有方法 -----//
-    findisEmpty(){
+    setAct(num:number){
         for(let i = 0; i < this.items.length; i++)
         {
+            if(i < num)
+            {
+                this.items[i].node.active = true;
+            }
+            else
+            {
+                this.items[i].node.active = false;
+            }
+        }
+    }
+    //----- 私有方法 -----//
+    //寻找可放置的item
+    private findisEmpty(){
+        for(let i = 0; i < this.items.length; i++)
+        {
+            if(!this.items[i].node.active)
+            {
+                break;
+            }
             if(this.items[i].isEmpty())
             {
                 return this.items[i];

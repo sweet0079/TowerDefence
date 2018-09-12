@@ -1,6 +1,7 @@
 /** 单个防御塔的攻击相关控制组件 */
 import GameManager from '../Manager/GameManager'
 import enemyControl from './enemy'
+import JsonManager from '../Manager/JsonReaderManager'
 
 const {ccclass, property} = cc._decorator;
 
@@ -12,7 +13,7 @@ export default class TowerAttack extends cc.Component {
     @property({tooltip:"子弹预制体", type: cc.Prefab }) bullet:cc.Prefab = null;
     //----- 属性声明 -----//
     //攻击力
-    private att: number = 1;
+    private att: number = 18;
     //范围
     private range: number = 150;
     //攻击间隔
@@ -50,6 +51,9 @@ export default class TowerAttack extends cc.Component {
     //----- 公有方法 -----//
     //初始化
     init(){
+        let obj = JsonManager.getinstance().getTowerobj()[0];
+        this.range = obj.range;
+        this.speed = 1 / obj.speed;
         this.time = 0;
         this.node.stopActionByTag(100);
     }

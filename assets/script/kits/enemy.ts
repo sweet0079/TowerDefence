@@ -1,6 +1,6 @@
 /** 单个敌人的控制组件 */
-import GameManager from '../Manager/GameManager'
 import nodePool from '../Manager/NodePoolInstance'
+import GameManager from '../Manager/GameManager'
 
 const {ccclass, property} = cc._decorator;
 
@@ -9,16 +9,18 @@ export default class enemy extends cc.Component {
     //----- 编辑器属性 -----//
     //----- 属性声明 -----//
     //生命最大值
-    private maxHp: number = 1;
+    private maxHp: number = 57;
     //当前生命
     private currHp: number = this.maxHp;
+    //死亡掉落的钱
+    private gold: number = 0;
     //移动速度
-    private runSpeed: number = 200;
+    private runSpeed: number = 230;
     //路径
     private PointsVector: Array<_kits.Enemy.Point> = [];
     //----- 生命周期 -----//
     start () {
-        GameManager.getinstance().pushMonsterVector(this.node);
+        // GameManager.getinstance().pushMonsterVector(this.node);
         // let point1:_kits.Enemy.Point = {
         //     Pos: cc.v2(0,-650),
         //     roundPos: null,
@@ -76,25 +78,31 @@ export default class enemy extends cc.Component {
         }
     }
     //----- 公有方法 -----//
-    init(Points:Array<_kits.Enemy.Point>){
+    /** 初始化 */
+    init(Points:Array<_kits.Enemy.Point>,gold:number){
         this.PointsVector = [];
-        this.node.setPosition(cc.v2(0,-960));
+        this.gold = gold;
+        this.node.setPosition(cc.v2(30,-492));
         this.currHp = this.maxHp;
         for(let i = 0; i < Points.length; i++)
         {
             this.PointsVector.push(Points[i]);
         }
     }
+
+    /** 掉血 */
     minHp(damage:number){
         this.currHp -= damage;
-        console.log("minhp");
         if(this.currHp <= 0)
         {
             this.die();
         }
     }
     //----- 私有方法 -----//
+    //死亡
     private die(){
+        GameManager.getinstance().addMoney(this.gold);
+        GameManager.getinstance().delMonsterVector(this.node);
         nodePool.getinstance().dissEnemy(this.node);
     }
     //飞向某个点
@@ -118,12 +126,26 @@ export default class enemy extends cc.Component {
                 if(this.node.x < pos.x)
                 {
                     this.node.x += this.runSpeed * dt * Math.abs(Math.sin(angle));
-                    this.node.y += this.runSpeed * dt * Math.cos(angle);
+                    if(this.node.y < pos.y)
+                    {
+                        this.node.y += this.runSpeed * dt * Math.cos(angle);
+                    }
+                    else
+                    {
+                        this.node.y -= this.runSpeed * dt * Math.cos(angle);
+                    }
                 }
                 else
                 {
                     this.node.x -= this.runSpeed * dt * Math.abs(Math.sin(angle));
-                    this.node.y += this.runSpeed * dt * Math.cos(angle);
+                    if(this.node.y < pos.y)
+                    {
+                        this.node.y += this.runSpeed * dt * Math.cos(angle);
+                    }
+                    else
+                    {
+                        this.node.y -= this.runSpeed * dt * Math.cos(angle);
+                    }
                 }
             }
         }

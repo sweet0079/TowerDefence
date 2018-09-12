@@ -1,4 +1,6 @@
 /** 游戏管理器脚本 */
+import * as lib from '../lib/lib'
+
 export default class GameManager {
     static instance: GameManager
     /** 获取单例 */
@@ -12,6 +14,8 @@ export default class GameManager {
     }
 
     private constructor() {
+        this.money = 100;
+        this.level = 0;
         cc.director.getCollisionManager().enabled = true;
         cc.director.getCollisionManager().enabledDebugDraw = true;
         this.monsterVector = [];
@@ -19,6 +23,21 @@ export default class GameManager {
     }
 
     private monsterVector:Array<cc.Node>;
+    private money: number;
+    private level: number;
+
+    getLevel(){
+        return this.level;
+    }
+
+    addMoney(num:number){
+        this.money += num;
+        lib.msgEvent.getinstance().emit(lib.msgConfig.addmoney,this.money);
+    }
+
+    getMoney(){
+        return this.money;
+    }
 
     getMonsterVector(){
         return this.monsterVector;
@@ -27,5 +46,13 @@ export default class GameManager {
     pushMonsterVector(node:cc.Node)
     {
         this.monsterVector.push(node);
+    }
+
+    delMonsterVector(node:cc.Node)
+    {
+        let index = this.monsterVector.indexOf(node);
+        if (index > -1) {
+            this.monsterVector.splice(index, 1);
+        }
     }
 }

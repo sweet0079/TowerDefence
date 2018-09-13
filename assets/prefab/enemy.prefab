@@ -103,7 +103,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "40VDW64uJAEYLhebpOPRji"
+    "_id": "1bJ2TbrL9AsrAjQnkWn1jR"
   },
   {
     "__type__": "d39b4PqUFVF/rR6xOURbgDX",
@@ -113,7 +113,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_id": "47naye9n9Bg4iCSmNhrlEA"
+    "_id": "4c8qwe4NlFPr/E/oYT8bBO"
   },
   {
     "__type__": "cc.CircleCollider",
@@ -130,7 +130,7 @@
       "y": 0
     },
     "_radius": 22.5,
-    "_id": "21A9oy0/xKE74iBqQ+F+iT"
+    "_id": "4d5GZNpqJPp7SMUpDupMut"
   },
   {
     "__type__": "cc.PrefabInfo",

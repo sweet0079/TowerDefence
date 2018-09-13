@@ -37,5 +37,8 @@ export default class itemBase extends cc.Component {
             return false;
         }
     }
+    show(){
+        
+    }
     //----- 私有方法 -----//
 }

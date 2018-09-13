@@ -102,6 +102,7 @@ export default class TowerCollider extends cc.Component {
         if(this.PlaceNode)
         {
             this.PlaceNode.getComponent(itemBase).delTower();
+            this.PlaceNode.getComponent(itemBase).show();
         }
     }
     //----- 私有方法 -----//
@@ -135,6 +136,7 @@ export default class TowerCollider extends cc.Component {
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
             }
+            this.OtherNode.getComponent(itemBase).show();
         }
         else
         {

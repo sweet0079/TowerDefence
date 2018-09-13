@@ -11,6 +11,7 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class itemsCon extends cc.Component {
+    //----- 编辑器属性 -----//
     //防御塔预制体
     @property(cc.Prefab) towerPfb: cc.Prefab = null;
     //防御塔层节点
@@ -20,11 +21,12 @@ export default class itemsCon extends cc.Component {
     //UI控制节点
     @property(uiCon) uiControl: uiCon = null;
 
-    //----- 编辑器属性 -----//
+    //----- 属性声明 -----//
     //建塔需要的金币
     private price:number = 1;
+    //建塔的初始等级
+    private inital:number = 1;
     private _GameManager = GameManager.getinstance();
-    //----- 属性声明 -----//
     //----- 生命周期 -----//
     // onLoad () {
         // JsonManager.getinstance();}
@@ -43,8 +45,8 @@ export default class itemsCon extends cc.Component {
         {
             let tower = nodePool.getinstance().createTower(this.towerPfb);
             // let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-            let color = 1;
-            let level = 1;
+            let color = lib.defConfig.TowerColorEnum.red;
+            let level = this.inital;
             tower.parent = this.towerLayer;
             let item = this.findisEmpty();
             // console.log(color);
@@ -56,6 +58,18 @@ export default class itemsCon extends cc.Component {
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
+    //设定防御塔价格
+    setprice(num:number){
+        this.price = num;
+        this.uiControl.showprice(this.price);
+    }
+
+    //设定防御塔价格
+    setinital(num:number){
+        this.inital = num;
+    }
+
+    //设定激活的合成槽位
     setAct(num:number){
         for(let i = 0; i < this.items.length; i++)
         {

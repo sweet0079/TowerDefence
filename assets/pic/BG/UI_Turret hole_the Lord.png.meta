@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "146e5aff-fed2-4b92-8307-702724c6ba5b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "UI_Turret hole_the Lord": {
+      "ver": "1.0.3",
+      "uuid": "74f7bec0-af8a-482b-acba-e98b2889d4fc",
+      "rawTextureUuid": "146e5aff-fed2-4b92-8307-702724c6ba5b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 42,
+      "height": 28,
+      "rawWidth": 42,
+      "rawHeight": 28,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

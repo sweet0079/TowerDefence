@@ -15,10 +15,12 @@ export default class JsonReaderManager {
         JsonReaderManager.instance = this;
         this.readTowerJson();
         this.readLevelJson();
+        this.readEnemyJson();
     }
 
     private Towerobj:Array<_kits.JSON.Tower>;
     private Levelobj:Array<_kits.JSON.Level>;
+    private Enemyobj:Array<_kits.JSON.Enemy>;
 
     readTowerJson(){
         var url = "tower";
@@ -50,5 +52,21 @@ export default class JsonReaderManager {
 
     getLevelobj(){
         return this.Levelobj;
+    }
+
+    readEnemyJson(){
+        var url = "enemy";
+        var _type = cc.RawAsset;
+        cc.loader.loadRes(url, _type,(err, res) =>{
+            cc.log(res);
+            var i = JSON.stringify(res);
+            cc.log(i);
+            cc.log(res.json);
+            this.Enemyobj = res.json;
+        });
+    }
+
+    getEnemyobj(){
+        return this.Enemyobj;
     }
 }

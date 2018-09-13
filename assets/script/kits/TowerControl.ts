@@ -1,4 +1,5 @@
 /** 单个防御塔控制组件 */
+import * as lib from '../lib/lib'
 import Towerattack from './TowerAttack'
 import TowerCollider from './TowerCollider'
 import nodePool from '../Manager/NodePoolInstance'
@@ -11,9 +12,13 @@ export default class TowerControl extends cc.Component {
     //----- 编辑器属性 -----//
     /** 显示等级的label组件 */
     @property({tooltip:"显示等级的label组件", type: cc.Label }) LevelLabel:cc.Label = null;
+    /** 塔形态的图片素材 */
+    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) TowerSpfArr: Array<cc.SpriteFrame> = [];
+    /** 单元形态的图片素材 */
+    @property({tooltip:"单元形态的图片素材", type: [cc.SpriteFrame] }) ItemSpfArr: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
     //颜色
-    private Color: number = 1;
+    private Color: number = lib.defConfig.TowerColorEnum.red;
     //等级
     private level: number = 1;
     //防御塔攻击组件
@@ -42,7 +47,7 @@ export default class TowerControl extends cc.Component {
         this.node.rotation = 0;
         if(this.towerattack)
         {
-            this.towerattack.init();
+            this.towerattack.init(this.Color);
         }
         if(this.towerCollider)
         {
@@ -52,14 +57,12 @@ export default class TowerControl extends cc.Component {
     }
     //变成鲲
     turnItem(){
-        console.log("turn item");
-        this.towerattack.enabled = false;
+        this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
     }
 
     //变成炮塔
     turnTower(){
-        console.log("turn Tower");
-        this.towerattack.enabled = true;
+        this.towerattack.turnTower(this.TowerSpfArr[this.Color]);
     }
 
     getTowerInfo(){

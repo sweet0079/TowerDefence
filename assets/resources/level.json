@@ -1,12 +1,13 @@
 [
     {
-        "stage1": "10001",
+        "stage1": "20002",
         "TowerGold": "2",
         "GetGold": "2",
-        "monsterID": "10001",
-        "Quantity": "10",
-        "HP": "5",
+        "monsterID": "0",
+        "Quantity": "1",
+        "HP": "12250",
         "TowerQuantity": "4",
-        "Upgrade": "5"
+        "Upgrade": "5",
+        "initial":"2"
     }
 ]

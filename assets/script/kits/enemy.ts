@@ -1,6 +1,8 @@
 /** 单个敌人的控制组件 */
+import * as lib from '../lib/lib'
 import nodePool from '../Manager/NodePoolInstance'
 import GameManager from '../Manager/GameManager'
+import JsonManager from '../Manager/JsonReaderManager'
 
 const {ccclass, property} = cc._decorator;
 
@@ -9,7 +11,7 @@ export default class enemy extends cc.Component {
     //----- 编辑器属性 -----//
     //----- 属性声明 -----//
     //生命最大值
-    private maxHp: number = 57;
+    private maxHp: number = 1000;
     //当前生命
     private currHp: number = this.maxHp;
     //死亡掉落的钱
@@ -18,58 +20,22 @@ export default class enemy extends cc.Component {
     private runSpeed: number = 230;
     //路径
     private PointsVector: Array<_kits.Enemy.Point> = [];
+    //减速倍数
+    private Slow: number = 1;
+
+    
+    //格挡率
+    private block: number = 1;
+    //格挡塔的类型
+    private Corresponding: number = 1;
     //----- 生命周期 -----//
     start () {
-        // GameManager.getinstance().pushMonsterVector(this.node);
-        // let point1:_kits.Enemy.Point = {
-        //     Pos: cc.v2(0,-650),
-        //     roundPos: null,
-        // }
-        // this.PointsVector.push(point1);
-        // let point2:_kits.Enemy.Point = {
-        //     Pos: cc.v2(-200,-650),
-        //     roundPos: null,
-        // }
-        // this.PointsVector.push(point2);
-        // let point3:_kits.Enemy.Point = {
-        //     Pos: cc.v2(-350,-500),
-        //     roundPos: cc.v2(-200,-500),
-        // }
-        // this.PointsVector.push(point3);
-        // let point4:_kits.Enemy.Point = {
-        //     Pos: cc.v2(-200,-350),
-        //     roundPos: cc.v2(-200,-500),
-        // }
-        // this.PointsVector.push(point4);
-        // let point5:_kits.Enemy.Point = {
-        //     Pos: cc.v2(200,-350),
-        //     roundPos: null,
-        // }
-        // this.PointsVector.push(point5);
-        // let point6:_kits.Enemy.Point = {
-        //     Pos: cc.v2(350,-200),
-        //     roundPos: cc.v2(200,-200),
-        // }
-        // this.PointsVector.push(point6);
-        // let point7:_kits.Enemy.Point = {
-        //     Pos: cc.v2(200,-50),
-        //     roundPos: cc.v2(200,-200),
-        // }
-        // this.PointsVector.push(point7);
-        // let point8:_kits.Enemy.Point = {
-        //     Pos: cc.v2(-200,-50),
-        //     roundPos: null,
-        // }
-        // this.PointsVector.push(point8);
-        // this.schedule(()=>{
-        //     this.flyToPoint(0.1,this.PointsVector[0].Pos,this.PointsVector[0].roundPos);
-        // },1);
     }
 
     update(dt) {
         if(this.PointsVector.length >= 1)
         {
-            this.flyToPoint(dt,this.PointsVector[0].Pos,this.PointsVector[0].roundPos);
+            this.flyToPoint(dt * this.Slow,this.PointsVector[0].Pos,this.PointsVector[0].roundPos);
             if(this.AboutEqualPos(this.PointsVector[0].Pos,this.node.getPosition()))
             {
                 this.node.position = this.PointsVector[0].Pos;
@@ -79,26 +45,35 @@ export default class enemy extends cc.Component {
     }
     //----- 公有方法 -----//
     /** 初始化 */
-    init(Points:Array<_kits.Enemy.Point>,gold:number){
+    init(Points:Array<_kits.Enemy.Point>,gold:number,hp:number,type:number){
         this.PointsVector = [];
         this.gold = gold;
+        this.maxHp = hp;
         this.node.setPosition(cc.v2(30,-492));
         this.currHp = this.maxHp;
+        let JsonObj = JsonManager.getinstance().getEnemyobj()[type]; 
+        this.runSpeed = parseInt(JsonObj.speed);
+        this.block = parseFloat(JsonObj.block);
+        this.Corresponding = parseInt(JsonObj.Corresponding);
         for(let i = 0; i < Points.length; i++)
         {
             this.PointsVector.push(Points[i]);
         }
     }
 
+    shooted(damage:number,type:number){
+        this._minHp(damage);
+    }
+
+    //----- 私有方法 -----//
     /** 掉血 */
-    minHp(damage:number){
+    private _minHp(damage:number){
         this.currHp -= damage;
         if(this.currHp <= 0)
         {
             this.die();
         }
     }
-    //----- 私有方法 -----//
     //死亡
     private die(){
         GameManager.getinstance().addMoney(this.gold);

@@ -22,9 +22,6 @@ export default class enemysCon extends cc.Component {
     // onLoad () {}
 
     start () {
-        this.schedule(()=>{
-            this.createEnemy();
-        },0.6,9);
         var url = "test"
         var _type = cc.RawAsset;
         cc.loader.loadRes(url, _type,(err, res) =>{
@@ -57,11 +54,16 @@ export default class enemysCon extends cc.Component {
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
     //----- 公有方法 -----//
+    startCreate(Quantity:number,GetGold:number,HP:number,type:number){
+        this.schedule(()=>{
+            this._createEnemy(GetGold,HP,type);
+        },0.6,Quantity - 1);
+    }
     //----- 私有方法 -----//
-    private createEnemy(){
+    private _createEnemy(GetGold:number,HP:number,type:number){
         let enemy:cc.Node = nodePool.getinstance().createEnemy(this.enemyPfb);
         // let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-        enemy.getComponent(enemyCon).init(this.PointsVector,1);
+        enemy.getComponent(enemyCon).init(this.PointsVector,GetGold,HP,type);
         enemy.parent = this.enemyLayer;
         GameManager.getinstance().pushMonsterVector(enemy);
     }

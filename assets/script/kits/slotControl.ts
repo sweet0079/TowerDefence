@@ -7,6 +7,8 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class slotControl extends itemBase {
     //----- 编辑器属性 -----//
+    /** 攻击槽显示节点 */
+    @property({tooltip:"攻击槽显示节点", type: cc.Node }) ShowNode:cc.Node = null;
     //----- 属性声明 -----//
     //----- 生命周期 -----//
 
@@ -46,6 +48,7 @@ export default class slotControl extends itemBase {
         else
         {
             this.NowTowerInfo = Tower.getComponent(TowerControl).getTowerInfo();
+            this.ShowNode.active = false;
             console.log("移动成功");
             return true;
         }
@@ -53,6 +56,17 @@ export default class slotControl extends itemBase {
 
     delTower(){
         this.NowTowerInfo = null;
+    }
+
+    show(){
+        if(this.NowTowerInfo)
+        {
+            this.ShowNode.active = false;
+        }
+        else
+        {
+            this.ShowNode.active = true;
+        }
     }
     //----- 私有方法 -----//
 }

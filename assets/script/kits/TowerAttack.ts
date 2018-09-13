@@ -1,4 +1,5 @@
 /** 单个防御塔的攻击相关控制组件 */
+import * as lib from '../lib/lib'
 import GameManager from '../Manager/GameManager'
 import enemyControl from './enemy'
 import JsonManager from '../Manager/JsonReaderManager'
@@ -11,9 +12,13 @@ export default class TowerAttack extends cc.Component {
     //----- 编辑器属性 -----//
     /** 子弹预制体 */
     @property({tooltip:"子弹预制体", type: cc.Prefab }) bullet:cc.Prefab = null;
+    /** 塔动画组件 */
+    @property({tooltip:"塔动画组件", type: cc.Animation }) TowerAni:cc.Animation = null;
     //----- 属性声明 -----//
+    //类型
+    private type:number = 0;
     //攻击力
-    private att: number = 18;
+    private att: number = 490;
     //范围
     private range: number = 150;
     //攻击间隔
@@ -25,6 +30,9 @@ export default class TowerAttack extends cc.Component {
     //----- 生命周期 -----//
     start () {
         this.node.getComponent(cc.CircleCollider).radius = this.range;
+        this.schedule(()=>{
+            this.rotateAndShoot();
+        },0.05);
     }
 
     update(dt) {
@@ -32,7 +40,11 @@ export default class TowerAttack extends cc.Component {
         if(this.time > this.speed)
         {
             this.time = 0;
-            this.rotateAndShoot();
+            // this.rotateAndShoot();
+            if (this.EnemyList[0])
+            {
+                this.shoot(this.EnemyList[0],this.att);
+            }
         }
     }
 
@@ -50,12 +62,26 @@ export default class TowerAttack extends cc.Component {
     }
     //----- 公有方法 -----//
     //初始化
-    init(){
+    init(type:number){
+        this.type = type;
         let obj = JsonManager.getinstance().getTowerobj()[0];
         this.range = obj.range;
         this.speed = 1 / obj.speed;
         this.time = 0;
         this.node.stopActionByTag(100);
+    }
+
+    //变成鲲
+    turnItem(spf:cc.SpriteFrame){
+        this.node.rotation = 0;
+        this.TowerAni.node.getComponent(cc.Sprite).spriteFrame = spf;
+        this.enabled = false;
+    }
+
+    //变成炮塔
+    turnTower(spf:cc.SpriteFrame){
+        this.TowerAni.node.getComponent(cc.Sprite).spriteFrame = spf;
+        this.enabled = true;
     }
     //----- 私有方法 -----//
     //获得节点间的距离
@@ -103,12 +129,13 @@ export default class TowerAttack extends cc.Component {
             // 3
             // let speed = 0.5 / Math.PI;
             // let rotateDuration = Math.abs(rotateRadians * speed);
-            let rotateDuration = this.speed / 5;
+            let rotateDuration = 0.05;
             // 4
-            let act = cc.sequence(cc.rotateTo(rotateDuration, rotateDegrees),
-                    cc.callFunc(()=>{
-                        this.shoot(currEnemy,this.att);
-                    }));
+            // let act = cc.sequence(cc.rotateTo(rotateDuration, rotateDegrees),
+            //         cc.callFunc(()=>{
+            //             this.shoot(currEnemy,this.att);
+            //         }));
+            let act = cc.rotateTo(rotateDuration, rotateDegrees);
             act.setTag(100);
             this.node.runAction(act);
         }
@@ -117,6 +144,7 @@ export default class TowerAttack extends cc.Component {
     //攻击
     private shoot(enemy:cc.Node,damage:number)
     {
+        this.TowerAni.play();
         let currBullet = this.ArrowTowerBullet();
         
         let moveDuration = this.speed / 10;
@@ -131,7 +159,7 @@ export default class TowerAttack extends cc.Component {
         currBullet.runAction(cc.sequence(
             cc.moveTo(moveDuration, offscreenPoint),
                 cc.callFunc(()=>{
-                    enemy.getComponent(enemyControl).minHp(damage);
+                    enemy.getComponent(enemyControl).shooted(damage,this.type);
                     currBullet.destroy();
                 })));
     }

@@ -3,6 +3,7 @@ import * as lib from '../lib/lib'
 import Towerattack from './TowerAttack'
 import TowerCollider from './TowerCollider'
 import nodePool from '../Manager/NodePoolInstance'
+import GameManager from '../Manager/GameManager';
 
 const {ccclass, property} = cc._decorator;
 
@@ -28,7 +29,7 @@ export default class TowerControl extends cc.Component {
     //----- 生命周期 -----//
     onLoad () {
         this.towerattack = this.node.getComponent(Towerattack);
-        this.towerCollider = this.LevelLabel.getComponent(TowerCollider);
+        this.towerCollider = this.node.getChildByName("towercollider").getComponent(TowerCollider);
         // this.LevelLabel.getComponent(cc.BoxCollider).size = cc.size(this.node.width,this.node.width);
     }
     //----- 公有方法 -----//
@@ -65,6 +66,7 @@ export default class TowerControl extends cc.Component {
         this.towerattack.turnTower(this.TowerSpfArr[this.Color]);
     }
 
+    //获取防御塔信息
     getTowerInfo(){
         let TowerInfo: _kits.Item.TowerInfo = {
             /** 颜色 */
@@ -77,17 +79,27 @@ export default class TowerControl extends cc.Component {
         return TowerInfo;
     }
 
+    //升级
     levelUP(){
         this.level++;
+        this.towerattack.setAtt(this.level * this.level);
         this.showLevel();
     }
 
+    //获取放置节点
     getPlaceNode(){
         return this.towerCollider.getplaceNode();
     }
 
+    //设定放置节点
     setPlaceNode(node){
         this.towerCollider.setplaceNode(node);
+    }
+
+    //卖出
+    sell(){
+        lib.msgEvent.getinstance().emit(lib.msgConfig.sell);
+        this.desTower();
     }
     //----- 私有方法 -----//
     //更新显示等级

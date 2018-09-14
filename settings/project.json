@@ -20,6 +20,7 @@
       false,
       false,
       true,
+      true,
       true
     ],
     [
@@ -34,6 +35,14 @@
       true,
       false,
       false
+    ],
+    [
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
     ]
   ],
   "design-resolution-height": 640,
@@ -46,7 +55,8 @@
     "Enemy",
     "tower",
     "ItemLayer",
-    "item"
+    "item",
+    "rubbish"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {

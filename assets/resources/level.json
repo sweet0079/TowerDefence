@@ -1,13 +1,50 @@
 [
     {
-        "stage1": "20002",
-        "TowerGold": "2",
-        "GetGold": "2",
-        "monsterID": "0",
-        "Quantity": "1",
-        "HP": "12250",
-        "TowerQuantity": "4",
-        "Upgrade": "5",
-        "initial":"2"
+        "stage1":"10001",
+        "TowerGold":"2",
+        "GetGold":"4",
+        "monsterID":"0",
+        "Quantity":"10",
+        "HP":"15",
+        "TotalHP":"80",
+        "TowerQuantity":"4",
+        "Upgrade":"5",
+        "initial":"1"
+    },
+    {
+        "stage1":"10002",
+        "TowerGold":"2",
+        "GetGold":"4",
+        "monsterID":"0",
+        "Quantity":"10",
+        "HP":"15",
+        "TotalHP":"80",
+        "TowerQuantity":"4",
+        "Upgrade":"5",
+        "initial":"1"
+    },
+    {
+        "stage1":"10003",
+        "TowerGold":"2",
+        "GetGold":"4",
+        "monsterID":"0",
+        "Quantity":"10",
+        "HP":"56",
+        "TotalHP":"80",
+        "TowerQuantity":"4",
+        "Upgrade":"5",
+        "initial":"1"
+    },
+    {
+        "stage1":"10004",
+        "TowerGold":"2",
+        "GetGold":"400",
+        "monsterID":"5",
+        "Quantity":"1",
+        "HP":"1800",
+        "TotalHP":"800",
+        "TowerQuantity":"4",
+        "Upgrade":"5",
+        "initial":"1"
     }
 ]

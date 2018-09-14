@@ -1,11 +1,34 @@
 [
     {
-        "color": 0,
-        "range": 132,
-        "speed": 2,
-        "splashRadius": 0,
-        "poison": 0,
-        "poisonTime": 0,
-        "aoeLenght": 0
+        "color":"0",
+        "range":"132",
+        "speed":"2",
+        "splashRadius":"1",
+        "poisonTime":"0",
+        "aoeLenght":"0"
+    },
+    {
+        "color":"1",
+        "range":"132",
+        "speed":"1.5",
+        "splashRadius":"1",
+        "poisonTime":"3",
+        "aoeLenght":"0"
+    },
+    {
+        "color":"2",
+        "range":"132",
+        "speed":"2.5",
+        "splashRadius":"0.5",
+        "poisonTime":"0",
+        "aoeLenght":"0"
+    },
+    {
+        "color":"3",
+        "range":"132",
+        "speed":"1",
+        "splashRadius":"1",
+        "poisonTime":"0",
+        "aoeLenght":"65"
     }
 ]

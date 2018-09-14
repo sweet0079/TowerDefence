@@ -21,19 +21,17 @@ declare namespace _kits.Enemy {
 declare namespace _kits.JSON {
     interface Tower {
         /** 颜色 */
-        color: number,
+        color: string,
         /** 攻击范围 */
-        range: number,
+        range: string,
         /** 攻速 */
-        speed: number,
+        speed: string,
         /** 减速率 */
-        splashRadius: number,
-        /** 毒伤 */
-        poison: number,
+        splashRadius: string,
         /** 毒时间 */
-        poisonTime: number,
+        poisonTime: string,
         /** AOE */
-        aoeLenght: number
+        aoeLenght: string
     }
     interface Level {
         /** 关卡 */

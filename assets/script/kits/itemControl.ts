@@ -7,7 +7,6 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class itemControl extends itemBase {
 
-
     //----- 编辑器属性 -----//
     //----- 属性声明 -----//
     //----- 生命周期 -----//

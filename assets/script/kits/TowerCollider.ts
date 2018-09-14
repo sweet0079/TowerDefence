@@ -1,4 +1,5 @@
 /** 单个防御塔与Item相关碰撞控制组件 */
+import * as lib from '../lib/lib'
 import TowerControl from './TowerControl'
 import itemBase from './itemBase'
 
@@ -15,6 +16,8 @@ export default class TowerCollider extends cc.Component {
     private OtherNode: cc.Node = null;
     //原位置
     private BFPos: cc.Vec2 = null;
+    //是否卖出
+    private isSell: boolean = false;
     //防御塔控制组件
     private towerControl: TowerControl = null;
     //----- 生命周期 -----//
@@ -78,9 +81,13 @@ export default class TowerCollider extends cc.Component {
                 this.OtherNode = other.node;
             }
         }
-        else
+        else if(other.node.group == "ItemLayer")
         {
             this.towerControl.turnItem();
+        }
+        else if(other.node.group == "rubbish")
+        {
+            this.isSell = true;
         }
     }
 
@@ -92,9 +99,13 @@ export default class TowerCollider extends cc.Component {
                 this.OtherNode = null;
             }
         }
-        else
+        else if(other.node.group == "ItemLayer")
         {
             this.towerControl.turnTower();
+        }
+        else if(other.node.group == "rubbish")
+        {
+            this.isSell = false;
         }
     }
 
@@ -109,6 +120,7 @@ export default class TowerCollider extends cc.Component {
 
     private _clickStart(event:cc.Event.EventTouch){
         this.BFPos = this.node.parent.position;
+        lib.msgEvent.getinstance().emit(lib.msgConfig.showrubbish);
     }
 
 
@@ -118,7 +130,11 @@ export default class TowerCollider extends cc.Component {
     }
 
     private _clickEnd(event:cc.Event.EventTouch){
-        if(this.OtherNode)
+        if(this.isSell)
+        {
+            this.towerControl.sell();
+        }
+        else if(this.OtherNode)
         {
             if(this.OtherNode == this.PlaceNode)
             {
@@ -142,6 +158,7 @@ export default class TowerCollider extends cc.Component {
         {
             this.takeBack();
         }
+        lib.msgEvent.getinstance().emit(lib.msgConfig.hiderubbish);
     }
 
     private takeBack(){

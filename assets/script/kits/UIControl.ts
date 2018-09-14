@@ -31,6 +31,10 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.addmoney,"showMoney",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
+
+    onDestroy(){
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.addmoney,"showMoney",this);
+    }
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
     //----- 公有方法 -----//

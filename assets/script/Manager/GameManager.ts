@@ -14,7 +14,7 @@ export default class GameManager {
     }
 
     private constructor() {
-        this.money = 100;
+        this.money = 4;
         this.level = 0;
         cc.director.getCollisionManager().enabled = true;
         cc.director.getCollisionManager().enabledDebugDraw = true;
@@ -25,8 +25,14 @@ export default class GameManager {
     private monsterVector:Array<cc.Node>;
     private money: number;
     private level: number;
+    private createComplete:boolean = false;
 
     getLevel(){
+        return this.level;
+    }
+
+    addLevel(){
+        this.level++;
         return this.level;
     }
 
@@ -54,5 +60,19 @@ export default class GameManager {
         if (index > -1) {
             this.monsterVector.splice(index, 1);
         }
+    }
+
+    isEnd(){
+        return this.createComplete;
+    }
+
+    initEnd(){
+        console.log("initEnd");
+        this.createComplete = false;
+    }
+
+    createEnd(){
+        console.log("createEnd");
+        this.createComplete = true;
     }
 }

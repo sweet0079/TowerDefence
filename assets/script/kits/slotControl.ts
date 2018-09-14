@@ -9,6 +9,10 @@ export default class slotControl extends itemBase {
     //----- 编辑器属性 -----//
     /** 攻击槽显示节点 */
     @property({tooltip:"攻击槽显示节点", type: cc.Node }) ShowNode:cc.Node = null;
+    /** 塔基节点 */
+    @property({tooltip:"塔基节点", type: cc.Sprite }) TowerBase:cc.Sprite = null;
+    /** 塔基节点 */
+    @property({tooltip:"塔基节点图片", type: [cc.SpriteFrame]}) TowerBaseSpfArr: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
     //----- 生命周期 -----//
 
@@ -20,6 +24,11 @@ export default class slotControl extends itemBase {
 
     // update (dt) {}
     //----- 公有方法 -----//
+    setNowTowerInfo(info:_kits.Item.TowerInfo){
+        this.NowTowerInfo = info;
+        this.show();
+    }
+
     putTower(Tower:cc.Node){
         if(this.NowTowerInfo)
         {
@@ -62,10 +71,13 @@ export default class slotControl extends itemBase {
         if(this.NowTowerInfo)
         {
             this.ShowNode.active = false;
+            this.TowerBase.node.active = true;
+            this.TowerBase.spriteFrame = this.TowerBaseSpfArr[this.NowTowerInfo.Color];
         }
         else
         {
             this.ShowNode.active = true;
+            this.TowerBase.node.active = false;
         }
     }
     //----- 私有方法 -----//

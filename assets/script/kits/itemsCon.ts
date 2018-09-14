@@ -31,9 +31,13 @@ export default class itemsCon extends cc.Component {
     // onLoad () {
         // JsonManager.getinstance();}
 
-    // start () {
-    // }
+    start () {
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.sell,"sell",this);
+    }
 
+    onDestroy(){
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.sell,"sell",this);
+    }
     // update (dt) {}
     //----- 按钮回调 -----//
     createTower(){
@@ -44,8 +48,8 @@ export default class itemsCon extends cc.Component {
         if(this.findisEmpty())
         {
             let tower = nodePool.getinstance().createTower(this.towerPfb);
-            // let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-            let color = lib.defConfig.TowerColorEnum.red;
+            let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+            // let color = lib.defConfig.TowerColorEnum.red;
             let level = this.inital;
             tower.parent = this.towerLayer;
             let item = this.findisEmpty();
@@ -84,6 +88,10 @@ export default class itemsCon extends cc.Component {
         }
     }
     //----- 私有方法 -----//
+    private sell(){
+        this._GameManager.addMoney(this.price - 1);
+    }
+
     //寻找可放置的item
     private findisEmpty(){
         for(let i = 0; i < this.items.length; i++)

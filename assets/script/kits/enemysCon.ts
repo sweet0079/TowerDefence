@@ -57,7 +57,10 @@ export default class enemysCon extends cc.Component {
     startCreate(Quantity:number,GetGold:number,HP:number,type:number){
         this.schedule(()=>{
             this._createEnemy(GetGold,HP,type);
-        },0.6,Quantity - 1);
+        },0.6,Quantity - 1,2);
+        this.scheduleOnce(()=>{
+            GameManager.getinstance().createEnd();
+        },0.6 * (Quantity - 1) + 2);
     }
     //----- 私有方法 -----//
     private _createEnemy(GetGold:number,HP:number,type:number){

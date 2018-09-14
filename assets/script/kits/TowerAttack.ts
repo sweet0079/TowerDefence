@@ -18,7 +18,7 @@ export default class TowerAttack extends cc.Component {
     //类型
     private type:number = 0;
     //攻击力
-    private att: number = 490;
+    private att: number = 1;
     //范围
     private range: number = 150;
     //攻击间隔
@@ -32,7 +32,7 @@ export default class TowerAttack extends cc.Component {
         this.node.getComponent(cc.CircleCollider).radius = this.range;
         this.schedule(()=>{
             this.rotateAndShoot();
-        },0.05);
+        },0.03);
     }
 
     update(dt) {
@@ -64,15 +64,16 @@ export default class TowerAttack extends cc.Component {
     //初始化
     init(type:number){
         this.type = type;
-        let obj = JsonManager.getinstance().getTowerobj()[0];
-        this.range = obj.range;
-        this.speed = 1 / obj.speed;
+        let obj = JsonManager.getinstance().getTowerobj()[this.type];
+        this.range = parseInt(obj.range);
+        this.speed = 1 / parseInt(obj.speed);
         this.time = 0;
         this.node.stopActionByTag(100);
     }
 
     //变成鲲
     turnItem(spf:cc.SpriteFrame){
+        this.node.stopActionByTag(100);
         this.node.rotation = 0;
         this.TowerAni.node.getComponent(cc.Sprite).spriteFrame = spf;
         this.enabled = false;
@@ -82,6 +83,11 @@ export default class TowerAttack extends cc.Component {
     turnTower(spf:cc.SpriteFrame){
         this.TowerAni.node.getComponent(cc.Sprite).spriteFrame = spf;
         this.enabled = true;
+    }
+
+    //设置攻击力
+    setAtt(num:number){
+        this.att = num;
     }
     //----- 私有方法 -----//
     //获得节点间的距离
@@ -127,9 +133,9 @@ export default class TowerAttack extends cc.Component {
             let rotateRadians = this.getAngle(rotateVector);
             let rotateDegrees = ((-1 * rotateRadians) * 57.29577951) + 90;
             // 3
-            // let speed = 0.5 / Math.PI;
+            // let speed = 0.1 / Math.PI;
             // let rotateDuration = Math.abs(rotateRadians * speed);
-            let rotateDuration = 0.05;
+            let rotateDuration = 0.03;
             // 4
             // let act = cc.sequence(cc.rotateTo(rotateDuration, rotateDegrees),
             //         cc.callFunc(()=>{
@@ -145,23 +151,25 @@ export default class TowerAttack extends cc.Component {
     private shoot(enemy:cc.Node,damage:number)
     {
         this.TowerAni.play();
-        let currBullet = this.ArrowTowerBullet();
-        
-        let moveDuration = this.speed / 10;
         // let shootVector:cc.Vec2 = this.EnemyList[0].getPosition().sub(this.node.getPosition());
         // let normalizedShootVector:cc.Vec2 = shootVector.normalizeSelf().mul(-1);
         
         // let farthestDistance = cc.director.getVisibleSize().width;
         // let overshotVector = normalizedShootVector.mul(farthestDistance);
         // let offscreenPoint = this.node.getPosition().sub(overshotVector);
-        let offscreenPoint = enemy.getPosition();
 
-        currBullet.runAction(cc.sequence(
-            cc.moveTo(moveDuration, offscreenPoint),
-                cc.callFunc(()=>{
-                    enemy.getComponent(enemyControl).shooted(damage,this.type);
-                    currBullet.destroy();
-                })));
+        this.scheduleOnce(()=>{
+            let currBullet = this.ArrowTowerBullet();
+            
+            let moveDuration = this.speed / 10;
+            let offscreenPoint = enemy.getPosition();
+            currBullet.runAction(cc.sequence(
+                cc.moveTo(moveDuration, offscreenPoint),
+                    cc.callFunc(()=>{
+                        enemy.getComponent(enemyControl).shooted(damage,this.type);
+                        currBullet.destroy();
+                    })));
+        },0.1);
     }
 
     //生成子弹

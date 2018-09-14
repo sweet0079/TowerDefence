@@ -4,10 +4,10 @@ export const TowerColorEnum = cc.Enum({
     red: -1,
     // 绿
     green: -1,
-    // 紫
-    purple: -1,
     // 蓝
     blue: -1,
+    // 紫
+    purple: -1,
     // 长度
     length: -1,
 });

@@ -1,5 +1,6 @@
 /** 单个敌人的控制组件 */
 import * as lib from '../lib/lib'
+import damageLabelCon from './DamageLabelCon'
 import nodePool from '../Manager/NodePoolInstance'
 import GameManager from '../Manager/GameManager'
 import JsonManager from '../Manager/JsonReaderManager'
@@ -10,7 +11,9 @@ const {ccclass, property} = cc._decorator;
 export default class enemy extends cc.Component {
     //----- 编辑器属性 -----//
     //被红球攻击
-    @property(cc.Animation) redBeat: cc.Animation = null;
+    @property(cc.Prefab) BeatEff: cc.Prefab = null;
+    //伤害字幕
+    @property(cc.Prefab) damageLabel: cc.Prefab = null;
     //----- 属性声明 -----//
     //生命最大值
     private maxHp: number = 1000;
@@ -40,10 +43,15 @@ export default class enemy extends cc.Component {
 
     //中毒伤害
     private bePoisionDamage: number = 0;
+
+    //特效层节点
+    private effectLayer: cc.Node = null;
     //----- 生命周期 -----//
     start () {
         this.slowRadius = parseFloat(JsonManager.getinstance().getTowerobj()[2].splashRadius);
         this.AoeLength = parseInt(JsonManager.getinstance().getTowerobj()[3].aoeLenght);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"putBack",this);
+        this.effectLayer = this.node.parent.parent.getChildByName("enemyEffectLayer");
     }
 
     update(dt) {
@@ -60,6 +68,10 @@ export default class enemy extends cc.Component {
         {
             this.complete();
         }
+    }
+
+    onDestroy(){
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"putBack",this);
     }
     //----- 公有方法 -----//
     /** 初始化 */
@@ -79,6 +91,8 @@ export default class enemy extends cc.Component {
             this.PointsVector.push(Points[i]);
         }
         this.initBeat();
+        this.node.getComponent(cc.Sprite).enabled = true;
+        this.node.getComponent(cc.Collider).enabled = true;
     }
 
     shooted(damage:number,type:number){
@@ -112,23 +126,31 @@ export default class enemy extends cc.Component {
         // }
         if(type == lib.defConfig.TowerColorEnum.red)
         {
-            this._minHp(damage * 10);
+            let temp = damage * 10;
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.red);
             this.ShowredBeat();
+            this._minHp(temp);
         }
         else if(type == lib.defConfig.TowerColorEnum.green)
         {
+            let temp = damage * 8;
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.green);
             this.poison(damage * 2);
-            this._minHp(damage * 8);
+            this._minHp(temp);
         }
         else if(type == lib.defConfig.TowerColorEnum.blue)
         {
+            let temp = damage * 7;
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.blue);
             this.slowFun(this.slowRadius,1);
-            this._minHp(damage * 7);
+            this._minHp(temp);
         }
         else if(type == lib.defConfig.TowerColorEnum.purple)
         {
-            this.AOE(damage * 15,this.AoeLength);
-            this._minHp(damage * 7);
+            let temp = damage * 15;
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.purple);
+            this.AOE(temp,this.AoeLength);
+            // this._minHp(temp);
         }
     }
 
@@ -137,21 +159,35 @@ export default class enemy extends cc.Component {
         {
             damage *= this.block;
         }
+        this.showDamageLabel(damage,lib.defConfig.TowerColorEnum.purple);
         this._minHp(damage);
     }
 
     //----- 私有方法 -----//
+    /** 显示被击伤害label */
+    private showDamageLabel(damage:number,type:number){
+        let label = nodePool.getinstance().createDamageLabel(this.damageLabel);
+        this.effectLayer.addChild(label);
+        label.getComponent(damageLabelCon).init(this.node.getPosition(),damage,type);
+    }
+
     /** 初始化所有被击动画组件及特殊效果计时器 */
     private initBeat(){
-        this.redBeat.stop();
-        this.redBeat.node.opacity = 0;
+        // this.redBeat.stop();
+        // this.redBeat.node.opacity = 0;
         this.unschedule(this.initSlow);
         this.unschedule(this.poisionDamage);
         this.initSlow();
     }
     /** 被红塔攻击 */
     private ShowredBeat(){
-        this.redBeat.play();
+        let eff = nodePool.getinstance().createBeatEffect(this.BeatEff);
+        eff.getComponent(cc.Animation).once('finished',()=>{
+            nodePool.getinstance().dissBeatEffect(eff);
+        },this);
+        eff.setPosition(this.node.getPosition());
+        this.effectLayer.addChild(eff);
+        eff.getComponent(cc.Animation).play();
     }
 
     /** AOE */
@@ -206,6 +242,7 @@ export default class enemy extends cc.Component {
     /** 中毒跳伤害 */
     private poisionDamage(){
         this._minHp(this.bePoisionDamage);
+        this.showDamageLabel(this.bePoisionDamage,lib.defConfig.TowerColorEnum.green);
     }
 
     /** 掉血 */
@@ -218,17 +255,19 @@ export default class enemy extends cc.Component {
     }
     //走到终点
     private complete(){
-        console.log("game over");
-        // GameManager.getinstance().addMoney(this.gold);
-        // GameManager.getinstance().delMonsterVector(this.node);
-        // nodePool.getinstance().dissEnemy(this.node);
+        GameManager.getinstance().GameOver();
     }
+
     //死亡
     private die(){
         this.isDie = true;
         let _GameManager = GameManager.getinstance();
         _GameManager.addMoney(this.gold);
-        _GameManager.delMonsterVector(this.node);
+        // _GameManager.delMonsterVector(this.node);
+        this.runSpeed = 0;
+        this.node.getComponent(cc.Collider).enabled = false;
+        this.node.getComponent(cc.Sprite).enabled = false;
+        this.putBack();
         if(_GameManager.isEnd()
         && _GameManager.getMonsterVector().length == 0)
         {
@@ -236,10 +275,22 @@ export default class enemy extends cc.Component {
             console.log("_GameManager.getLevel() = " + _GameManager.getLevel());
             console.log("过关");
             lib.msgEvent.getinstance().emit(lib.msgConfig.nextlevel,_GameManager.getLevel());
-            _GameManager.initEnd();
         }
-        nodePool.getinstance().dissEnemy(this.node);
+        // nodePool.getinstance().dissEnemy(this.node);
     }
+
+    //回到缓存池中
+    private putBack(){
+        // if(this.node.getChildByName(this.damageLabel.name))
+        // {
+        //     this.node.getChildByName(this.damageLabel.name).getComponent(damageLabelCon).putBack();
+        // }
+        GameManager.getinstance().delMonsterVector(this.node);
+        this.scheduleOnce(()=>{
+            nodePool.getinstance().dissEnemy(this.node);
+        },0.5);
+    }
+
     //飞向某个点
     private flyToPoint(dt,pos:cc.Vec2,roundPos?:cc.Vec2){
         if(roundPos)

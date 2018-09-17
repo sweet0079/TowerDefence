@@ -69,12 +69,15 @@ export default class TowerAttack extends cc.Component {
         this.speed = 1 / parseInt(obj.speed);
         this.time = 0;
         this.node.stopActionByTag(100);
+        this.node.stopActionByTag(101);
     }
 
     //变成鲲
     turnItem(spf:cc.SpriteFrame){
         this.node.stopActionByTag(100);
+        this.node.stopActionByTag(101);
         this.node.rotation = 0;
+        this.time = 0;
         this.TowerAni.node.getComponent(cc.Sprite).spriteFrame = spf;
         this.enabled = false;
     }
@@ -158,9 +161,8 @@ export default class TowerAttack extends cc.Component {
         // let overshotVector = normalizedShootVector.mul(farthestDistance);
         // let offscreenPoint = this.node.getPosition().sub(overshotVector);
 
-        this.scheduleOnce(()=>{
+        let act1 = cc.sequence(cc.delayTime(0.1),cc.callFunc(()=>{
             let currBullet = this.ArrowTowerBullet();
-            
             let moveDuration = this.speed / 10;
             let offscreenPoint = enemy.getPosition();
             currBullet.runAction(cc.sequence(
@@ -169,7 +171,11 @@ export default class TowerAttack extends cc.Component {
                         enemy.getComponent(enemyControl).shooted(damage,this.type);
                         currBullet.destroy();
                     })));
-        },0.1);
+        }));
+        act1.setTag(101);
+        this.node.runAction(act1);
+        // this.scheduleOnce(()=>{
+        // },0.1);
     }
 
     //生成子弹

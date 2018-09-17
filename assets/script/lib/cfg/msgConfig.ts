@@ -4,4 +4,5 @@ export default {
     hiderubbish:'HideRubbish',
     sell:'Sell',
     nextlevel:'nextLevel',
+    gameover:'GameOver',
 }

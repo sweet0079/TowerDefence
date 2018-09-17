@@ -15,10 +15,18 @@ export default class NodePoolInstance {
         NodePoolInstance.instance = this;
         this.enemyPool = new cc.NodePool();
         this.towerPool = new cc.NodePool();
+        this.damagePool = new cc.NodePool();
+        this.beateffPool = new cc.NodePool();
     }
 
+    //敌人对象池
     private enemyPool: cc.NodePool;
+    //防御塔对象池
     private towerPool: cc.NodePool;
+    //伤害数字对象池
+    private damagePool: cc.NodePool;
+    //打击特效对象池
+    private beateffPool: cc.NodePool;
 
     createEnemy(enemyPrefab:cc.Prefab) {
         let enemy = null;
@@ -52,5 +60,39 @@ export default class NodePoolInstance {
     dissTower(tower:cc.Node) {
         // enemy 应该是一个 cc.Node
         this.towerPool.put(tower); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
+    }
+
+    createDamageLabel(damageLabelPrefab:cc.Prefab) {
+        let damageLabel: cc.Node = null;
+        if (this.damagePool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            damageLabel = this.damagePool.get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            damageLabel = cc.instantiate(damageLabelPrefab);
+        }
+        return damageLabel;
+        // shape.parent = parentNode; // 将生成的敌人加入节点树
+        // enemy.getComponent('Enemy').init(); //接下来就可以调用 enemy 身上的脚本进行初始化
+    }
+
+    dissDamageLabel(damageLabel:cc.Node) {
+        // enemy 应该是一个 cc.Node
+        this.damagePool.put(damageLabel); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
+    }
+
+    createBeatEffect(beatEffectPrefab:cc.Prefab) {
+        let beatEffect: cc.Node = null;
+        if (this.beateffPool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            beatEffect = this.beateffPool.get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            beatEffect = cc.instantiate(beatEffectPrefab);
+        }
+        return beatEffect;
+        // shape.parent = parentNode; // 将生成的敌人加入节点树
+        // enemy.getComponent('Enemy').init(); //接下来就可以调用 enemy 身上的脚本进行初始化
+    }
+
+    dissBeatEffect(beatEffect:cc.Node) {
+        // enemy 应该是一个 cc.Node
+        this.beateffPool.put(beatEffect); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
     }
 }

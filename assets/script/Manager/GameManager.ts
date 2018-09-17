@@ -14,10 +14,16 @@ export default class GameManager {
     }
 
     private constructor() {
-        this.money = 4;
+        let tempmoney:number = parseInt(cc.sys.localStorage.getItem('money'));
+        if(!tempmoney)
+        {
+            tempmoney = 4;
+        }
+        this.money = tempmoney;
+        // this.money = 4;
         this.level = 0;
         cc.director.getCollisionManager().enabled = true;
-        cc.director.getCollisionManager().enabledDebugDraw = true;
+        // cc.director.getCollisionManager().enabledDebugDraw = true;
         this.monsterVector = [];
         GameManager.instance = this;
     }
@@ -26,9 +32,14 @@ export default class GameManager {
     private money: number;
     private level: number;
     private createComplete:boolean = false;
+    private isGameOver:boolean = false;
 
     getLevel(){
         return this.level;
+    }
+
+    setLevel(num:number){
+        this.level = num;
     }
 
     addLevel(){
@@ -38,6 +49,7 @@ export default class GameManager {
 
     addMoney(num:number){
         this.money += num;
+        cc.sys.localStorage.setItem('money', this.money.toString());
         lib.msgEvent.getinstance().emit(lib.msgConfig.addmoney,this.money);
     }
 
@@ -62,17 +74,25 @@ export default class GameManager {
         }
     }
 
+    GameOver(){
+        if(!this.isGameOver)
+        {
+            this.isGameOver = true;
+            lib.msgEvent.getinstance().emit(lib.msgConfig.gameover);
+        }
+    }
+
+    //返回是否生成结束
     isEnd(){
         return this.createComplete;
     }
 
     initEnd(){
-        console.log("initEnd");
+        this.isGameOver = false;
         this.createComplete = false;
     }
 
     createEnd(){
-        console.log("createEnd");
         this.createComplete = true;
     }
 }

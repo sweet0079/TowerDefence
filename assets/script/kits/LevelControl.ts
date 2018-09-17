@@ -22,11 +22,14 @@ export default class LevelControl extends cc.Component {
     //UI控制组件
     @property(uiCon) uiControl: uiCon = null;
     //----- 属性声明 -----//
+    //失败后返回的关卡
+    private FailLevel:number = 0;
     //----- 生命周期 -----//
     onLoad () {
         //读取相关json
         JsonManager.getinstance();
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.nextlevel,"nextlevel",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"failsetlevel",this);
     }
     start () {
         this.setlevel(0);
@@ -34,6 +37,7 @@ export default class LevelControl extends cc.Component {
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.nextlevel,"nextlevel",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"failsetlevel",this);
     }
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
@@ -57,6 +61,15 @@ export default class LevelControl extends cc.Component {
                                         parseInt(JsonManager.getinstance().getLevelobj()[num].GetGold),
                                         parseInt(JsonManager.getinstance().getLevelobj()[num].HP)
                                         ,parseInt(JsonManager.getinstance().getLevelobj()[num].monsterID));
-        this.uiControl.showLevel(parseInt(JsonManager.getinstance().getLevelobj()[num].stage1),3);
+        this.FailLevel = this.uiControl.showLevel(parseInt(JsonManager.getinstance().getLevelobj()[num].stage1),3);
+        GameManager.getinstance().initEnd();
+    }
+
+    private failsetlevel(){
+        let temp = (this.FailLevel - 1) * 4;
+        GameManager.getinstance().setLevel(temp);
+        this.scheduleOnce(()=>{
+            this.setlevel(temp);
+        },2);
     }
 }

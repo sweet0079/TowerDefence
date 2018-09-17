@@ -49,6 +49,7 @@ export default class TowerControl extends cc.Component {
         if(this.towerattack)
         {
             this.towerattack.init(this.Color);
+            this.towerattack.setAtt(this.level * this.level);
         }
         if(this.towerCollider)
         {

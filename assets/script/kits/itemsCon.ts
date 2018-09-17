@@ -92,6 +92,8 @@ export default class itemsCon extends cc.Component {
         this._GameManager.addMoney(this.price - 1);
     }
 
+    //升级所有低于inital的塔
+
     //寻找可放置的item
     private findisEmpty(){
         for(let i = 0; i < this.items.length; i++)

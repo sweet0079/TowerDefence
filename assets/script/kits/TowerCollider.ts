@@ -57,6 +57,10 @@ export default class TowerCollider extends cc.Component {
         },this);
     }
     //----- 公有方法 -----//
+    updatePlaceNodeInfo(){
+        this.PlaceNode.getComponent(itemBase).setNowTowerInfo(this.towerControl.getTowerInfo());
+    }
+
     setplaceNode(node:cc.Node)
     {
         this.PlaceNode = node;

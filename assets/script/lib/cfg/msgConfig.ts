@@ -5,4 +5,6 @@ export default {
     sell:'Sell',
     nextlevel:'nextLevel',
     gameover:'GameOver',
+    //初始塔等级改变
+    initchange:'InitChange',
 }

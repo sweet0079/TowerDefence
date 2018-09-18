@@ -29,6 +29,7 @@ export default class itemControl extends itemBase {
             {
                 this.NowTowerInfo.node.getComponent(TowerControl).desTower();
                 Towercon.levelUP();
+                Towercon.play();
                 this.NowTowerInfo = Towercon.getTowerInfo();
                 console.log("合成成功");
                 return true;
@@ -51,6 +52,13 @@ export default class itemControl extends itemBase {
             console.log("移动成功");
             return true;
         }
+    }
+
+    levelUP(){
+        let Towercon = this.NowTowerInfo.node.getComponent(TowerControl);
+        Towercon.levelUP();
+        let newTowerInfo = Towercon.getTowerInfo();
+        this.NowTowerInfo = newTowerInfo;
     }
 
     delTower(){

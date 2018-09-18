@@ -23,9 +23,14 @@ export default class itemBase extends cc.Component {
     setNowTowerInfo(info:_kits.Item.TowerInfo){
         this.NowTowerInfo = info;
     }
+    getNowTowerInfo(){
+        return this.NowTowerInfo;
+    }
     putTower(Tower:cc.Node){
     }
     delTower(){
+    }
+    levelUP(){
     }
     isEmpty(){
         if(this.NowTowerInfo == null)

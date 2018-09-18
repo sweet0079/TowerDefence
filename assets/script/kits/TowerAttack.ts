@@ -165,6 +165,8 @@ export default class TowerAttack extends cc.Component {
             let currBullet = this.ArrowTowerBullet();
             let moveDuration = this.speed / 10;
             let offscreenPoint = enemy.getPosition();
+            let ani = currBullet.getComponent(cc.Animation);
+            ani.play(ani.getClips()[this.type].name);
             currBullet.runAction(cc.sequence(
                 cc.moveTo(moveDuration, offscreenPoint),
                     cc.callFunc(()=>{

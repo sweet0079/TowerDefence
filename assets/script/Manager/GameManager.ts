@@ -28,11 +28,20 @@ export default class GameManager {
         GameManager.instance = this;
     }
 
+    private isAutoCompose:boolean = false;
     private monsterVector:Array<cc.Node>;
     private money: number;
     private level: number;
     private createComplete:boolean = false;
     private isGameOver:boolean = false;
+
+    setAutoCompose(flag:boolean){
+        this.isAutoCompose = flag;
+    }
+
+    getAutoCompose(){
+        return this.isAutoCompose;
+    }
 
     getLevel(){
         return this.level;

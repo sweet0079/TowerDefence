@@ -10,10 +10,40 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class enemy extends cc.Component {
     //----- 编辑器属性 -----//
+    //自身减速特效
+    @property(cc.Animation) blueEff: cc.Animation = null;
+    //自身中毒特效
+    @property(cc.Animation) greenEff: cc.Animation = null;
     //被红球攻击
-    @property(cc.Prefab) BeatEff: cc.Prefab = null;
+    @property(cc.Prefab) RedBeatEff: cc.Prefab = null;
+    //被紫球攻击
+    @property(cc.Prefab) PurpleBeatEff: cc.Prefab = null;
     //伤害字幕
     @property(cc.Prefab) damageLabel: cc.Prefab = null;
+    //黄色小球图集
+    @property([cc.SpriteFrame]) YellowSpfArray: Array<cc.SpriteFrame> = [];
+    //红色小球图集
+    @property([cc.SpriteFrame]) RedSpfArray: Array<cc.SpriteFrame> = [];
+    //绿色小球图集
+    @property([cc.SpriteFrame]) greenSpfArray: Array<cc.SpriteFrame> = [];
+    //蓝色小球图集
+    @property([cc.SpriteFrame]) blueSpfArray: Array<cc.SpriteFrame> = [];
+    //紫色小球图集
+    @property([cc.SpriteFrame]) purpleSpfArray: Array<cc.SpriteFrame> = [];
+    //boss小球图集
+    @property([cc.SpriteFrame]) BossSpfArray: Array<cc.SpriteFrame> = [];
+    //小球死亡痕迹
+    @property(cc.Sprite) dieXueJi: cc.Sprite = null;
+    //黄色小球死亡图集
+    @property([cc.SpriteFrame]) YellowDieSpfArray: Array<cc.SpriteFrame> = [];
+    //红色小球死亡图集
+    @property([cc.SpriteFrame]) RedDieSpfArray: Array<cc.SpriteFrame> = [];
+    //绿色小球死亡图集
+    @property([cc.SpriteFrame]) greenDieSpfArray: Array<cc.SpriteFrame> = [];
+    //蓝色小球死亡图集
+    @property([cc.SpriteFrame]) blueDieSpfArray: Array<cc.SpriteFrame> = [];
+    //紫色小球死亡图集
+    @property([cc.SpriteFrame]) purpleDieSpfArray: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
     //生命最大值
     private maxHp: number = 1000;
@@ -46,12 +76,16 @@ export default class enemy extends cc.Component {
 
     //特效层节点
     private effectLayer: cc.Node = null;
+    //当前使用的spf数组
+    private _spfArr: Array<cc.SpriteFrame> = null;
     //----- 生命周期 -----//
     start () {
         this.slowRadius = parseFloat(JsonManager.getinstance().getTowerobj()[2].splashRadius);
         this.AoeLength = parseInt(JsonManager.getinstance().getTowerobj()[3].aoeLenght);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"putBack",this);
         this.effectLayer = this.node.parent.parent.getChildByName("enemyEffectLayer");
+        this.node.getComponent(cc.Animation).on('finished',this.DieAnimationFinished,this);
+        this.greenEff.on('finished',this.EffAnimationFinished,this);
     }
 
     update(dt) {
@@ -72,6 +106,8 @@ export default class enemy extends cc.Component {
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"putBack",this);
+        this.greenEff.off('finished',this.EffAnimationFinished,this);
+        this.node.getComponent(cc.Animation).off('finished',this.DieAnimationFinished,this);
     }
     //----- 公有方法 -----//
     /** 初始化 */
@@ -91,8 +127,49 @@ export default class enemy extends cc.Component {
             this.PointsVector.push(Points[i]);
         }
         this.initBeat();
-        this.node.getComponent(cc.Sprite).enabled = true;
         this.node.getComponent(cc.Collider).enabled = true;
+        this.node.getComponent(cc.Sprite).spriteFrame = this.RedSpfArray[0];
+        this.node.scale = 1;
+        this.dieXueJi.node.active = false;
+        this.greenEff.node.scale = 1.1;
+        this.blueEff.node.scale = 1;
+        switch(type)
+        {
+            case lib.defConfig.EnemyColorEnum.yellow:
+                this._spfArr = this.YellowSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.YellowSpfArray[0];
+                this.dieXueJi.spriteFrame = this.YellowDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.YellowDieSpfArray.length)];
+                break;
+            case lib.defConfig.EnemyColorEnum.red:
+                this._spfArr = this.RedSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.RedSpfArray[0];
+                this.dieXueJi.spriteFrame = this.RedDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.RedDieSpfArray.length)];
+                break;
+            case lib.defConfig.EnemyColorEnum.blue:
+                this._spfArr = this.blueSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.blueSpfArray[0];
+                this.dieXueJi.spriteFrame = this.blueDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.blueDieSpfArray.length)];
+                break;
+            case lib.defConfig.EnemyColorEnum.green:
+                this._spfArr = this.greenSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.greenSpfArray[0];
+                this.dieXueJi.spriteFrame = this.greenDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.greenDieSpfArray.length)];
+                break;
+            case lib.defConfig.EnemyColorEnum.purple:
+                this._spfArr = this.purpleSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.purpleSpfArray[0];
+                this.dieXueJi.spriteFrame = this.purpleDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.purpleDieSpfArray.length)];
+                break;
+            case lib.defConfig.EnemyColorEnum.boss:
+                this.greenEff.node.scale = 1.3;
+                this.blueEff.node.scale = 1.2;
+                this._spfArr = this.BossSpfArray;
+                this.node.getComponent(cc.Sprite).spriteFrame = this.BossSpfArray[0];
+                this.dieXueJi.spriteFrame = this.YellowDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.YellowDieSpfArray.length)];
+                break;
+            default:
+                break;
+        }
     }
 
     shooted(damage:number,type:number){
@@ -136,6 +213,8 @@ export default class enemy extends cc.Component {
             let temp = damage * 8;
             this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.green);
             this.poison(damage * 2);
+            this.greenEff.node.active = true;
+            this.greenEff.play("Poison");
             this._minHp(temp);
         }
         else if(type == lib.defConfig.TowerColorEnum.blue)
@@ -148,6 +227,7 @@ export default class enemy extends cc.Component {
         else if(type == lib.defConfig.TowerColorEnum.purple)
         {
             let temp = damage * 15;
+            this.ShowPurpleBeat();
             this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.purple);
             this.AOE(temp,this.AoeLength);
             // this._minHp(temp);
@@ -179,9 +259,21 @@ export default class enemy extends cc.Component {
         this.unschedule(this.poisionDamage);
         this.initSlow();
     }
+    /** 被紫塔攻击 */
+    private ShowPurpleBeat(){
+        let eff = cc.instantiate(this.PurpleBeatEff);
+        eff.width = this.AoeLength * 2;
+        eff.height = this.AoeLength * 2;
+        eff.setPosition(this.node.getPosition());
+        eff.zIndex -= 100;
+        this.node.parent.addChild(eff);
+        this.scheduleOnce(()=>{
+            eff.destroy();
+        },0.5);
+    }
     /** 被红塔攻击 */
     private ShowredBeat(){
-        let eff = nodePool.getinstance().createBeatEffect(this.BeatEff);
+        let eff = nodePool.getinstance().createBeatEffect(this.RedBeatEff);
         eff.getComponent(cc.Animation).once('finished',()=>{
             nodePool.getinstance().dissBeatEffect(eff);
         },this);
@@ -217,6 +309,7 @@ export default class enemy extends cc.Component {
     /** 减速结束 */
     private initSlow(){
         this.Slow = 1;
+        this.blueEff.node.active = false;
     }
 
     /** 减速 */
@@ -225,6 +318,8 @@ export default class enemy extends cc.Component {
         {
             this.unschedule(this.initSlow);
         }
+        this.blueEff.node.active = true;
+        this.blueEff.play("Frozen");
         this.Slow = Radius;
         this.scheduleOnce(this.initSlow,time);
     }
@@ -241,6 +336,8 @@ export default class enemy extends cc.Component {
 
     /** 中毒跳伤害 */
     private poisionDamage(){
+        this.greenEff.node.active = true;
+        this.greenEff.play("Poison");
         this._minHp(this.bePoisionDamage);
         this.showDamageLabel(this.bePoisionDamage,lib.defConfig.TowerColorEnum.green);
     }
@@ -248,6 +345,19 @@ export default class enemy extends cc.Component {
     /** 掉血 */
     private _minHp(damage:number){
         this.currHp -= damage;
+        let temp = this.currHp / this.maxHp;
+        if(temp <= 0.25)
+        {
+            this.node.getComponent(cc.Sprite).spriteFrame = this._spfArr[3];
+        }
+        else if(temp <= 0.5)
+        {
+            this.node.getComponent(cc.Sprite).spriteFrame = this._spfArr[2];
+        }
+        else if(temp <= 0.75)
+        {
+            this.node.getComponent(cc.Sprite).spriteFrame = this._spfArr[1];
+        }
         if(this.currHp <= 0)
         {
             this.die();
@@ -265,9 +375,17 @@ export default class enemy extends cc.Component {
         _GameManager.addMoney(this.gold);
         // _GameManager.delMonsterVector(this.node);
         this.runSpeed = 0;
+        this.node.scale = 0.5;
         this.node.getComponent(cc.Collider).enabled = false;
-        this.node.getComponent(cc.Sprite).enabled = false;
-        this.putBack();
+        this.node.getComponent(cc.Animation).play();
+        this.dieXueJi.node.active = true;
+        // nodePool.getinstance().dissEnemy(this.node);
+    }
+
+    //死亡动画结束
+    private DieAnimationFinished(){
+        let _GameManager = GameManager.getinstance();
+        GameManager.getinstance().delMonsterVector(this.node);
         if(_GameManager.isEnd()
         && _GameManager.getMonsterVector().length == 0)
         {
@@ -276,19 +394,18 @@ export default class enemy extends cc.Component {
             console.log("过关");
             lib.msgEvent.getinstance().emit(lib.msgConfig.nextlevel,_GameManager.getLevel());
         }
-        // nodePool.getinstance().dissEnemy(this.node);
+        nodePool.getinstance().dissEnemy(this.node);
     }
 
     //回到缓存池中
     private putBack(){
-        // if(this.node.getChildByName(this.damageLabel.name))
-        // {
-        //     this.node.getChildByName(this.damageLabel.name).getComponent(damageLabelCon).putBack();
-        // }
         GameManager.getinstance().delMonsterVector(this.node);
-        this.scheduleOnce(()=>{
-            nodePool.getinstance().dissEnemy(this.node);
-        },0.5);
+        nodePool.getinstance().dissEnemy(this.node);
+    }
+
+    //特效动画结束
+    private EffAnimationFinished(){
+        this.greenEff.node.active = false;
     }
 
     //飞向某个点

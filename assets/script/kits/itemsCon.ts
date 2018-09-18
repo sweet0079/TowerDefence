@@ -47,17 +47,37 @@ export default class itemsCon extends cc.Component {
         }
         if(this.findisEmpty())
         {
-            let tower = nodePool.getinstance().createTower(this.towerPfb);
-            let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-            // let color = lib.defConfig.TowerColorEnum.red;
-            let level = this.inital;
-            tower.parent = this.towerLayer;
-            let item = this.findisEmpty();
-            // console.log(color);
-            tower.getComponent(TowerControl).init(color,level,item.node);
-            item.putTower(tower);
-            this._GameManager.addMoney(-this.price);
-            this.uiControl.showMoney(this._GameManager.getMoney());
+            if(GameManager.getinstance().getAutoCompose())
+            {
+                let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+                if(!this.autocomposeAfterCreate(color,this.inital))
+                {
+                    let tower = nodePool.getinstance().createTower(this.towerPfb);
+                    // let color = lib.defConfig.TowerColorEnum.red;
+                    let level = this.inital;
+                    tower.parent = this.towerLayer;
+                    let item = this.findisEmpty();
+                    // console.log(color);
+                    tower.getComponent(TowerControl).init(color,level,item.node);
+                    item.putTower(tower);
+                    this._GameManager.addMoney(-this.price);
+                    this.uiControl.showMoney(this._GameManager.getMoney());
+                }
+            }
+            else
+            {
+                let tower = nodePool.getinstance().createTower(this.towerPfb);
+                let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+                // let color = lib.defConfig.TowerColorEnum.red;
+                let level = this.inital;
+                tower.parent = this.towerLayer;
+                let item = this.findisEmpty();
+                // console.log(color);
+                tower.getComponent(TowerControl).init(color,level,item.node);
+                item.putTower(tower);
+                this._GameManager.addMoney(-this.price);
+                this.uiControl.showMoney(this._GameManager.getMoney());
+            }
         }
     }
     //----- 事件回调 -----//
@@ -71,6 +91,8 @@ export default class itemsCon extends cc.Component {
     //设定防御塔价格
     setinital(num:number){
         this.inital = num;
+        this.levelUpLowerTower();
+        lib.msgEvent.getinstance().emit(lib.msgConfig.initchange,this.inital);
     }
 
     //设定激活的合成槽位
@@ -91,8 +113,74 @@ export default class itemsCon extends cc.Component {
     private sell(){
         this._GameManager.addMoney(this.price - 1);
     }
+    //自动合成防御塔
+    private autocomposeAfterCreate(color:number,level:number){
+        for(let i = 0; i < this.items.length; i++)
+        {
+            if(!this.items[i].node.active)
+            {
+                continue;
+            }
+            if(this.items[i].getNowTowerInfo())
+            {
+                if(this.items[i].getNowTowerInfo().Level == level
+                && this.items[i].getNowTowerInfo().Color == color)
+                {
+                    this.items[i].levelUP();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //自动合成防御塔
+    private autocompose(){
+        for(let i = 0; i < this.items.length; i++)
+        {
+            if(!this.items[i].node.active)
+            {
+                continue;
+            }
+            if(this.items[i].getNowTowerInfo())
+            {
+                for(let j = i + 1; j < this.items.length; j++)
+                {
+                    if(!this.items[j].node.active)
+                    {
+                        continue;
+                    }
+                    if(this.items[j].getNowTowerInfo())
+                    {
+                        if(this.items[i].getNowTowerInfo().Level == this.items[j].getNowTowerInfo().Level
+                        && this.items[i].getNowTowerInfo().Color == this.items[j].getNowTowerInfo().Color)
+                        {
+                            this.items[i].levelUP();
+                            this.items[j].node.getComponent(TowerControl).desTower();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     //升级所有低于inital的塔
+    private levelUpLowerTower(){
+        for(let i = 0; i < this.items.length; i++)
+        {
+            if(!this.items[i].node.active)
+            {
+                continue;
+            }
+            if(this.items[i].getNowTowerInfo())
+            {
+                if(this.items[i].getNowTowerInfo().Level < this.inital)
+                {
+                    this.items[i].getNowTowerInfo().node.getComponent(TowerControl).levelUP();
+                }
+            }
+        }
+    }
 
     //寻找可放置的item
     private findisEmpty(){

@@ -11,10 +11,20 @@ const {ccclass, property} = cc._decorator;
 export default class TowerControl extends cc.Component {
 
     //----- 编辑器属性 -----//
+    /** 显示tower的node组件 */
+    @property({tooltip:"显示tower的node组件", type: cc.Node }) TowerNode: cc.Node = null;
     /** 显示等级的label组件 */
-    @property({tooltip:"显示等级的label组件", type: cc.Label }) LevelLabel:cc.Label = null;
-    /** 塔形态的图片素材 */
-    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) TowerSpfArr: Array<cc.SpriteFrame> = [];
+    @property({tooltip:"显示等级的label组件", type: cc.Label }) LevelLabel: cc.Label = null;
+    /** 合成动画显示的组件数组 */
+    @property({tooltip:"显示等级的label组件", type: [cc.Node] }) ComposeArr: Array<cc.Node> = [];
+    /** 红色塔形态的图片素材 */
+    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) RedTowerSpfArr: Array<cc.SpriteFrame> = [];
+    /** 绿色塔形态的图片素材 */
+    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) GreenTowerSpfArr: Array<cc.SpriteFrame> = [];
+    /** 蓝色塔形态的图片素材 */
+    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) BlueTowerSpfArr: Array<cc.SpriteFrame> = [];
+    /** 紫色塔形态的图片素材 */
+    @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) PurpleTowerSpfArr: Array<cc.SpriteFrame> = [];
     /** 单元形态的图片素材 */
     @property({tooltip:"单元形态的图片素材", type: [cc.SpriteFrame] }) ItemSpfArr: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
@@ -26,11 +36,21 @@ export default class TowerControl extends cc.Component {
     private towerattack: Towerattack = null;
     //防御塔碰撞组件
     private towerCollider: TowerCollider = null;
+
+    //是否是困
+    private isItem: boolean = false;
+
+    //当前使用的spf数组
+    private _spfArr: Array<cc.SpriteFrame> = null;
     //----- 生命周期 -----//
     onLoad () {
         this.towerattack = this.node.getComponent(Towerattack);
         this.towerCollider = this.node.getChildByName("towercollider").getComponent(TowerCollider);
+        this.node.getComponent(cc.Animation).on('finished',this.ComposeAnimationFinished,this);
         // this.LevelLabel.getComponent(cc.BoxCollider).size = cc.size(this.node.width,this.node.width);
+    }
+    onDestroy(){
+        this.node.getComponent(cc.Animation).off('finished',this.ComposeAnimationFinished,this);
     }
     //----- 公有方法 -----//
     //删除这个防御塔
@@ -56,15 +76,36 @@ export default class TowerControl extends cc.Component {
             this.towerCollider.init();
             this.towerCollider.setplaceNode(node);
         }
+        if(this.Color == lib.defConfig.TowerColorEnum.red)
+        {
+            this._spfArr = this.RedTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.green)
+        {
+            this._spfArr = this.GreenTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.blue)
+        {
+            this._spfArr = this.BlueTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.purple)
+        {
+            this._spfArr = this.PurpleTowerSpfArr;
+        }
+        this.showSpf();
+        this.TowerNode.opacity = 255;
+        this.TowerNode.scale = 1;
     }
     //变成鲲
     turnItem(){
+        this.isItem = true;
         this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
     }
 
     //变成炮塔
     turnTower(){
-        this.towerattack.turnTower(this.TowerSpfArr[this.Color]);
+        this.isItem = false;
+        this.showSpf();
     }
 
     //获取防御塔信息
@@ -84,7 +125,23 @@ export default class TowerControl extends cc.Component {
     levelUP(){
         this.level++;
         this.towerattack.setAtt(this.level * this.level);
+        this.towerCollider.updatePlaceNodeInfo();
         this.showLevel();
+        this.showSpf();
+    }
+
+    //播放升级动画
+    play(){
+        this.ComposeArr[0].getComponent(cc.Sprite).spriteFrame = this.ItemSpfArr[this.Color];
+        this.ComposeArr[0].getChildByName("Level").getComponent(cc.Label).string = (this.level - 1).toString();
+        this.ComposeArr[1].getComponent(cc.Sprite).spriteFrame = this.ItemSpfArr[this.Color];
+        this.ComposeArr[1].getChildByName("Level").getComponent(cc.Label).string = (this.level - 1).toString();
+
+        for(let i = 0; i < this.ComposeArr.length; i++)
+        {
+            this.ComposeArr[i].active = true;
+        }
+        this.node.getComponent(cc.Animation).play();
     }
 
     //获取放置节点
@@ -103,8 +160,34 @@ export default class TowerControl extends cc.Component {
         this.desTower();
     }
     //----- 私有方法 -----//
+    //更新显示外形
+    private showSpf(){
+        if(this.isItem)
+        {
+            this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
+        }
+        else
+        {
+            let temp = parseInt((this.level / 5).toString());
+            if(temp >= this._spfArr.length)
+            {
+                temp = this._spfArr.length - 1;
+            }
+            this.towerattack.turnTower(this._spfArr[temp]);
+        }
+    }
+
     //更新显示等级
     private showLevel(){
         this.LevelLabel.string = this.level.toString();
+    }
+
+    private ComposeAnimationFinished(){
+        this.TowerNode.opacity = 255;
+        this.TowerNode.scale = 1;
+        for(let i = 0; i < this.ComposeArr.length; i++)
+        {
+            this.ComposeArr[i].active = false;
+        }
     }
 }

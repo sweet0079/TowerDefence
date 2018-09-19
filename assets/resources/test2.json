@@ -1,0 +1,65 @@
+{
+	"Points": 
+	[
+        {
+            "Pos": [0,-154],
+            "roundPos": null
+		},
+		{
+            "Pos": [-180,-154],
+            "roundPos": null
+        },
+		{
+            "Pos": [-256,-78],
+            "roundPos": [-180,-78]
+        },
+		{
+            "Pos": [-180,-2],
+            "roundPos": [-180,-78]
+        },
+		{
+            "Pos": [180,-2],
+            "roundPos": null
+        },
+		{
+            "Pos": [256,74],
+            "roundPos": [180,74]
+        },
+		{
+            "Pos": [180,150],
+            "roundPos": [180,74]
+        },
+		{
+            "Pos": [-180,150],
+            "roundPos": null
+        },
+		{
+            "Pos": [-256,226],
+            "roundPos": [-180,226]
+        },
+		{
+            "Pos": [-180,302],
+            "roundPos": [-180,226]
+        },
+		{
+            "Pos": [180,302],
+            "roundPos": null
+        },
+		{
+            "Pos": [256,378],
+            "roundPos": [180,378]
+        },
+		{
+            "Pos": [180,454],
+            "roundPos": [180,378]
+        },
+		{
+            "Pos": [0,454],
+            "roundPos": null
+        },
+		{
+            "Pos": [0,550],
+            "roundPos": null
+        }
+    ]
+}

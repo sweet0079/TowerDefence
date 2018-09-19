@@ -21,7 +21,12 @@ export default class GameManager {
         }
         this.money = tempmoney;
         // this.money = 4;
-        this.level = 0;
+        let templevel:number = parseInt(cc.sys.localStorage.getItem('level'));
+        if(!templevel)
+        {
+            templevel = 0;
+        }
+        this.level = templevel;
         cc.director.getCollisionManager().enabled = true;
         // cc.director.getCollisionManager().enabledDebugDraw = true;
         this.monsterVector = [];
@@ -49,10 +54,12 @@ export default class GameManager {
 
     setLevel(num:number){
         this.level = num;
+        cc.sys.localStorage.setItem('level', this.level.toString());
     }
 
     addLevel(){
         this.level++;
+        cc.sys.localStorage.setItem('level', this.level.toString());
         return this.level;
     }
 

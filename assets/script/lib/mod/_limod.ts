@@ -12,3 +12,6 @@ export { ccAudioPlayer as ccAudioPlayer }
 
 import * as RandomParameters from './RandomParameters'
 export { RandomParameters as RandomParameters }
+
+import  * as wxFun from './wxFun'
+export { wxFun as wxFun }

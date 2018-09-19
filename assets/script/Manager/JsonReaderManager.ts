@@ -19,7 +19,8 @@ export default class JsonReaderManager {
     }
 
     private Towerobj:Array<_kits.JSON.Tower>;
-    private Levelobj:Array<_kits.JSON.Level>;
+    private Levelobj1:Array<_kits.JSON.Level>;
+    private Levelobj2:Array<_kits.JSON.Level>;
     private Enemyobj:Array<_kits.JSON.Enemy>;
 
     readTowerJson(){
@@ -46,12 +47,27 @@ export default class JsonReaderManager {
             var i = JSON.stringify(res);
             cc.log(i);
             cc.log(res.json);
-            this.Levelobj = res.json;
+            this.Levelobj1 = res.json;
+        });
+        url = "level2";
+        cc.loader.loadRes(url, _type,(err, res) =>{
+            cc.log(res);
+            var i = JSON.stringify(res);
+            cc.log(i);
+            cc.log(res.json);
+            this.Levelobj2 = res.json;
         });
     }
 
-    getLevelobj(){
-        return this.Levelobj;
+    getLevelobj(num){
+        if(num == 0)
+        {
+            return this.Levelobj1;
+        }
+        else
+        {
+            return this.Levelobj2;
+        }
     }
 
     readEnemyJson(){

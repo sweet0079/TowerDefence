@@ -1,4 +1,5 @@
 /** RoundLabel控制组件 */
+import * as lib from '../lib/lib';
 
 const {ccclass, property} = cc._decorator;
 
@@ -7,6 +8,8 @@ export default class RoundLabelControl extends cc.Component {
     //----- 编辑器属性 -----//
     //关卡数label节点
     @property(cc.Label) levelLabel: cc.Label = null;
+    //钩Node节点
+    @property(cc.Node) GouNode: cc.Node = null;
     //levelBackNode节点
     @property(cc.Node) levelBackNode: cc.Node = null;
     //关卡点组件
@@ -37,10 +40,41 @@ export default class RoundLabelControl extends cc.Component {
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
     //----- 公有方法 -----//
-    showLevel(Num:number,totalRound:number){
+    showLevel(Num:number,totalRound:number,isShowAni:boolean = true){
         let level:number = parseInt((Num / 10000).toString());//大关
         let round:number = parseInt((Num % 10000).toString());//波
         this.setact(totalRound);
+        let gouMove;
+        for(let i = 0 ; i < this.activeLevelNodeArr.length; i++)
+        {
+            if(i == round - 2)
+            {
+                gouMove = cc.moveTo(0.5,this.activeLevelNodeArr[i].getPosition().x,1);
+            }
+        }
+        if(gouMove && isShowAni)
+        {
+            this.GouNode.setPosition(0,-410);
+            this.GouNode.scale = 1;
+            this.GouNode.active = true;
+            let Gouspawn = cc.spawn(cc.scaleTo(0.5,0.15),cc.callFunc(()=>{
+                this.updateLabel(level,round);
+                this.scheduleOnce(()=>{
+                    lib.msgEvent.getinstance().emit(lib.msgConfig.showGroupLabel,round - 1);
+                    this.GouNode.active = false;
+                },0.5);
+            }));
+            let Gouact = cc.sequence(gouMove,Gouspawn);
+            this.GouNode.runAction(Gouact);
+        }
+        else
+        {   
+            this.updateLabel(level,round);
+        }
+        return level;
+    }
+    //----- 私有方法 -----//
+    private updateLabel(level:number,round:number){
         let act;
         for(let i = 0 ; i < this.activeLevelNodeArr.length; i++)
         {
@@ -79,9 +113,8 @@ export default class RoundLabelControl extends cc.Component {
             this.levelBackNode.runAction(act);
         }
         this.levelLabel.string = "ROUND" + level + "/8";
-        return level;
     }
-    //----- 私有方法 -----//
+
     private setact(num:number){
         this.activeLevelNodeArr = [];
         for(let i = this.levelnodeArr.length - 1; i >= 0; i--)

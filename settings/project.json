@@ -47,7 +47,16 @@
   ],
   "design-resolution-height": 640,
   "design-resolution-width": 960,
-  "excluded-modules": [],
+  "excluded-modules": [
+    "ParticleSystem",
+    "TiledMap",
+    "MotionStreak",
+    "Widget",
+    "EditBox",
+    "VideoPlayer",
+    "WebView",
+    "Physics"
+  ],
   "fit-height": true,
   "fit-width": false,
   "group-list": [

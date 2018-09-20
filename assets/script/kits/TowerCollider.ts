@@ -123,6 +123,7 @@ export default class TowerCollider extends cc.Component {
     //----- 私有方法 -----//
 
     private _clickStart(event:cc.Event.EventTouch){
+        this.towerControl.setTowerBig();
         this.BFPos = this.node.parent.position;
         lib.msgEvent.getinstance().emit(lib.msgConfig.showrubbish);
     }
@@ -134,6 +135,7 @@ export default class TowerCollider extends cc.Component {
     }
 
     private _clickEnd(event:cc.Event.EventTouch){
+        this.towerControl.setTowerSmall();
         if(this.isSell)
         {
             this.towerControl.sell();
@@ -143,6 +145,7 @@ export default class TowerCollider extends cc.Component {
             if(this.OtherNode == this.PlaceNode)
             {
                 this.takeBack();
+                lib.msgEvent.getinstance().emit(lib.msgConfig.hiderubbish);
                 return;
             }
             if(this.OtherNode.getComponent(itemBase).putTower(this.node.parent))
@@ -150,11 +153,13 @@ export default class TowerCollider extends cc.Component {
                 this.cleanPlaceNode();
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
+                this.node.parent.y += lib.defConfig.TowerInItemY;
             }
             else
             {
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
+                this.node.parent.y += lib.defConfig.TowerInItemY;
             }
             this.OtherNode.getComponent(itemBase).show();
         }

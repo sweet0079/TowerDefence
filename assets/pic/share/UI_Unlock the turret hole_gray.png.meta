@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "60ff6f7d-c771-4aa0-9917-f8cb5685a429",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "UI_Unlock the turret hole_gray": {
+      "ver": "1.0.3",
+      "uuid": "f4ad378d-3678-424a-b820-526e3a004f41",
+      "rawTextureUuid": "60ff6f7d-c771-4aa0-9917-f8cb5685a429",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 56,
+      "height": 56,
+      "rawWidth": 56,
+      "rawHeight": 56,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

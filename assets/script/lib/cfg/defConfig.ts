@@ -29,3 +29,5 @@ export const EnemyColorEnum = cc.Enum({
     // 长度
     length: -1,
 });
+
+export const TowerInItemY = 5;

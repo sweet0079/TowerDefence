@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "2eb347bd-5a0b-4de7-bd58-e539c87576a3",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "UI_Skill injury_0123456789_blud": {
+      "ver": "1.0.3",
+      "uuid": "530b3328-4f18-444b-8b44-aaa83d79feec",
+      "rawTextureUuid": "2eb347bd-5a0b-4de7-bd58-e539c87576a3",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 367,
+      "height": 42,
+      "rawWidth": 370,
+      "rawHeight": 42,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

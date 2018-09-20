@@ -7,7 +7,11 @@ const {ccclass, property} = cc._decorator;
 export default class RoundLabelControl extends cc.Component {
     //----- 编辑器属性 -----//
     //关卡数label节点
-    @property(cc.Label) levelLabel: cc.Label = null;
+    @property(cc.Sprite) levelLabel: cc.Sprite = null;
+    //关卡数label图集
+    @property([cc.SpriteFrame]) levelLabelSpfArr: Array<cc.SpriteFrame> = [];
+    //关卡数label精度条
+    @property(cc.Sprite) levelLabelBack: cc.Sprite = null;
     //钩Node节点
     @property(cc.Node) GouNode: cc.Node = null;
     //levelBackNode节点
@@ -112,7 +116,9 @@ export default class RoundLabelControl extends cc.Component {
         {
             this.levelBackNode.runAction(act);
         }
-        this.levelLabel.string = "ROUND" + level + "/8";
+        // this.levelLabel.string = "ROUND" + level + "/8";
+        this.levelLabel.spriteFrame = this.levelLabelSpfArr[level - 1];
+        this.levelLabelBack.fillRange = level / 8;
     }
 
     private setact(num:number){

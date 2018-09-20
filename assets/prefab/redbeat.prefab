@@ -17,7 +17,7 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 2,
+    "_level": 1,
     "_components": [
       {
         "__id__": 2
@@ -55,8 +55,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 1.1,
+      "y": 1.1,
       "z": 1
     },
     "_rotationX": 0,
@@ -98,7 +98,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "85Lg8WimBOlbPZms+59zZL"
+    "_id": "cfMfCh1nROSqP4LokIRLy9"
   },
   {
     "__type__": "cc.Animation",
@@ -117,7 +117,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "feFCMuxudKabQiUiz76AQ+"
+    "_id": "7454l/IypNtL1xn2Z9dR0D"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -125,7 +125,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4a33c0ef-f045-451e-a0b0-a37fefcbfe28"
     },
     "fileId": "7bdv8PKUhI1Y5yin95zMmO",
     "sync": false

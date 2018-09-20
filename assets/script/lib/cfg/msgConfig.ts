@@ -15,4 +15,6 @@ export default {
     showFailLabel:'ShowFailLabel',
     //改变关卡
     stageChange:'StageChange',
+    //itemLayer震动
+    itemLayervibrate:'ItemLayervibrate',
 }

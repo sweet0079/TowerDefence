@@ -70,6 +70,7 @@ export default class TowerAttack extends cc.Component {
         this.time = 0;
         this.node.stopActionByTag(100);
         this.node.stopActionByTag(101);
+        this.node.getComponent(cc.CircleCollider).radius = this.range;
     }
 
     //变成鲲
@@ -91,6 +92,14 @@ export default class TowerAttack extends cc.Component {
     //设置攻击力
     setAtt(num:number){
         this.att = num;
+    }
+
+    setRangBig(){
+        this.node.getComponent(cc.CircleCollider).radius = this.range;
+    }
+
+    setRangSmall(){
+        this.node.getComponent(cc.CircleCollider).radius = this.range / 1.5;
     }
     //----- 私有方法 -----//
     //获得节点间的距离

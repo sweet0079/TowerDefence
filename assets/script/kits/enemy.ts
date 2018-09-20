@@ -1,9 +1,10 @@
 /** 单个敌人的控制组件 */
-import * as lib from '../lib/lib'
-import damageLabelCon from './DamageLabelCon'
-import nodePool from '../Manager/NodePoolInstance'
-import GameManager from '../Manager/GameManager'
-import JsonManager from '../Manager/JsonReaderManager'
+import * as lib from '../lib/lib';
+import damageLabelCon from './DamageLabelCon';
+import nodePool from '../Manager/NodePoolInstance';
+import GameManager from '../Manager/GameManager';
+import JsonManager from '../Manager/JsonReaderManager';
+import AddMoneyCon from "./AddMoneyCon";
 
 const {ccclass, property} = cc._decorator;
 
@@ -20,6 +21,8 @@ export default class enemy extends cc.Component {
     @property(cc.Prefab) PurpleBeatEff: cc.Prefab = null;
     //伤害字幕
     @property(cc.Prefab) damageLabel: cc.Prefab = null;
+    //加钱字幕
+    @property(cc.Prefab) AddMoneyLabel: cc.Prefab = null;
     //黄色小球图集
     @property([cc.SpriteFrame]) YellowSpfArray: Array<cc.SpriteFrame> = [];
     //红色小球图集
@@ -112,11 +115,12 @@ export default class enemy extends cc.Component {
     //----- 公有方法 -----//
     /** 初始化 */
     init(Points:Array<_kits.Enemy.Point>,gold:number,hp:number,type:number){
+        this.node.getComponent(cc.Animation).stop();
         this.isDie = false;
         this.PointsVector = [];
         this.gold = gold;
         this.maxHp = hp;
-        this.node.setPosition(cc.v2(30,-492));
+        this.node.setPosition(cc.v2(0,-492));
         this.currHp = this.maxHp;
         let JsonObj = JsonManager.getinstance().getEnemyobj()[type]; 
         this.runSpeed = parseInt(JsonObj.speed);
@@ -131,8 +135,8 @@ export default class enemy extends cc.Component {
         this.node.getComponent(cc.Sprite).spriteFrame = this.RedSpfArray[0];
         this.node.scale = 1;
         this.dieXueJi.node.active = false;
-        this.greenEff.node.scale = 1.1;
-        this.blueEff.node.scale = 1;
+        this.greenEff.node.scale = 1.2;
+        this.blueEff.node.scale = 1.1;
         switch(type)
         {
             case lib.defConfig.EnemyColorEnum.yellow:
@@ -161,8 +165,8 @@ export default class enemy extends cc.Component {
                 this.dieXueJi.spriteFrame = this.purpleDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.purpleDieSpfArray.length)];
                 break;
             case lib.defConfig.EnemyColorEnum.boss:
-                this.greenEff.node.scale = 1.3;
-                this.blueEff.node.scale = 1.2;
+                this.greenEff.node.scale = 1.4;
+                this.blueEff.node.scale = 1.3;
                 this._spfArr = this.BossSpfArray;
                 this.node.getComponent(cc.Sprite).spriteFrame = this.BossSpfArray[0];
                 this.dieXueJi.spriteFrame = this.YellowDieSpfArray[lib.RandomParameters.RandomParameters.getRandomInt(this.YellowDieSpfArray.length)];
@@ -177,9 +181,11 @@ export default class enemy extends cc.Component {
         {
             return;
         }
+        let tempBlock:boolean = false;
         if(type == this.Corresponding)
         {
             damage *= this.block;
+            tempBlock = true;
         }
         // switch(type){
         //     case lib.defConfig.TowerColorEnum.red:
@@ -204,14 +210,14 @@ export default class enemy extends cc.Component {
         if(type == lib.defConfig.TowerColorEnum.red)
         {
             let temp = damage * 10;
-            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.red);
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.red,tempBlock);
             this.ShowredBeat();
             this._minHp(temp);
         }
         else if(type == lib.defConfig.TowerColorEnum.green)
         {
             let temp = damage * 8;
-            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.green);
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.green,tempBlock);
             this.poison(damage * 2);
             this.greenEff.node.active = true;
             this.greenEff.play("Poison");
@@ -220,7 +226,7 @@ export default class enemy extends cc.Component {
         else if(type == lib.defConfig.TowerColorEnum.blue)
         {
             let temp = damage * 7;
-            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.blue);
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.blue,tempBlock);
             this.slowFun(this.slowRadius,1);
             this._minHp(temp);
         }
@@ -228,27 +234,29 @@ export default class enemy extends cc.Component {
         {
             let temp = damage * 15;
             this.ShowPurpleBeat();
-            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.purple);
+            this.showDamageLabel(temp,lib.defConfig.TowerColorEnum.purple,tempBlock);
             this.AOE(temp,this.AoeLength);
             // this._minHp(temp);
         }
     }
 
     aoeed(damage:number){
+        let temp:boolean = false;
         if(lib.defConfig.TowerColorEnum.purple == this.Corresponding)
         {
             damage *= this.block;
+            temp = true;
         }
-        this.showDamageLabel(damage,lib.defConfig.TowerColorEnum.purple);
+        this.showDamageLabel(damage,lib.defConfig.TowerColorEnum.purple,temp);
         this._minHp(damage);
     }
 
     //----- 私有方法 -----//
     /** 显示被击伤害label */
-    private showDamageLabel(damage:number,type:number){
+    private showDamageLabel(damage:number,type:number,isblock:boolean){
         let label = nodePool.getinstance().createDamageLabel(this.damageLabel);
         this.effectLayer.addChild(label);
-        label.getComponent(damageLabelCon).init(this.node.getPosition(),damage,type);
+        label.getComponent(damageLabelCon).init(this.node.getPosition(),damage,type,isblock);
     }
 
     /** 初始化所有被击动画组件及特殊效果计时器 */
@@ -257,6 +265,7 @@ export default class enemy extends cc.Component {
         // this.redBeat.node.opacity = 0;
         this.unschedule(this.initSlow);
         this.unschedule(this.poisionDamage);
+        this.unschedule(this.ClearXueji);
         this.initSlow();
     }
     /** 被紫塔攻击 */
@@ -266,10 +275,13 @@ export default class enemy extends cc.Component {
         eff.height = this.AoeLength * 2;
         eff.setPosition(this.node.getPosition());
         eff.zIndex -= 100;
-        this.node.parent.addChild(eff);
-        this.scheduleOnce(()=>{
-            eff.destroy();
-        },0.5);
+        if(this.node.parent)
+        {
+            this.node.parent.addChild(eff);
+            this.scheduleOnce(()=>{
+                eff.destroy();
+            },0.5);
+        }
     }
     /** 被红塔攻击 */
     private ShowredBeat(){
@@ -336,10 +348,21 @@ export default class enemy extends cc.Component {
 
     /** 中毒跳伤害 */
     private poisionDamage(){
+        if(this.isDie)
+        {
+            return;
+        }
         this.greenEff.node.active = true;
         this.greenEff.play("Poison");
-        this._minHp(this.bePoisionDamage);
-        this.showDamageLabel(this.bePoisionDamage,lib.defConfig.TowerColorEnum.green);
+        let temp:boolean = false;
+        let damage:number = this.bePoisionDamage;
+        if(lib.defConfig.TowerColorEnum.purple == this.Corresponding)
+        {
+            damage *= this.block;
+            temp = true;
+        }
+        this._minHp(damage);
+        this.showDamageLabel(damage,lib.defConfig.TowerColorEnum.green,temp);
     }
 
     /** 掉血 */
@@ -373,6 +396,9 @@ export default class enemy extends cc.Component {
         this.isDie = true;
         let _GameManager = GameManager.getinstance();
         _GameManager.addMoney(this.gold);
+        let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyLabel);
+        this.effectLayer.addChild(addmoney);
+        addmoney.getComponent(AddMoneyCon).init(this.node.getPosition(),this.gold);
         // _GameManager.delMonsterVector(this.node);
         this.runSpeed = 0;
         this.node.scale = 0.5;
@@ -394,6 +420,10 @@ export default class enemy extends cc.Component {
             console.log("过关");
             lib.msgEvent.getinstance().emit(lib.msgConfig.nextlevel,_GameManager.getLevel());
         }
+        this.scheduleOnce(this.ClearXueji,9);
+    }
+
+    private ClearXueji(){
         nodePool.getinstance().dissEnemy(this.node);
     }
 
@@ -410,6 +440,10 @@ export default class enemy extends cc.Component {
 
     //飞向某个点
     private flyToPoint(dt,pos:cc.Vec2,roundPos?:cc.Vec2){
+        if(dt > 0.09)
+        {
+            dt = 0.01;
+        }
         if(roundPos)
         {
             if(parseInt(roundPos.x.toString()) == parseInt(this.node.x.toString()))

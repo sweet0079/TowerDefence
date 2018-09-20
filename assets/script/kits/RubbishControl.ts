@@ -10,7 +10,9 @@ export default class RubbishControl extends cc.Component {
     //----- 属性声明 -----//
     //----- 生命周期 -----//
 
-    // onLoad () {}
+    onLoad () {
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.stageChange,"stageChange",this);
+    }
 
     start () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showrubbish,"ShowRubbish",this);
@@ -20,6 +22,7 @@ export default class RubbishControl extends cc.Component {
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showrubbish,"ShowRubbish",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hiderubbish,"hideRubbish",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
     }
     // update (dt) {}
     //----- 公有方法 -----//
@@ -31,4 +34,14 @@ export default class RubbishControl extends cc.Component {
         this.node.opacity = 120;
     }
     //----- 私有方法 -----//
+    private stageChange(num){
+        if(num == 0)
+        {
+            this.node.setPosition(-265,-430);
+        }
+        else
+        {
+            this.node.setPosition(-285,378);
+        }
+    }
 }

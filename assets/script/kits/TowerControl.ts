@@ -65,6 +65,7 @@ export default class TowerControl extends cc.Component {
         this.level = level;
         this.showLevel();
         this.node.setPosition(node.getPosition());
+        this.node.y += lib.defConfig.TowerInItemY;
         this.node.rotation = 0;
         if(this.towerattack)
         {
@@ -94,18 +95,22 @@ export default class TowerControl extends cc.Component {
         }
         this.showSpf();
         this.TowerNode.opacity = 255;
+        this.TowerNode.setPosition(0,0);
         this.TowerNode.scale = 1;
+        this.TowerNode.getComponent(cc.Animation).play("PutItem");
     }
     //变成鲲
     turnItem(){
         this.isItem = true;
         this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
+        this.LevelLabel.node.y = -7;
     }
 
     //变成炮塔
     turnTower(){
         this.isItem = false;
         this.showSpf();
+        this.LevelLabel.node.y = 0;
     }
 
     //获取防御塔信息
@@ -130,7 +135,7 @@ export default class TowerControl extends cc.Component {
         this.showSpf();
     }
 
-    //播放升级动画
+    //播放在合成槽中的升级动画
     play(){
         this.ComposeArr[0].getComponent(cc.Sprite).spriteFrame = this.ItemSpfArr[this.Color];
         this.ComposeArr[0].getChildByName("Level").getComponent(cc.Label).string = (this.level - 1).toString();
@@ -144,6 +149,12 @@ export default class TowerControl extends cc.Component {
         this.node.getComponent(cc.Animation).play();
     }
 
+    //播放在攻击槽中的升级动画
+    playSlotCompose(){
+        this.node.getComponent(cc.Animation).play("SlotCompose");
+    }
+
+
     //获取放置节点
     getPlaceNode(){
         return this.towerCollider.getplaceNode();
@@ -156,8 +167,18 @@ export default class TowerControl extends cc.Component {
 
     //卖出
     sell(){
-        lib.msgEvent.getinstance().emit(lib.msgConfig.sell);
+        lib.msgEvent.getinstance().emit(lib.msgConfig.sell,this.node.position);
         this.desTower();
+    }
+
+    setTowerBig(){
+        this.node.scale = 1.5;
+        this.towerattack.setRangSmall();
+    }
+
+    setTowerSmall(){
+        this.node.scale = 1;
+        this.towerattack.setRangBig();
     }
     //----- 私有方法 -----//
     //更新显示外形

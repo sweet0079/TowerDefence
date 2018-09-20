@@ -55,7 +55,7 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 2,
+      "x": 1.5,
       "y": 1.5,
       "z": 1
     },
@@ -100,7 +100,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "cexECbJkJMn4qxZ8vY7BJN"
+    "_id": "85oKte9lVKvbUKqzA3wxKc"
   },
   {
     "__type__": "cc.Animation",
@@ -126,7 +126,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "34D4829flIWrIwJ9NOBIc8"
+    "_id": "0fKlOtrS9Pq6sbYYNB6zz2"
   },
   {
     "__type__": "cc.PrefabInfo",

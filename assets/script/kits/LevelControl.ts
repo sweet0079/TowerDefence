@@ -41,7 +41,7 @@ export default class LevelControl extends cc.Component {
             this.StageNum = 1;
         }
         lib.msgEvent.getinstance().emit(lib.msgConfig.stageChange,this.StageNum);
-        this.setlevel(tempLevel,false);
+        this.FailLevel = this.setlevel(tempLevel,false);
     }
 
     onDestroy(){
@@ -57,6 +57,7 @@ export default class LevelControl extends cc.Component {
         {
             this.FailLevel = temp;
             lib.msgEvent.getinstance().emit(lib.msgConfig.showRoundLabel,this.FailLevel - 1);
+            console.log("this.FailLevel = " + this.FailLevel);
         }
     }
     //----- 公有方法 -----//
@@ -64,6 +65,10 @@ export default class LevelControl extends cc.Component {
     private setlevel(num,isShowAni:boolean = true){
         console.log("setlevel");
         let temp = 0;
+        if(this.StageNum == 1)
+        {
+            num -= (JsonManager.getinstance().getLevelobj(0).length);
+        }
         if(num >= JsonManager.getinstance().getLevelobj(this.StageNum).length - 1)
         {
             num = JsonManager.getinstance().getLevelobj(this.StageNum).length - 1;
@@ -83,6 +88,11 @@ export default class LevelControl extends cc.Component {
 
     private failsetlevel(){
         let temp = (this.FailLevel - 1) * 4;
+        if(this.StageNum == 1)
+        {
+            temp = (this.FailLevel - 1) * 5;
+            temp += JsonManager.getinstance().getLevelobj(0).length;
+        }
         GameManager.getinstance().setLevel(temp);
         lib.msgEvent.getinstance().emit(lib.msgConfig.showFailLabel);
         this.scheduleOnce(()=>{

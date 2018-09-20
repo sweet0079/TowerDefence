@@ -12,7 +12,7 @@ export default class NewClass extends cc.Component {
         // init logic
         for(let i = 0; i < this.node.children.length; i++)
         {
-            this.node.children[i].getComponent(itembase).Stage1Pos = this.node.children[i].getPosition();
+            this.node.children[i].getComponent(itembase).Stage2Pos = this.node.children[i].getPosition();
         }
     }
 }

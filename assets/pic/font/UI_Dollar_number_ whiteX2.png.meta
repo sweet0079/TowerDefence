@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "f935d859-ea62-4a47-8774-2673a74f0af6",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "UI_Dollar_number_ whiteX2": {
+      "ver": "1.0.3",
+      "uuid": "9965887b-43fd-42f2-b4e5-390aa49e6351",
+      "rawTextureUuid": "f935d859-ea62-4a47-8774-2673a74f0af6",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": -0.5,
+      "trimX": 9,
+      "trimY": 3,
+      "width": 709,
+      "height": 71,
+      "rawWidth": 726,
+      "rawHeight": 76,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

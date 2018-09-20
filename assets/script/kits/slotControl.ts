@@ -8,11 +8,15 @@ const {ccclass, property} = cc._decorator;
 export default class slotControl extends itemBase {
     //----- 编辑器属性 -----//
     /** 攻击槽显示节点 */
-    @property({tooltip:"攻击槽显示节点", type: cc.Node }) ShowNode:cc.Node = null;
+    @property({tooltip:"攻击槽显示节点", type: cc.Node }) ShowNode: cc.Node = null;
+    /** 感叹号显示节点 */
+    @property({tooltip:"感叹号显示节点", type: cc.Node }) AmazingNode: cc.Node = null;
     /** 塔基节点 */
-    @property({tooltip:"塔基节点", type: cc.Sprite }) TowerBase:cc.Sprite = null;
+    @property({tooltip:"塔基节点", type: cc.Sprite }) TowerBase: cc.Sprite = null;
     /** 塔基节点 */
     @property({tooltip:"塔基节点图片", type: [cc.SpriteFrame]}) TowerBaseSpfArr: Array<cc.SpriteFrame> = [];
+    /** 是否是额外 */
+    @property({tooltip:"是否是额外", type: cc.Boolean }) isExtral: boolean = false;
     //----- 属性声明 -----//
     //----- 生命周期 -----//
 
@@ -38,6 +42,7 @@ export default class slotControl extends itemBase {
             {
                 this.NowTowerInfo.node.getComponent(TowerControl).desTower();
                 Towercon.levelUP();
+                Towercon.playSlotCompose();
                 this.NowTowerInfo = Towercon.getTowerInfo();
                 console.log("合成成功");
                 return true;
@@ -73,11 +78,16 @@ export default class slotControl extends itemBase {
             this.ShowNode.active = false;
             this.TowerBase.node.active = true;
             this.TowerBase.spriteFrame = this.TowerBaseSpfArr[this.NowTowerInfo.Color];
+            this.AmazingNode.active = false;
         }
         else
         {
             this.ShowNode.active = true;
             this.TowerBase.node.active = false;
+            if(!this.isExtral)
+            {
+                this.AmazingNode.active = true;
+            }
         }
     }
     //----- 私有方法 -----//

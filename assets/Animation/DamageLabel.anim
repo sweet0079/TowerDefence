@@ -3,13 +3,13 @@
   "_name": "DamageLabel",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.5,
+  "_duration": 0.3333333333333333,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
     "paths": {
-      "label": {
+      "LabelLayer": {
         "props": {
           "y": [
             {
@@ -17,12 +17,22 @@
               "value": 0
             },
             {
-              "frame": 0.3333333333333333,
-              "value": 20
+              "frame": 0.25,
+              "value": 15
             },
             {
-              "frame": 0.5,
-              "value": 20
+              "frame": 0.3333333333333333,
+              "value": 15
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.16666666666666666,
+              "value": 255
             }
           ]
         }

@@ -14,6 +14,10 @@ export default class UIControl extends cc.Component {
     @property(cc.Label) Money: cc.Label = null;
     //价格label组件
     @property(cc.Label) Price: cc.Label = null;
+    //舞台数Label组件
+    @property(cc.Label) StageNum: cc.Label = null;
+    //初始等级label组件
+    @property(cc.Label) InitLevel: cc.Label = null;
     //Roundlabel组件
     @property(RoundLabelCon) RoundLabel: RoundLabelCon = null;
     //ShowLabelCon组件
@@ -55,11 +59,16 @@ export default class UIControl extends cc.Component {
     }
     //----- 公有方法 -----//
     showMoney(Num:number){
-        this.Money.string = Num.toString();
+        this.Money.string = "/" + Num.toString();
+        this.Money.getComponent(cc.Animation).play();
     }
 
     showprice(Num:number){
-        this.Price.string = "创建塔:$" + Num.toString();
+        this.Price.string = "/" + Num.toString();
+    }
+
+    showInitLevel(Num:number){
+        this.InitLevel.string = Num.toString();
     }
 
     showLevel(Num:number,totalRound:number,isShowAni:boolean = true){
@@ -67,14 +76,17 @@ export default class UIControl extends cc.Component {
         return level;
     }
     //----- 私有方法 -----//
-    private stageChange(num){
+    private stageChange(num:number){
+        this.StageNum.string = (num + 1).toString();
         if(num == 0)
         {
             this.Price.node.parent.setPosition(0,-177);
+            this.Money.node.setPosition(0,-252);
         }
         else
         {
-            this.Price.node.parent.setPosition(0,-177);
+            this.Price.node.parent.setPosition(160,-263);
+            this.Money.node.setPosition(160,-180);
         }
     }
 }

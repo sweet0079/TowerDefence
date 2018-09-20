@@ -17,6 +17,7 @@ export default class NodePoolInstance {
         this.towerPool = new cc.NodePool();
         this.damagePool = new cc.NodePool();
         this.beateffPool = new cc.NodePool();
+        this.AddMoneyPool = new cc.NodePool();
     }
 
     //敌人对象池
@@ -27,6 +28,8 @@ export default class NodePoolInstance {
     private damagePool: cc.NodePool;
     //打击特效对象池
     private beateffPool: cc.NodePool;
+    //增加金币对象池
+    private AddMoneyPool: cc.NodePool;
 
     createEnemy(enemyPrefab:cc.Prefab) {
         let enemy = null;
@@ -94,5 +97,22 @@ export default class NodePoolInstance {
     dissBeatEffect(beatEffect:cc.Node) {
         // enemy 应该是一个 cc.Node
         this.beateffPool.put(beatEffect); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
+    }
+
+    createAddMoney(addMoneyPrefab:cc.Prefab) {
+        let addMoney: cc.Node = null;
+        if (this.AddMoneyPool.size() > 0) { // 通过 size 接口判断对象池中是否有空闲的对象
+            addMoney = this.AddMoneyPool.get();
+        } else { // 如果没有空闲对象，也就是对象池中备用对象不够时，我们就用 cc.instantiate 重新创建
+            addMoney = cc.instantiate(addMoneyPrefab);
+        }
+        return addMoney;
+        // shape.parent = parentNode; // 将生成的敌人加入节点树
+        // enemy.getComponent('Enemy').init(); //接下来就可以调用 enemy 身上的脚本进行初始化
+    }
+
+    dissAddMoney(addMoney:cc.Node) {
+        // enemy 应该是一个 cc.Node
+        this.AddMoneyPool.put(addMoney); // 和初始化时的方法一样，将节点放进对象池，这个方法会同时调用节点的 removeFromParent
     }
 }

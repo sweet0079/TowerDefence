@@ -1,11 +1,12 @@
 /** 单元管理组件 */
-import * as lib from '../lib/lib'
-import itemBase from './itemBase'
-import uiCon from './UIControl'
-import TowerControl from './TowerControl'
-import GameManager from '../Manager/GameManager'
-import nodePool from '../Manager/NodePoolInstance'
-import JsonManager from '../Manager/JsonReaderManager'
+import * as lib from '../lib/lib';
+import itemBase from './itemBase';
+import uiCon from './UIControl';
+import TowerControl from './TowerControl';
+import GameManager from '../Manager/GameManager';
+import nodePool from '../Manager/NodePoolInstance';
+import JsonManager from '../Manager/JsonReaderManager';
+import AddMoneyCon from "./AddMoneyCon";
 
 const {ccclass, property} = cc._decorator;
 
@@ -20,6 +21,11 @@ export default class itemsCon extends cc.Component {
     @property([itemBase]) items: Array<itemBase> = [];
     //UI控制节点
     @property(uiCon) uiControl: uiCon = null;
+    //加钱预制体
+    @property(cc.Prefab) AddMoneyPfb: cc.Prefab = null;
+    //特效层节点
+    @property(cc.Node) effectLayer: cc.Node = null;
+    
 
     //----- 属性声明 -----//
     //建塔需要的金币
@@ -45,6 +51,7 @@ export default class itemsCon extends cc.Component {
         {
             return;
         }
+        lib.wxFun.vibrateShort();
         if(this.findisEmpty())
         {
             if(GameManager.getinstance().getAutoCompose())
@@ -79,6 +86,10 @@ export default class itemsCon extends cc.Component {
                 this.uiControl.showMoney(this._GameManager.getMoney());
             }
         }
+        else
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.itemLayervibrate);
+        }
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
@@ -91,6 +102,7 @@ export default class itemsCon extends cc.Component {
     //设定防御塔价格
     setinital(num:number){
         this.inital = num;
+        this.uiControl.showInitLevel(this.inital);
         this.levelUpLowerTower();
         lib.msgEvent.getinstance().emit(lib.msgConfig.initchange,this.inital);
     }
@@ -110,8 +122,12 @@ export default class itemsCon extends cc.Component {
         }
     }
     //----- 私有方法 -----//
-    private sell(){
+    private sell(Pos:cc.Vec2){
         this._GameManager.addMoney(this.price - 1);
+        let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyPfb);
+        this.effectLayer.addChild(addmoney);
+        Pos.y += 25;
+        addmoney.getComponent(AddMoneyCon).init(Pos,this.price - 1);
     }
     //自动合成防御塔
     private autocomposeAfterCreate(color:number,level:number){

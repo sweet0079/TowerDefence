@@ -23,7 +23,7 @@ export default class enemysCon extends cc.Component {
     private PointsVector2: Array<_kits.Enemy.Point> = [];
     //----- 生命周期 -----//
     onLoad () {
-        var url = "test2";
+        var url = "test";
         var _type = cc.RawAsset;
         cc.loader.loadRes(url, _type,(err, res) =>{
             cc.log(res);

@@ -26,7 +26,8 @@
       "y": [
         {
           "frame": 0,
-          "value": -15
+          "value": -15,
+          "curve": "quartOut"
         },
         {
           "frame": 0.3333333333333333,

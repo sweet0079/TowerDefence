@@ -52,6 +52,11 @@ export default class LevelControl extends cc.Component {
     //----- 事件回调 -----//
     private nextlevel(num){
         console.log("nextlevel");
+        if(num >= JsonManager.getinstance().getLevelobj(0).length)
+        {   
+            this.StageNum = 1;
+        }
+        lib.msgEvent.getinstance().emit(lib.msgConfig.stageChange,this.StageNum);
         let temp = this.setlevel(num);
         if(this.FailLevel != temp)
         {
@@ -62,6 +67,7 @@ export default class LevelControl extends cc.Component {
     }
     //----- 公有方法 -----//
     //----- 私有方法 -----//
+
     private setlevel(num,isShowAni:boolean = true){
         console.log("setlevel");
         let temp = 0;
@@ -73,9 +79,9 @@ export default class LevelControl extends cc.Component {
         {
             num = JsonManager.getinstance().getLevelobj(this.StageNum).length - 1;
         }
-        this.itemsControl.setAct(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].Upgrade));
+        // this.itemsControl.setAct(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].Upgrade));
         this.itemsControl.setprice(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].TowerGold));
-        this.itemsControl.setinital(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].initial));
+        // this.itemsControl.setinital(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].initial));
         this.slotsControl.setAct(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].TowerQuantity));
         this.enemysControl.startCreate(parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].Quantity),
                                         parseInt(JsonManager.getinstance().getLevelobj(this.StageNum)[num].GetGold),

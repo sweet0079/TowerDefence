@@ -32,15 +32,26 @@ export default class itemBase extends cc.Component {
     //----- 公有方法 -----//
     setNowTowerInfo(info:_kits.Item.TowerInfo){
         this.NowTowerInfo = info;
+        cc.sys.localStorage.setItem(this.node.name + "Level", info.Level.toString());
+        cc.sys.localStorage.setItem(this.node.name + "Color", info.Color.toString());
+    }
+
+    cleanNowTowerInfo(){
+        this.NowTowerInfo = null;
+        cc.sys.localStorage.setItem(this.node.name + "Level", "null");
+        cc.sys.localStorage.setItem(this.node.name + "Color", "null");
     }
     getNowTowerInfo(){
         return this.NowTowerInfo;
     }
     putTower(Tower:cc.Node){
+
     }
     delTower(){
+
     }
     levelUP(){
+
     }
     isEmpty(){
         if(this.NowTowerInfo == null)
@@ -56,7 +67,7 @@ export default class itemBase extends cc.Component {
         
     }
     //----- 私有方法 -----//
-    private stageChange(num){
+    protected stageChange(num){
         if(num == 0)
         {
             this.node.setPosition(this.Stage1Pos);

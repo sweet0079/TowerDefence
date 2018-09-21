@@ -29,5 +29,7 @@ export const EnemyColorEnum = cc.Enum({
     // 长度
     length: -1,
 });
-
+//塔在合成槽内上移的距离
 export const TowerInItemY = 5;
+//初始合成槽位
+export const OriginalItemNum = 5;

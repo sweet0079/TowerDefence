@@ -34,6 +34,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showGroupLabel,"showGroupNum",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showRoundLabel,"showRoundLabel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
 
@@ -43,15 +44,24 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showRoundLabel,"showRoundLabel",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
     }
     //----- 按钮回调 -----//
+    clickMoney(){
+        GameManager.getinstance().pause();
+    }
     //----- 事件回调 -----//
+    ShowlevelUp(){
+        this.ShowLabelCon.playTreausre();
+    }
+
     showFailLabel(){
         this.ShowLabelCon.Fail();
     }
 
     showRoundLabel(num:number){
         this.ShowLabelCon.playRoundNum(num);
+        this.RoundLabel.showBossExpAni();
     }
 
     showGroupNum(num:number){

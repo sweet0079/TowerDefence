@@ -4,6 +4,7 @@ import itemBase from './itemBase';
 import uiCon from './UIControl';
 import TowerControl from './TowerControl';
 import GameManager from '../Manager/GameManager';
+import PropManager from '../Manager/PropManager';
 import nodePool from '../Manager/NodePoolInstance';
 import JsonManager from '../Manager/JsonReaderManager';
 import AddMoneyCon from "./AddMoneyCon";
@@ -34,8 +35,10 @@ export default class itemsCon extends cc.Component {
     private inital:number = 1;
     private _GameManager = GameManager.getinstance();
     //----- 生命周期 -----//
-    // onLoad () {
-        // JsonManager.getinstance();}
+    onLoad () {
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
+    }
 
     start () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.sell,"sell",this);
@@ -43,6 +46,8 @@ export default class itemsCon extends cc.Component {
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.sell,"sell",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
     }
     // update (dt) {}
     //----- 按钮回调 -----//
@@ -54,7 +59,7 @@ export default class itemsCon extends cc.Component {
         lib.wxFun.vibrateShort();
         if(this.findisEmpty())
         {
-            if(GameManager.getinstance().getAutoCompose())
+            if(PropManager.getinstance().getAutoCompose())
             {
                 let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
                 if(!this.autocomposeAfterCreate(color,this.inital))
@@ -99,7 +104,7 @@ export default class itemsCon extends cc.Component {
         this.uiControl.showprice(this.price);
     }
 
-    //设定防御塔价格
+    //设定防御塔等级
     setinital(num:number){
         this.inital = num;
         this.uiControl.showInitLevel(this.inital);
@@ -122,6 +127,14 @@ export default class itemsCon extends cc.Component {
         }
     }
     //----- 私有方法 -----//
+    private extralItemNumChange(){
+        this.setAct(lib.defConfig.OriginalItemNum + PropManager.getinstance().getExtralItemNum());
+    }
+
+    private initalTowerLevelChange(){
+        this.setinital(PropManager.getinstance().getInitalTowerLevel());
+    }
+
     private sell(Pos:cc.Vec2){
         this._GameManager.addMoney(this.price - 1);
         let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyPfb);

@@ -29,7 +29,7 @@ export default class slotControl extends itemBase {
     // update (dt) {}
     //----- 公有方法 -----//
     setNowTowerInfo(info:_kits.Item.TowerInfo){
-        this.NowTowerInfo = info;
+        super.setNowTowerInfo(info);
         this.show();
     }
 
@@ -91,4 +91,19 @@ export default class slotControl extends itemBase {
         }
     }
     //----- 私有方法 -----//
+    protected stageChange(num){
+        super.stageChange(num);
+        if(this.NowTowerInfo)
+        {
+            if(this.node.active)
+            {
+                this.NowTowerInfo.node.setPosition(this.node.getPosition());
+            }
+            else
+            {
+                this.NowTowerInfo.node.getComponent(TowerControl).desTower();
+                this.delTower();
+            }
+        }
+    }
 }

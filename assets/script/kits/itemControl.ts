@@ -1,4 +1,5 @@
 /** 单个单元的控制组件的子类 */
+import * as lib from '../lib/lib'
 import TowerControl from './TowerControl'
 import itemBase from './itemBase'
 
@@ -30,7 +31,7 @@ export default class itemControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).desTower();
                 Towercon.levelUP();
                 Towercon.play();
-                this.NowTowerInfo = Towercon.getTowerInfo();
+                this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("合成成功");
                 return true;
             }
@@ -65,4 +66,12 @@ export default class itemControl extends itemBase {
         this.NowTowerInfo = null;
     }
     //----- 私有方法 -----//
+    protected stageChange(num){
+        super.stageChange(num);
+        if(this.NowTowerInfo)
+        {
+            this.NowTowerInfo.node.setPosition(this.node.getPosition());
+            this.NowTowerInfo.node.y += lib.defConfig.TowerInItemY;
+        }
+    }
 }

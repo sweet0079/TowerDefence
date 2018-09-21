@@ -23,6 +23,8 @@ export default class ShowLabelControl extends cc.Component {
     @property([cc.SpriteFrame]) RoundNumSpfArr: Array<cc.SpriteFrame> = [];
     //失败Animation组件
     @property(cc.Animation) FailAnimation: cc.Animation = null;
+    //宝箱组件
+    @property(sp.Skeleton) Treasure: sp.Skeleton = null;
     //----- 属性声明 -----//
     
     //----- 生命周期 -----//
@@ -31,6 +33,9 @@ export default class ShowLabelControl extends cc.Component {
     start () {
         this.RoundAnimation.on('finished',this.hideRoundNode,this);
         this.FailAnimation.on('finished',this.hideFailNode,this);
+        this.Treasure.setEndListener(()=>{
+            
+        });
     }
 
     // update (dt) {}
@@ -40,6 +45,11 @@ export default class ShowLabelControl extends cc.Component {
         this.FailAnimation.off('finished',this.hideFailNode,this);
     }
     //----- 公有方法 -----//
+    playTreausre(){
+        this.Treasure.setToSetupPose();
+        this.Treasure.node.parent.active = true;
+    }
+
     playGroupNum(num)
     {
         this.GroupNum.spriteFrame = this.GroupNumSpfArr[num];

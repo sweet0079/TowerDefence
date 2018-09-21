@@ -10,10 +10,12 @@ export default class RoundLabelControl extends cc.Component {
     @property(cc.Sprite) levelLabel: cc.Sprite = null;
     //关卡数label图集
     @property([cc.SpriteFrame]) levelLabelSpfArr: Array<cc.SpriteFrame> = [];
-    //关卡数label精度条
+    //关卡数label进度条
     @property(cc.Sprite) levelLabelBack: cc.Sprite = null;
     //钩Node节点
     @property(cc.Node) GouNode: cc.Node = null;
+    //ExpStar Node节点
+    @property(cc.Node) ExpStar: cc.Node = null;
     //levelBackNode节点
     @property(cc.Node) levelBackNode: cc.Node = null;
     //关卡点组件
@@ -44,6 +46,18 @@ export default class RoundLabelControl extends cc.Component {
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
     //----- 公有方法 -----//
+    showBossExpAni(){
+        this.ExpStar.setPosition(this.bosslevelnode.node.getPosition());
+        let starJumpaction = cc.spawn(cc.jumpTo(0.5,-258,10,-100,1),cc.scaleTo(0.5,0.3));
+        let staraction = cc.sequence(starJumpaction,cc.callFunc(()=>{
+            lib.msgEvent.getinstance().emit(lib.msgConfig.addExp,2);
+            this.ExpStar.active = false;
+        }));
+        this.ExpStar.active = true;
+        this.ExpStar.scale = 0.75;
+        this.ExpStar.runAction(staraction);
+    }
+
     showLevel(Num:number,totalRound:number,isShowAni:boolean = true){
         let level:number = parseInt((Num / 10000).toString());//大关
         let round:number = parseInt((Num % 10000).toString());//波
@@ -54,14 +68,23 @@ export default class RoundLabelControl extends cc.Component {
             if(i == round - 2)
             {
                 gouMove = cc.moveTo(0.5,this.activeLevelNodeArr[i].getPosition().x,1);
+                this.ExpStar.setPosition(this.activeLevelNodeArr[i].getPosition());
             }
         }
         if(gouMove && isShowAni)
         {
+            let starJumpaction = cc.spawn(cc.jumpTo(0.5,-258,10,-100,1),cc.scaleTo(0.5,0.3));
+            let staraction = cc.sequence(starJumpaction,cc.callFunc(()=>{
+                lib.msgEvent.getinstance().emit(lib.msgConfig.addExp,2);
+                this.ExpStar.active = false;
+            }));
             this.GouNode.setPosition(0,-410);
             this.GouNode.scale = 1;
             this.GouNode.active = true;
             let Gouspawn = cc.spawn(cc.scaleTo(0.5,0.15),cc.callFunc(()=>{
+                this.ExpStar.active = true;
+                this.ExpStar.scale = 0.75;
+                this.ExpStar.runAction(staraction);
                 this.updateLabel(level,round);
                 this.scheduleOnce(()=>{
                     lib.msgEvent.getinstance().emit(lib.msgConfig.showGroupLabel,round - 1);

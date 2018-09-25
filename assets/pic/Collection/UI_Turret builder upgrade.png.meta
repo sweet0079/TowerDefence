@@ -6,7 +6,7 @@
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "UI_Turret builder upgrade_78": {
+    "UI_Turret builder upgrade": {
       "ver": "1.0.3",
       "uuid": "618d241a-a1c3-48d4-beaa-20a7c6b224f0",
       "rawTextureUuid": "1ac85244-693d-4d00-8577-64d95f102d4d",
@@ -17,10 +17,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 250,
-      "height": 198,
-      "rawWidth": 250,
-      "rawHeight": 198,
+      "width": 160,
+      "height": 127,
+      "rawWidth": 160,
+      "rawHeight": 127,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

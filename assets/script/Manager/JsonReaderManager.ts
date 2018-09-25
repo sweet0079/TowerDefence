@@ -40,7 +40,7 @@ export default class JsonReaderManager {
     }
 
     readLevelJson(){
-        var url = "level";
+        var url = "level1";
         var _type = cc.RawAsset;
         cc.loader.loadRes(url, _type,(err, res) =>{
             cc.log(res);

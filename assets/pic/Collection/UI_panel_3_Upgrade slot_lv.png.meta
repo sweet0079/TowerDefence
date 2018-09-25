@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+  "uuid": "3add1217-7c54-4999-94ee-ed3c57af0e6a",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "UI_panel_3_Upgrade slot_1": {
+    "UI_panel_3_Upgrade slot_lv": {
       "ver": "1.0.3",
-      "uuid": "17815c57-7f93-4cf6-bdaa-df2821fb9099",
-      "rawTextureUuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+      "uuid": "93e5aa23-1356-4293-b832-6b76d4c9f71e",
+      "rawTextureUuid": "3add1217-7c54-4999-94ee-ed3c57af0e6a",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

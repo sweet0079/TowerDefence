@@ -29,7 +29,22 @@ export const EnemyColorEnum = cc.Enum({
     // 长度
     length: -1,
 });
+
+/** 卡牌类型枚举 */
+export const CardTypeEnum = cc.Enum({
+    // 塔初始等级
+    initTower: -1,
+    // 额外合成槽
+    extralItem: -1,
+    // 自动合成
+    autoCompose: -1,
+    // 钱
+    money: -1,
+    // 长度
+    length: -1,
+});
+
 //塔在合成槽内上移的距离
 export const TowerInItemY = 5;
 //初始合成槽位
-export const OriginalItemNum = 5;
+export const OriginalItemNum = 9;

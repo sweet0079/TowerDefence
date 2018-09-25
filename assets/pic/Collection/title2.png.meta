@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+  "uuid": "3a768a54-d080-4eff-884c-7500d8a3d504",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "UI_panel_3_Upgrade slot_1": {
+    "title2": {
       "ver": "1.0.3",
-      "uuid": "17815c57-7f93-4cf6-bdaa-df2821fb9099",
-      "rawTextureUuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+      "uuid": "75a8a55e-a36d-45ed-8653-fe14d1822adf",
+      "rawTextureUuid": "3a768a54-d080-4eff-884c-7500d8a3d504",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -17,14 +17,14 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 136,
-      "height": 30,
-      "rawWidth": 136,
-      "rawHeight": 30,
+      "width": 431,
+      "height": 78,
+      "rawWidth": 431,
+      "rawHeight": 78,
       "borderTop": 0,
       "borderBottom": 0,
-      "borderLeft": 16,
-      "borderRight": 16,
+      "borderLeft": 0,
+      "borderRight": 0,
       "subMetas": {}
     }
   }

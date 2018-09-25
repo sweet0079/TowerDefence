@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+  "uuid": "d1c8dac8-35cc-4d4d-a029-63d595c18301",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "UI_panel_3_Upgrade slot_1": {
+    "UI_Settlement_money": {
       "ver": "1.0.3",
-      "uuid": "17815c57-7f93-4cf6-bdaa-df2821fb9099",
-      "rawTextureUuid": "b4b2f067-1a09-4a02-b368-4a57f55166ae",
+      "uuid": "18b15a24-b9f4-492d-8c41-f0f451967056",
+      "rawTextureUuid": "d1c8dac8-35cc-4d4d-a029-63d595c18301",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -17,14 +17,14 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 136,
-      "height": 30,
-      "rawWidth": 136,
-      "rawHeight": 30,
+      "width": 125,
+      "height": 95,
+      "rawWidth": 125,
+      "rawHeight": 95,
       "borderTop": 0,
       "borderBottom": 0,
-      "borderLeft": 16,
-      "borderRight": 16,
+      "borderLeft": 0,
+      "borderRight": 0,
       "subMetas": {}
     }
   }

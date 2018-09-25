@@ -48,10 +48,6 @@ declare namespace _kits.JSON {
         HP: string,
         /** 炮塔槽数量 */
         TowerQuantity: string,
-        /** 升级槽数量 */
-        Upgrade: string,
-        /** 塔初始等级 */
-        initial: string,
     }
     interface Enemy {
         /** 移动速度 */

@@ -27,6 +27,18 @@ export default class PropManager {
             tempExtralItemNum = 0;
         }
         this.ExtralItemNum = tempExtralItemNum;
+        let tempinitalTowerlFragment:number = parseInt(cc.sys.localStorage.getItem('initalTowerlFragment'));
+        if(!tempinitalTowerlFragment)
+        {
+            tempinitalTowerlFragment = 0;
+        }
+        this.initalTowerlFragment = tempinitalTowerlFragment;
+        let tempExtralItemFragment:number = parseInt(cc.sys.localStorage.getItem('ExtralItemFragment'));
+        if(!tempExtralItemFragment)
+        {
+            tempExtralItemFragment = 0;
+        }
+        this.ExtralItemFragment = tempExtralItemFragment;
         lib.msgEvent.getinstance().emit(lib.msgConfig.extralItemNumChange);
         lib.msgEvent.getinstance().emit(lib.msgConfig.initalTowerLevelChange);
     }
@@ -34,6 +46,8 @@ export default class PropManager {
     private isAutoCompose:boolean = false;
     private initalTowerLevel: number;
     private ExtralItemNum: number;
+    private initalTowerlFragment: number;
+    private ExtralItemFragment: number;
 
     /** 自动合成相关 */
     //设置自动合成标识
@@ -46,6 +60,30 @@ export default class PropManager {
         return this.isAutoCompose;
     }
 
+    /** 初始塔等级碎片相关 */
+    //设置初始塔碎片
+    addInitalTowerlFragment(num:number){
+        this.initalTowerlFragment += num;
+        cc.sys.localStorage.setItem('initalTowerlFragment', this.initalTowerlFragment.toString());
+    }
+
+    //获取初始塔碎片
+    getInitalTowerlFragment(){
+        return this.initalTowerlFragment;
+    }
+    
+    /** 额外合成槽碎片相关 */
+    //设置初始塔碎片
+    addExtralItemFragment(num:number){
+        this.ExtralItemFragment += num;
+        cc.sys.localStorage.setItem('ExtralItemFragment', this.ExtralItemFragment.toString());
+    }
+
+    //获取初始塔碎片
+    getExtralItemFragment(){
+        return this.ExtralItemFragment;
+    }
+    
     /** 初始塔等级相关 */
     //设置初始塔等级
     setInitalTowerLevel(num:number){

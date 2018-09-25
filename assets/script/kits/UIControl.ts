@@ -22,6 +22,8 @@ export default class UIControl extends cc.Component {
     @property(RoundLabelCon) RoundLabel: RoundLabelCon = null;
     //ShowLabelCon组件
     @property(ShowLabelCon) ShowLabelCon: ShowLabelCon = null;
+    //Collection组件
+    @property(cc.Node) Collection: cc.Node = null;
     //----- 属性声明 -----//
     // private activeLevelNodeArr:Array<cc.Node> = [];
     //----- 生命周期 -----//
@@ -49,6 +51,14 @@ export default class UIControl extends cc.Component {
     //----- 按钮回调 -----//
     clickMoney(){
         GameManager.getinstance().pause();
+    }
+
+    clickCollection(){
+        this.Collection.active = true;
+    }
+
+    closeCollection(){
+        this.Collection.active = false;
     }
     //----- 事件回调 -----//
     ShowlevelUp(){

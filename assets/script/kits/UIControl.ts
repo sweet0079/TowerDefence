@@ -3,6 +3,7 @@ import * as lib from '../lib/lib';
 import RoundLabelCon from './RoundLabelControl';
 import GameManager from '../Manager/GameManager';
 import ShowLabelCon from './ShowLabelControl';
+import ShareControl from './ShareControl';
 
 const {ccclass, property} = cc._decorator;
 
@@ -24,6 +25,10 @@ export default class UIControl extends cc.Component {
     @property(ShowLabelCon) ShowLabelCon: ShowLabelCon = null;
     //Collection组件
     @property(cc.Node) Collection: cc.Node = null;
+    //齿轮
+    @property(cc.Node) Chilun: cc.Node = null;
+    //Share
+    @property(ShareControl) Share: ShareControl = null;
     //----- 属性声明 -----//
     // private activeLevelNodeArr:Array<cc.Node> = [];
     //----- 生命周期 -----//
@@ -37,6 +42,8 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showRoundLabel,"showRoundLabel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showChilun,"showChilun",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideChilun,"hideChilun",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
 
@@ -47,12 +54,10 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showChilun,"showChilun",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideChilun,"hideChilun",this);
     }
     //----- 按钮回调 -----//
-    clickMoney(){
-        GameManager.getinstance().pause();
-    }
-
     clickCollection(){
         this.Collection.active = true;
     }
@@ -60,7 +65,25 @@ export default class UIControl extends cc.Component {
     closeCollection(){
         this.Collection.active = false;
     }
+
+    clickShare(event, customEventData){
+        let temp = parseInt(customEventData);
+        this.Share.node.active = true;
+        this.Share.init(temp);
+    }
+
+    closeShare(){
+        this.Share.node.active = false;
+    }
     //----- 事件回调 -----//
+    showChilun(){
+        this.Chilun.active = true;
+    }
+
+    hideChilun(){
+        this.Chilun.active = false;
+    }
+
     ShowlevelUp(){
         this.ShowLabelCon.playTreausre();
     }

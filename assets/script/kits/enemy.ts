@@ -5,6 +5,7 @@ import nodePool from '../Manager/NodePoolInstance';
 import GameManager from '../Manager/GameManager';
 import JsonManager from '../Manager/JsonReaderManager';
 import AddMoneyCon from "./AddMoneyCon";
+import PropManager from '../Manager/PropManager';
 
 const {ccclass, property} = cc._decorator;
 
@@ -356,7 +357,7 @@ export default class enemy extends cc.Component {
         this.greenEff.play("Poison");
         let temp:boolean = false;
         let damage:number = this.bePoisionDamage;
-        if(lib.defConfig.TowerColorEnum.purple == this.Corresponding)
+        if(lib.defConfig.TowerColorEnum.green == this.Corresponding)
         {
             damage *= this.block;
             temp = true;
@@ -395,10 +396,15 @@ export default class enemy extends cc.Component {
     private die(){
         this.isDie = true;
         let _GameManager = GameManager.getinstance();
-        _GameManager.addMoney(this.gold);
+        let money = this.gold;
+        if(PropManager.getinstance().getIsDoubleMoney())
+        {
+            money = this.gold * 2;
+        }
+        _GameManager.addMoney(money);
         let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyLabel);
         this.effectLayer.addChild(addmoney);
-        addmoney.getComponent(AddMoneyCon).init(this.node.getPosition(),this.gold);
+        addmoney.getComponent(AddMoneyCon).init(this.node.getPosition(),money);
         // _GameManager.delMonsterVector(this.node);
         this.runSpeed = 0;
         this.node.scale = 0.5;

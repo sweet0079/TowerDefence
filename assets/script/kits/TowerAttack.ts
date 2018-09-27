@@ -3,6 +3,7 @@ import * as lib from '../lib/lib'
 import GameManager from '../Manager/GameManager'
 import enemyControl from './enemy'
 import JsonManager from '../Manager/JsonReaderManager'
+import PropManager from '../Manager/PropManager';
 
 const {ccclass, property} = cc._decorator;
 
@@ -36,7 +37,14 @@ export default class TowerAttack extends cc.Component {
     }
 
     update(dt) {
-        this.time += dt;
+        if(PropManager.getinstance().getIsDoubleSpeed())
+        {
+            this.time += dt * 2;
+        }
+        else
+        {
+            this.time += dt;
+        }
         if(this.time > this.speed)
         {
             this.time = 0;
@@ -65,8 +73,11 @@ export default class TowerAttack extends cc.Component {
     init(type:number){
         this.type = type;
         let obj = JsonManager.getinstance().getTowerobj()[this.type];
-        this.range = parseInt(obj.range);
-        this.speed = 1 / parseInt(obj.speed);
+        // if(obj)
+        {
+            this.range = parseInt(obj.range);
+            this.speed = 1 / parseInt(obj.speed);
+        }
         this.time = 0;
         this.node.stopActionByTag(100);
         this.node.stopActionByTag(101);

@@ -42,14 +42,14 @@ export default class itemControl extends itemBase {
                 placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
-                this.NowTowerInfo = Towercon.getTowerInfo();
+                this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("交换");
                 return false;
             }
         }
         else
         {
-            this.NowTowerInfo = Towercon.getTowerInfo();
+            this.setNowTowerInfo(Towercon.getTowerInfo());
             console.log("移动成功");
             return true;
         }
@@ -58,12 +58,13 @@ export default class itemControl extends itemBase {
     levelUP(){
         let Towercon = this.NowTowerInfo.node.getComponent(TowerControl);
         Towercon.levelUP();
+        Towercon.play();
         let newTowerInfo = Towercon.getTowerInfo();
-        this.NowTowerInfo = newTowerInfo;
+        this.setNowTowerInfo(newTowerInfo);
     }
 
     delTower(){
-        this.NowTowerInfo = null;
+        this.cleanNowTowerInfo();
     }
     //----- 私有方法 -----//
     protected stageChange(num){

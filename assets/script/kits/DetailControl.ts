@@ -34,33 +34,57 @@ export default class DetailControl extends cc.Component {
     @property(cc.Sprite) WenziSpr: cc.Sprite = null;
     //文字精灵图集
     @property([cc.SpriteFrame]) WenziSpfArr: Array<cc.SpriteFrame> = [];
+    //升级按钮节点
+    @property(cc.Node) LevelUpBtn: cc.Node = null;
+    //价格label
+    @property(cc.Label) priceLabel: cc.Label = null;
     //----- 属性声明 -----//
-    
+    private Detailtype = 0;
     //----- 生命周期 -----//
     // onLoad () {}
 
     start () {
-
     }
 
     // update (dt) {}
     //----- 按钮回调 -----//
+    clcikLevelUp(){
+        switch(this.Detailtype)
+        {
+            case 0:
+                PropManager.getinstance().addInitalTowerLevel(1);
+                PropManager.getinstance().addInitalTowerlFragment(-3);
+                this.init(0);
+                break;
+            case 1:
+                PropManager.getinstance().addExtralItemNum(1);
+                PropManager.getinstance().addExtralItemFragment(-3);
+                this.init(1);
+                break;
+            default:
+                break;
+        }   
+    }
     //----- 公有方法 -----//
     init(type:number){
+        this.Detailtype = type;
         this.LogoSpr.spriteFrame = this.LogoSpfArr[type];
         this.TitleSpr.spriteFrame = this.TitleSpfArr[type];
         this.WenziSpr.spriteFrame = this.WenziSpfArr[type];
         switch(type)
         {
             case 0:
+                let lv0 = PropManager.getinstance().getInitalTowerLevel();
                 this.progressBar.node.active = true;
-                this.LevelNum.string = PropManager.getinstance().getInitalTowerLevel().toString();
+                this.LevelNum.string = lv0.toString();
                 this.progressBarNum.string = PropManager.getinstance().getInitalTowerlFragment().toString() + "/3";
                 if(PropManager.getinstance().getInitalTowerlFragment() >= 3)
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
                     this.progressBar.progress = 1;
+                    this.LevelUpBtn.active = true;
+                    this.priceLabel.string = ((lv0 - 1) * 50).toString();
                 }
                 else
                 {
@@ -68,17 +92,21 @@ export default class DetailControl extends cc.Component {
                     this.ArrowNode.active = false;
                     this.progressBar.progress = PropManager.getinstance().getInitalTowerlFragment() / 3;
                     this.NeedNum.string = (3 - PropManager.getinstance().getInitalTowerlFragment()).toString();
+                    this.LevelUpBtn.active = false;
                 }
                 break;
             case 1:
+                let lv1 = PropManager.getinstance().getExtralItemNum() + 1;
                 this.progressBar.node.active = true;
-                this.LevelNum.string = (PropManager.getinstance().getExtralItemNum() + 1).toString();
+                this.LevelNum.string = (lv1).toString();
                 this.progressBarNum.string = PropManager.getinstance().getExtralItemFragment().toString() + "/3";
                 if(PropManager.getinstance().getExtralItemFragment() >= 3)
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
                     this.progressBar.progress = 1;
+                    this.LevelUpBtn.active = true;
+                    this.priceLabel.string = ((lv1 - 1) * 50).toString();
                 }
                 else
                 {
@@ -86,6 +114,7 @@ export default class DetailControl extends cc.Component {
                     this.ArrowNode.active = false;
                     this.progressBar.progress = PropManager.getinstance().getExtralItemFragment() / 3;
                     this.NeedNum.string = (3 - PropManager.getinstance().getExtralItemFragment()).toString();
+                    this.LevelUpBtn.active = false;
                 }
                 break;
             default:

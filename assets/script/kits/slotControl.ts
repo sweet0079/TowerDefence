@@ -43,7 +43,7 @@ export default class slotControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).desTower();
                 Towercon.levelUP();
                 Towercon.playSlotCompose();
-                this.NowTowerInfo = Towercon.getTowerInfo();
+                this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("合成成功");
                 return true;
             }
@@ -54,14 +54,14 @@ export default class slotControl extends itemBase {
                 placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
-                this.NowTowerInfo = Towercon.getTowerInfo();
+                this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("交换");
                 return false;
             }
         }
         else
         {
-            this.NowTowerInfo = Tower.getComponent(TowerControl).getTowerInfo();
+            this.setNowTowerInfo(Tower.getComponent(TowerControl).getTowerInfo());
             this.ShowNode.active = false;
             console.log("移动成功");
             return true;
@@ -69,7 +69,7 @@ export default class slotControl extends itemBase {
     }
 
     delTower(){
-        this.NowTowerInfo = null;
+        this.cleanNowTowerInfo();
     }
 
     show(){

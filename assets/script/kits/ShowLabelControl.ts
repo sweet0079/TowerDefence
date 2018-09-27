@@ -111,6 +111,7 @@ export default class ShowLabelControl extends cc.Component {
                 PropManager.getinstance().addExtralItemFragment(1);
                 break;
             case lib.defConfig.CardTypeEnum.autoCompose:
+                lib.msgEvent.getinstance().emit(lib.msgConfig.addComposeTime,300);
                 break;
             case lib.defConfig.CardTypeEnum.money:
                 GameManager.getinstance().addMoney(120);

@@ -25,4 +25,13 @@ export default {
     addExp: 'addExperience',
     //升级
     levelUp: 'LevelUp',
+    //自动升级
+    autoCompose: 'AutoCompose',
+    //自动升级时间增加
+    addComposeTime: 'addComposeTime',
+    //显示齿轮
+    showChilun: 'ShowChilun',
+    //隐藏齿轮
+    hideChilun: 'HideChilun',
+    
 }

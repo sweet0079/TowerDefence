@@ -44,10 +44,34 @@ export default class PropManager {
     }
 
     private isAutoCompose:boolean = false;
+    private isDoubleSpeed:boolean = false;
+    private isDoubleMoney:boolean = false;
     private initalTowerLevel: number;
     private ExtralItemNum: number;
     private initalTowerlFragment: number;
     private ExtralItemFragment: number;
+
+    /** 双倍攻速相关 */
+    //设置自动合成标识
+    setIsDoubleSpeed(flag:boolean){
+        this.isDoubleSpeed = flag;
+    }
+
+    //获取自动合成标识
+    getIsDoubleSpeed(){
+        return this.isDoubleSpeed;
+    }
+
+    /** 双倍金币相关 */
+    //设置自动合成标识
+    setIsDoubleMoney(flag:boolean){
+        this.isDoubleMoney = flag;
+    }
+
+    //获取自动合成标识
+    getIsDoubleMoney(){
+        return this.isDoubleMoney;
+    }
 
     /** 自动合成相关 */
     //设置自动合成标识
@@ -86,8 +110,8 @@ export default class PropManager {
     
     /** 初始塔等级相关 */
     //设置初始塔等级
-    setInitalTowerLevel(num:number){
-        this.initalTowerLevel = num;
+    addInitalTowerLevel(num:number){
+        this.initalTowerLevel += num;
         cc.sys.localStorage.setItem('initalTowerLevel', this.initalTowerLevel.toString());
         lib.msgEvent.getinstance().emit(lib.msgConfig.initalTowerLevelChange);
     }
@@ -99,8 +123,8 @@ export default class PropManager {
     
     /** 额外合成槽位相关 */
     //设置额外合成槽位
-    setExtralItemNum(num:number){
-        this.ExtralItemNum = num;
+    addExtralItemNum(num:number){
+        this.ExtralItemNum += num;
         cc.sys.localStorage.setItem('ExtralItemNum', this.ExtralItemNum.toString());
         lib.msgEvent.getinstance().emit(lib.msgConfig.extralItemNumChange);
     }

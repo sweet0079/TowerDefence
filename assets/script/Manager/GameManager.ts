@@ -17,7 +17,7 @@ export default class GameManager {
         let tempmoney:number = parseInt(cc.sys.localStorage.getItem('money'));
         if(!tempmoney)
         {
-            tempmoney = 4;
+            tempmoney = 16;
         }
         this.money = tempmoney;
         // this.money = 4;

@@ -35,6 +35,8 @@ export default class LevelControl extends cc.Component {
     }
     
     start () {
+        lib.wxFun.showShareMenu();
+        lib.wxFun.onShareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg");
         let tempLevel = GameManager.getinstance().getLevel();
         if(tempLevel >= JsonManager.getinstance().getLevelobj(0).length)
         {   

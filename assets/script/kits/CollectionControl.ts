@@ -28,7 +28,7 @@ export default class CollectionControl extends cc.Component {
     onEnable(){
         this.CardArr[0].init(lib.defConfig.CardTypeEnum.initTower);
         this.CardArr[1].init(lib.defConfig.CardTypeEnum.extralItem);
-        this.MoneyLabel.string = GameManager.getinstance().getMoney().toString();
+        this.MoneyLabel.string = "/" + GameManager.getinstance().getMoney().toString();
         this.detailLayer.node.active = false;
         this.AllCardLayer.active = true;
     }

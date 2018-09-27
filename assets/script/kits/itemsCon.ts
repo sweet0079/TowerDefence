@@ -38,20 +38,25 @@ export default class itemsCon extends cc.Component {
     onLoad () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.autoCompose,"autocompose",this);
     }
 
     start () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.sell,"sell",this);
+        // this.scheduleOnce(this.loadStorage,0.5);
+        this.loadStorage();
     }
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.sell,"sell",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.autoCompose,"autocompose",this);
     }
     // update (dt) {}
     //----- 按钮回调 -----//
     createTower(){
+        console.log("createTower");
         if(this.price > this._GameManager.getMoney())
         {
             return;
@@ -62,6 +67,10 @@ export default class itemsCon extends cc.Component {
             if(PropManager.getinstance().getAutoCompose())
             {
                 let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+                if(color > this._GameManager.getLevel())
+                {
+                    color = lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1);
+                }
                 if(!this.autocomposeAfterCreate(color,this.inital))
                 {
                     let tower = nodePool.getinstance().createTower(this.towerPfb);
@@ -75,11 +84,24 @@ export default class itemsCon extends cc.Component {
                     this._GameManager.addMoney(-this.price);
                     this.uiControl.showMoney(this._GameManager.getMoney());
                 }
+                else
+                {
+                    this.scheduleOnce(()=>{
+                        if(PropManager.getinstance().getAutoCompose())
+                        {
+                            lib.msgEvent.getinstance().emit(lib.msgConfig.autoCompose);
+                        }
+                    },0.5);
+                }
             }
             else
             {
                 let tower = nodePool.getinstance().createTower(this.towerPfb);
                 let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+                if(color > this._GameManager.getLevel())
+                {
+                    color = lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1);
+                }
                 // let color = lib.defConfig.TowerColorEnum.red;
                 let level = this.inital;
                 tower.parent = this.towerLayer;
@@ -127,6 +149,36 @@ export default class itemsCon extends cc.Component {
         }
     }
     //----- 私有方法 -----//
+    private loadStorage(){
+        for(let i = 0 ; i < this.items.length ; i++)
+        {
+            let tempLevel:number = parseInt(cc.sys.localStorage.getItem(this.items[i].node.name + "Level"));
+            let tempColor:number = parseInt(cc.sys.localStorage.getItem(this.items[i].node.name + "Color"));
+            if(isNaN(tempLevel))
+            {
+                tempLevel = null;
+            }
+            if(isNaN(tempColor))
+            {
+                tempColor = null;
+            }
+            if(tempLevel != null && tempColor != null)
+            {
+                this.createTowerToItem(tempColor,tempLevel,this.items[i]);
+            }
+        }
+    }
+
+    private createTowerToItem(color:number,level:number,item:itemBase){
+        let tower = nodePool.getinstance().createTower(this.towerPfb);
+        // let color = lib.defConfig.TowerColorEnum.red;
+        tower.parent = this.towerLayer;
+        // console.log(color);
+        tower.getComponent(TowerControl).init(color,level,item.node);
+        tower.getComponent(TowerControl).turnItem();
+        item.putTower(tower);
+    }
+
     private extralItemNumChange(){
         this.setAct(lib.defConfig.OriginalItemNum + PropManager.getinstance().getExtralItemNum());
     }
@@ -142,8 +194,9 @@ export default class itemsCon extends cc.Component {
         Pos.y += 25;
         addmoney.getComponent(AddMoneyCon).init(Pos,this.price - 1);
     }
-    //自动合成防御塔
+    //在创建之后自动合成防御塔
     private autocomposeAfterCreate(color:number,level:number){
+        console.log("autocomposeAfterCreate");
         for(let i = 0; i < this.items.length; i++)
         {
             if(!this.items[i].node.active)
@@ -165,6 +218,7 @@ export default class itemsCon extends cc.Component {
 
     //自动合成防御塔
     private autocompose(){
+        console.log("autocompose");
         for(let i = 0; i < this.items.length; i++)
         {
             if(!this.items[i].node.active)
@@ -185,7 +239,13 @@ export default class itemsCon extends cc.Component {
                         && this.items[i].getNowTowerInfo().Color == this.items[j].getNowTowerInfo().Color)
                         {
                             this.items[i].levelUP();
-                            this.items[j].node.getComponent(TowerControl).desTower();
+                            this.items[j].getNowTowerInfo().node.getComponent(TowerControl).desTower();
+                            this.scheduleOnce(()=>{
+                                if(PropManager.getinstance().getAutoCompose())
+                                {
+                                    lib.msgEvent.getinstance().emit(lib.msgConfig.autoCompose);
+                                }
+                            },0.5);
                         }
                     }
                 }

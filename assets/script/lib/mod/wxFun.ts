@@ -1,3 +1,5 @@
+import userInfo from "./userInfo"
+
 export let showShareMenu = function (success?:Function,fail?:Function,complete?:Function) {
     if(typeof wx !== 'undefined')
     {
@@ -61,17 +63,41 @@ export let getUserInfo = function (success:Function,fail:Function,complete:Funct
     if(typeof wx !== 'undefined')
     {
         wx.login({
-            success: function () {
+            success: function (res) {
+                console.log(res);
+                userInfo.getinstance().setcode(res.code);
                 wx.getUserInfo({
                     openIdList:[],
                     lang:"zh_CN",
                     success: res => {
+                        console.log("getUserInfo success");
+                        console.log(res);
                         success(res);
                     },
                     fail: res => {
+                        console.log("getUserInfo fail");
+                        console.log(res);
+                        let button = wx.createUserInfoButton({
+                            type: 'text',
+                            text: '获取用户信息',
+                            style: {
+                                left: 10,
+                                top: 10,
+                                width: 200,
+                                height: 40,
+                                lineHeight: 40,
+                                backgroundColor: '#ff0000',
+                                color: '#ffffff',
+                                textAlign: 'center',
+                                fontSize: 16,
+                                borderRadius: 4
+                            }
+                        })
                         fail(res);
                     },
                     complete: res => {
+                        console.log("getUserInfo complete");
+                        console.log(res);
                         complete(res);
                     },
                 });

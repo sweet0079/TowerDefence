@@ -27,6 +27,10 @@ export default class TowerControl extends cc.Component {
     @property({tooltip:"塔的图片素材", type: [cc.SpriteFrame] }) PurpleTowerSpfArr: Array<cc.SpriteFrame> = [];
     /** 单元形态的图片素材 */
     @property({tooltip:"单元形态的图片素材", type: [cc.SpriteFrame] }) ItemSpfArr: Array<cc.SpriteFrame> = [];
+    /** 显示塔底的node组件 */
+    @property({tooltip:"显示塔底的node组件", type: cc.Sprite }) TowerBase: cc.Sprite = null;
+    /** 塔底的图片素材 */
+    @property({tooltip:"塔底的图片素材", type: [cc.SpriteFrame] }) TowerBaseSpfArr: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
     //颜色
     private Color: number = lib.defConfig.TowerColorEnum.red;
@@ -94,6 +98,7 @@ export default class TowerControl extends cc.Component {
             this._spfArr = this.PurpleTowerSpfArr;
         }
         this.showSpf();
+        this.TowerBase.spriteFrame = this.TowerBaseSpfArr[Color];
         this.TowerNode.opacity = 255;
         this.TowerNode.setPosition(0,0);
         this.TowerNode.scale = 1;
@@ -101,6 +106,7 @@ export default class TowerControl extends cc.Component {
     }
     //变成鲲
     turnItem(){
+        this.TowerBase.node.active = false;
         this.isItem = true;
         this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
         this.LevelLabel.node.y = -7;
@@ -108,6 +114,7 @@ export default class TowerControl extends cc.Component {
 
     //变成炮塔
     turnTower(){
+        this.TowerBase.node.active = true;
         this.isItem = false;
         this.showSpf();
         this.LevelLabel.node.y = 0;
@@ -172,7 +179,7 @@ export default class TowerControl extends cc.Component {
     }
 
     setTowerBig(){
-        this.node.scale = 1.5;
+        this.node.scale = lib.defConfig.TouchTowerScale;
         this.towerattack.setRangSmall();
     }
 

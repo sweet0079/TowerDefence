@@ -64,6 +64,10 @@ export default class slotsCon extends cc.Component {
             {
                 this.createTowerToItem(tempColor,tempLevel,this.items[i]);
             }
+            else
+            {
+                this.items[i].show();
+            }
         }
     }
 

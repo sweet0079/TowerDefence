@@ -28,6 +28,20 @@ export default class LevelControl extends cc.Component {
     private StageNum:number = 0;
     //----- 生命周期 -----//
     onLoad () {
+        lib.wxFun.getUserInfo(()=>{
+            let netData: Object = { 'code': lib.userInfo.getinstance().getcode(), 'appId': lib.userInfo.getinstance().getappID(), 'ver': lib.userInfo.getinstance().getver() };
+            let type = "POST";
+            let str = JSON.stringify(netData);
+            let url = "https://api.xyx.bkdau.cn/?c=xyx&a=wxProgramLogin";
+            let headers = ["Content-Type", "application/json"];
+            lib.httpRequest.getinstance().send(url, str, 'json', headers);
+        },
+        ()=>{
+
+        },
+        ()=>{
+
+        });
         //读取相关json
         JsonManager.getinstance();
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.nextlevel,"nextlevel",this);

@@ -56,15 +56,15 @@ export default class ShowLabelControl extends cc.Component {
     playTreausre(){
         let percent = lib.RandomParameters.RandomParameters.getRandomInt(100);
         let temp = 0;
-        if(percent < 40)
+        if(percent < 19)
         {
             temp = lib.defConfig.CardTypeEnum.money;
         }
-        else if(percent < 70)
+        else if(percent < 32)
         {
             temp = lib.defConfig.CardTypeEnum.autoCompose;
         }
-        else if(percent < 85)
+        else if(percent < 66)
         {
             temp = lib.defConfig.CardTypeEnum.initTower;
         }

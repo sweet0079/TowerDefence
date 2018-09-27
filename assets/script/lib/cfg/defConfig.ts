@@ -48,3 +48,6 @@ export const CardTypeEnum = cc.Enum({
 export const TowerInItemY = 5;
 //初始合成槽位
 export const OriginalItemNum = 9;
+//拖动炮塔时放大倍数
+export const TouchTowerScale = 1.75;
+

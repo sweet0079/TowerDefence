@@ -33,5 +33,9 @@ export default {
     showChilun: 'ShowChilun',
     //隐藏齿轮
     hideChilun: 'HideChilun',
+    //显示额外攻击槽
+    showExtraSlot: 'ShowExtraSlot',
+    //隐藏额外攻击槽
+    hideExtraSlot: 'HideExtraSlot',
     
 }

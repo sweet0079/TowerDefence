@@ -44,6 +44,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showChilun,"showChilun",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideChilun,"hideChilun",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
 
@@ -56,6 +57,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.levelUp,"ShowlevelUp",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showChilun,"showChilun",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideChilun,"hideChilun",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
     }
     //----- 按钮回调 -----//
     clickCollection(){
@@ -72,10 +74,15 @@ export default class UIControl extends cc.Component {
         this.Share.init(temp);
     }
 
-    closeShare(){
-        this.Share.node.active = false;
+    clickTreausre(){
+        this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
+    GameOverShowShare(){
+        this.Share.node.active = true;
+        this.Share.init(2);
+    }
+
     showChilun(){
         this.Chilun.active = true;
     }

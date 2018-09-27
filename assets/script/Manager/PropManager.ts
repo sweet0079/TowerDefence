@@ -43,6 +43,7 @@ export default class PropManager {
         lib.msgEvent.getinstance().emit(lib.msgConfig.initalTowerLevelChange);
     }
 
+    private isExtraSlot:boolean = false;
     private isAutoCompose:boolean = false;
     private isDoubleSpeed:boolean = false;
     private isDoubleMoney:boolean = false;
@@ -50,6 +51,17 @@ export default class PropManager {
     private ExtralItemNum: number;
     private initalTowerlFragment: number;
     private ExtralItemFragment: number;
+
+    /** 额外攻击槽相关 */
+    //设置额外攻击槽标识
+    setIsExtraSlot(flag:boolean){
+        this.isExtraSlot = flag;
+    }
+
+    //获取额外攻击槽标识
+    getIsExtraSlot(){
+        return this.isExtraSlot;
+    }
 
     /** 双倍攻速相关 */
     //设置自动合成标识

@@ -1,6 +1,7 @@
 /** 道具管理控制组件 */
 import * as lib from '../lib/lib';
 import PropManager from '../Manager/PropManager';
+import ShareCon from "./ShareControl"
 
 const {ccclass, property} = cc._decorator;
 
@@ -8,6 +9,8 @@ const {ccclass, property} = cc._decorator;
 export default class PropControl extends cc.Component {
 
     //----- 编辑器属性 -----//
+    //分享layer
+    @property(cc.Node) shareLayer: cc.Node = null;
     //----- 属性声明 -----//
     //自动合成剩余时间
     private composeTime: number = 0;
@@ -15,6 +18,8 @@ export default class PropControl extends cc.Component {
     private DoubleSpeedTime: number = 0;
     //双倍金币剩余时间
     private DoubleMoneyTime: number = 0;
+    //额外攻击槽剩余时间
+    private ExtraSlotTime: number = 0;
     private _PropManager:PropManager = null;
     //----- 生命周期 -----//
     // onLoad () {}
@@ -36,18 +41,40 @@ export default class PropControl extends cc.Component {
     addComposeTime(num: number)
     {
         this.composeTime += num;
+        if(this.composeTime > 3600)
+        {
+            this.composeTime = 3600;
+        }
     }
 
     //增加双倍攻速时间
     addDoubleSpeedTime(num: number)
     {
         this.DoubleSpeedTime += num;
+        if(this.DoubleSpeedTime > 3600)
+        {
+            this.DoubleSpeedTime = 3600;
+        }
     }
 
     //增加双倍金币时间
     addDoubleMoneyTime(num: number)
     {
         this.DoubleMoneyTime += num;
+        if(this.DoubleMoneyTime > 3600)
+        {
+            this.DoubleMoneyTime = 3600;
+        }
+    }
+
+    //增加额外攻击槽时间
+    addExtraSlotTime(num: number)
+    {
+        this.ExtraSlotTime += num;
+        if(this.ExtraSlotTime > 3600)
+        {
+            this.ExtraSlotTime = 3600;
+        }
     }
 
     //获取双倍攻速时间
@@ -108,5 +135,24 @@ export default class PropControl extends cc.Component {
             this._PropManager.setIsDoubleMoney(false);
             this.DoubleMoneyTime = 0;
         }
+
+        //额外攻击槽
+        if(this.ExtraSlotTime > 0)
+        {
+            this.ExtraSlotTime--;
+            if(!this._PropManager.getIsExtraSlot())
+            {
+                this._PropManager.setIsExtraSlot(true);
+                lib.msgEvent.getinstance().emit(lib.msgConfig.showExtraSlot);
+            }
+        }
+        if(this.ExtraSlotTime <= 0 && this._PropManager.getIsExtraSlot())
+        {
+            this._PropManager.setIsExtraSlot(false);
+            this.ExtraSlotTime = 0;
+            lib.msgEvent.getinstance().emit(lib.msgConfig.hideExtraSlot);
+        }
+
+        this.shareLayer.getComponent(ShareCon).updateTime();
     }
 }

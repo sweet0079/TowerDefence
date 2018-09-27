@@ -11,10 +11,6 @@ export default class slotControl extends itemBase {
     @property({tooltip:"攻击槽显示节点", type: cc.Node }) ShowNode: cc.Node = null;
     /** 感叹号显示节点 */
     @property({tooltip:"感叹号显示节点", type: cc.Node }) AmazingNode: cc.Node = null;
-    /** 塔基节点 */
-    @property({tooltip:"塔基节点", type: cc.Sprite }) TowerBase: cc.Sprite = null;
-    /** 塔基节点 */
-    @property({tooltip:"塔基节点图片", type: [cc.SpriteFrame]}) TowerBaseSpfArr: Array<cc.SpriteFrame> = [];
     /** 是否是额外 */
     @property({tooltip:"是否是额外", type: cc.Boolean }) isExtral: boolean = false;
     //----- 属性声明 -----//
@@ -23,7 +19,7 @@ export default class slotControl extends itemBase {
     // onLoad () {}
 
     // start () {
-
+    //     this.show();
     // }
 
     // update (dt) {}
@@ -62,7 +58,6 @@ export default class slotControl extends itemBase {
         else
         {
             this.setNowTowerInfo(Tower.getComponent(TowerControl).getTowerInfo());
-            this.ShowNode.active = false;
             console.log("移动成功");
             return true;
         }
@@ -75,15 +70,15 @@ export default class slotControl extends itemBase {
     show(){
         if(this.NowTowerInfo)
         {
-            this.ShowNode.active = false;
-            this.TowerBase.node.active = true;
-            this.TowerBase.spriteFrame = this.TowerBaseSpfArr[this.NowTowerInfo.Color];
+            this.ShowNode.getComponent(cc.Animation).stop();
+            this.ShowNode.width = 42;
+            this.ShowNode.height = 47;
+            this.ShowNode.setPosition(0,0);
             this.AmazingNode.active = false;
         }
         else
         {
-            this.ShowNode.active = true;
-            this.TowerBase.node.active = false;
+            this.ShowNode.getComponent(cc.Animation).play();
             if(!this.isExtral)
             {
                 this.AmazingNode.active = true;

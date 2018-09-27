@@ -15,3 +15,6 @@ export { RandomParameters as RandomParameters }
 
 import  * as wxFun from './wxFun'
 export { wxFun as wxFun }
+
+import httpRequest from './HttpRequest'
+export { httpRequest as httpRequest }

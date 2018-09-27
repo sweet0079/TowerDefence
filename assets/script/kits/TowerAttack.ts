@@ -110,7 +110,7 @@ export default class TowerAttack extends cc.Component {
     }
 
     setRangSmall(){
-        this.node.getComponent(cc.CircleCollider).radius = this.range / 1.5;
+        this.node.getComponent(cc.CircleCollider).radius = this.range / lib.defConfig.TouchTowerScale;
     }
     //----- 私有方法 -----//
     //获得节点间的距离

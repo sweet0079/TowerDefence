@@ -6,6 +6,7 @@ import GameManager from '../Manager/GameManager';
 import JsonManager from '../Manager/JsonReaderManager';
 import AddMoneyCon from "./AddMoneyCon";
 import PropManager from '../Manager/PropManager';
+import enemysCon from './enemysCon';
 
 const {ccclass, property} = cc._decorator;
 
@@ -279,7 +280,7 @@ export default class enemy extends cc.Component {
         if(this.node.parent)
         {
             this.node.parent.addChild(eff);
-            this.scheduleOnce(()=>{
+            this.node.parent.getComponent(enemysCon).scheduleOnce(()=>{
                 eff.destroy();
             },0.5);
         }

@@ -13,9 +13,13 @@ interface wx {
     shareAppMessage:ShareAppMessage
     vibrateShort:vibrateShort
     vibrateLong:vibrateLong
+    getSystemInfo:getSystemInfo
 }
 
 declare namespace wx {
+    interface getSystemInfo{
+        (para:vibrateShortAug):void
+    }
     interface vibrateLong{
         (para:vibrateShortAug):void
     }
@@ -51,6 +55,7 @@ declare namespace wx {
     interface ShareAppMessageAug{
         title: string
         imageUrl: string
+        query: string
     }
     interface getUserCloudStorageAug{
         keyList: Array<string>

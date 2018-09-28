@@ -28,13 +28,92 @@ export default class LevelControl extends cc.Component {
     private StageNum:number = 0;
     //----- 生命周期 -----//
     onLoad () {
+        lib.wxFun.getSystemInfo((res)=>{
+            let arr:string = res.system;
+            if(arr.indexOf("iOS") == -1)
+            {
+                console.log("not iOS");
+                lib.userInfo.getinstance().setisiOS(false);
+            }
+            else
+            {
+                console.log("is iOS");
+                lib.userInfo.getinstance().setisiOS(true);
+            }
+        });
         lib.wxFun.getUserInfo(()=>{
             let netData: Object = { 'code': lib.userInfo.getinstance().getcode(), 'appId': lib.userInfo.getinstance().getappID(), 'ver': lib.userInfo.getinstance().getver() };
             let type = "POST";
             let str = JSON.stringify(netData);
             let url = "https://api.xyx.bkdau.cn/?c=xyx&a=wxProgramLogin";
             let headers = ["Content-Type", "application/json"];
-            lib.httpRequest.getinstance().send(url, str, 'json', headers);
+            lib.httpRequest.getinstance().send(url, str, 'json', headers,(res:_qudao.LoginCB)=>{
+                console.log("fun");
+                console.log(res);
+                if(res.user.isLegal)
+                {
+                    lib.userInfo.getinstance().setisLegal(true);
+                }
+                else if(res.user.isBlackIp)
+                {
+                    if(res.user.limit_time == "")
+                    {
+                        lib.userInfo.getinstance().setisLegal(true);
+                    }
+                    else
+                    {
+                        let arr = JSON.parse(res.user.limit_time);
+                        let hour = new Date().getHours();
+                        for(let i = 0; i < arr.length ; i++)
+                        {
+                            if(hour >= arr[i][0] 
+                            && hour <= arr[i][1])
+                            {
+                                lib.userInfo.getinstance().setisLegal(false);
+                                break;
+                            }
+                            if(i == arr.length - 1)
+                            {
+                                lib.userInfo.getinstance().setisLegal(true);
+                            }
+                        }
+                    }
+                }
+                else if(!res.user.isBlackIp)
+                {
+                    if(res.user.limit_time == "")
+                    {
+                        lib.userInfo.getinstance().setisLegal(false);
+                    }
+                    else
+                    {
+                        let arr = JSON.parse(res.user.limit_time);
+                        let hour = new Date().getHours();
+                        for(let i = 0; i < arr.length ; i++)
+                        {
+                            if(hour >= arr[i][0] 
+                            && hour <= arr[i][1])
+                            {
+                                lib.userInfo.getinstance().setisLegal(true);
+                                break;
+                            }
+                            if(i == arr.length - 1)
+                            {
+                                lib.userInfo.getinstance().setisLegal(false);
+                            }
+                        }
+                    }
+                }
+            });
+            url = "https://www.bkdau.cn/xiaoyouxi/_share/" + lib.userInfo.getinstance().getappID() + "/shareConfig.json";
+            
+            var _type = cc.RawAsset;
+            cc.loader.load(url , _type ,(err, res) =>{
+                cc.log(res);
+                var i = JSON.stringify(res);
+                cc.log(i);
+                cc.log(res.json);
+            });
         },
         ()=>{
 
@@ -46,6 +125,7 @@ export default class LevelControl extends cc.Component {
         JsonManager.getinstance();
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.nextlevel,"nextlevel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"failsetlevel",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.gamestart,"gameStart",this);
     }
     
     start () {
@@ -57,20 +137,27 @@ export default class LevelControl extends cc.Component {
             this.StageNum = 1;
         }
         lib.msgEvent.getinstance().emit(lib.msgConfig.stageChange,this.StageNum);
-        this.FailLevel = this.setlevel(tempLevel,false);
     }
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.nextlevel,"nextlevel",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"failsetlevel",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gamestart,"gameStart",this);
     }
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
+    private gameStart(){
+        let tempLevel = GameManager.getinstance().getLevel();
+        this.FailLevel = this.setlevel(tempLevel,false);
+    }
+
     private nextlevel(num){
         console.log("nextlevel");
-        if(num >= JsonManager.getinstance().getLevelobj(0).length)
+        if(num >= JsonManager.getinstance().getLevelobj(0).length
+        && this.StageNum != 1)
         {   
             this.StageNum = 1;
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showStageAni);
         }
         lib.msgEvent.getinstance().emit(lib.msgConfig.stageChange,this.StageNum);
         let temp = this.setlevel(num);

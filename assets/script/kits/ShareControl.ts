@@ -44,43 +44,56 @@ export default class ShareControl extends cc.Component {
         this.node.active = false;
     }
     clickShare(){
-        switch(this.ShareType)
+        if(lib.userInfo.getinstance().getisLegal())
         {
-            case 0:
-                lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg");
-                this.ProControl.addDoubleMoneyTime(300);
-                this.init(0);
-                break;
-            case 1:
-                lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg");
-                this.ProControl.addDoubleSpeedTime(300);
-                this.init(1);
-                break;
-            case 2:
-                lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg");
-                // this.ProControl.addDoubleSpeedTime(300);
-                switch(this.itemType)
-                {
-                    case 0:
-                        GameManager.getinstance().addMoney(120);
-                        break;
-                    case 1:
-                        this.ProControl.addDoubleSpeedTime(300);
-                        break;
-                    case 2:
-                        this.ProControl.addDoubleMoneyTime(300);
-                        break;
-                    case 3:
-                        this.ProControl.addExtraSlotTime(300);
-                        break;
-                    default:
-                        break;
-                }
-                this.closeShare();
-                break;
-            default:
-                break;
-        } 
+            lib.wxFun.showToast("功能暂未开放！");
+        }
+        else
+        {
+            switch(this.ShareType)
+            {
+                case 0:
+                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
+                            ()=>{
+                                this.ProControl.addDoubleMoneyTime(300);
+                                this.init(0);
+                            });
+                    break;
+                case 1:
+                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
+                        ()=>{
+                            this.ProControl.addDoubleSpeedTime(300);
+                            this.init(1);
+                        });
+                    break;
+                case 2:
+                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
+                        ()=>{
+                            switch(this.itemType)
+                            {
+                                case 0:
+                                    GameManager.getinstance().addMoney(120);
+                                    break;
+                                case 1:
+                                    this.ProControl.addDoubleSpeedTime(300);
+                                    break;
+                                case 2:
+                                    this.ProControl.addDoubleMoneyTime(300);
+                                    break;
+                                case 3:
+                                    this.ProControl.addExtraSlotTime(300);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            this.closeShare();
+                        });
+                    // this.ProControl.addDoubleSpeedTime(300);
+                    break;
+                default:
+                    break;
+            } 
+        }
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//

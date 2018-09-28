@@ -4,6 +4,7 @@ import RoundLabelCon from './RoundLabelControl';
 import GameManager from '../Manager/GameManager';
 import ShowLabelCon from './ShowLabelControl';
 import ShareControl from './ShareControl';
+import offLineControl from './offLineControl'
 
 const {ccclass, property} = cc._decorator;
 
@@ -29,11 +30,14 @@ export default class UIControl extends cc.Component {
     @property(cc.Node) Chilun: cc.Node = null;
     //Share
     @property(ShareControl) Share: ShareControl = null;
+    //offLine
+    @property(offLineControl) offLine: offLineControl = null;
     //----- 属性声明 -----//
     // private activeLevelNodeArr:Array<cc.Node> = [];
     //----- 生命周期 -----//
     onLoad () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.stageChange,"stageChange",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showOffLine,"showOffLine",this);
     }
 
     start () {
@@ -58,6 +62,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showChilun,"showChilun",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideChilun,"hideChilun",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showOffLine,"showOffLine",this);
     }
     //----- 按钮回调 -----//
     clickCollection(){
@@ -78,6 +83,10 @@ export default class UIControl extends cc.Component {
         this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
+    showOffLine(){
+        this.offLine.node.active = true;
+    }
+
     GameOverShowShare(){
         this.Share.node.active = true;
         this.Share.init(2);

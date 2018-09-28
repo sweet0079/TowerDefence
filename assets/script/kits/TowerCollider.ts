@@ -87,6 +87,10 @@ export default class TowerCollider extends cc.Component {
         }
         else if(other.node.group == "ItemLayer")
         {
+            if(!this.towerControl)
+            {
+                this.towerControl = this.node.parent.getComponent(TowerControl);
+            }
             this.towerControl.turnItem();
         }
         else if(other.node.group == "rubbish")

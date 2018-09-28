@@ -28,6 +28,18 @@ export default class PropControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.addComposeTime,"addComposeTime",this);
         this._PropManager = PropManager.getinstance();
         this.schedule(this.minTime,1);
+        let temptime:number = parseInt(cc.sys.localStorage.getItem('OffLineTime'));
+        if(temptime)
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showOffLine);
+        }
+        else
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.gamestart);
+        }
+        
+        let timestamp:number = new Date().getTime();
+        cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());
     }
 
     // update (dt) {}
@@ -113,11 +125,13 @@ export default class PropControl extends cc.Component {
             if(!this._PropManager.getIsDoubleSpeed())
             {
                 this._PropManager.setIsDoubleSpeed(true);
+                lib.msgEvent.getinstance().emit(lib.msgConfig.showDoubleSpeed);
             }
         }
         if(this.DoubleSpeedTime <= 0 && this._PropManager.getIsDoubleSpeed())
         {
             this._PropManager.setIsDoubleSpeed(false);
+            lib.msgEvent.getinstance().emit(lib.msgConfig.hideDoubleSpeed);
             this.DoubleSpeedTime = 0;
         }
 

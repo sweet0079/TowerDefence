@@ -35,7 +35,7 @@ export default class httprequest {
      * @param	 返回消息类型，详见FileType,可设置为"text"，"json"，"xml","arraybuffer"。
      * @param	headers 头信息，key value数组，比如["Content-Type", "application/json"]。
      */
-    send(url:string, args:any = undefined, response_Type:string = "text", headers:string[] = null):void 
+    send(url:string, args:any = undefined, response_Type:string = "text", headers:string[] = null,fun?:Function):void 
     {
         let _thisObj = this;
         this._url = url;
@@ -68,7 +68,7 @@ export default class httprequest {
         }
         this.xhr.onload = function(e):void {
             console.log("onload");
-            _thisObj.onLoad(e);
+            _thisObj.onLoad(e,fun);
         }
         if(this.type == POST)
         {
@@ -120,11 +120,11 @@ export default class httprequest {
      * 请求消息返回的侦听处理函数。
      * @param	e 事件对象。
      */
-    protected onLoad(e):void {
+    protected onLoad(e,fun):void {
         console.log("onLoad" + e);
         let status:Number = this.xhr.status !== undefined ? this.xhr.status : 200;
         if (status === 200 || status === 204 || status === 0) {
-            this.complete();
+            this.complete(fun);
         } else {
             console.error("[" + this.xhr.status + "]" + this.xhr.statusText + ":" + this._url);
             // this.dispatchEvent(new NetEvent(NetEventType.ERROR,e));
@@ -144,12 +144,13 @@ export default class httprequest {
     /**
      * 请求成功完成的处理函数。
      */
-    protected complete():void {
+    protected complete(fun):void {
         console.log("complete");
         this.clear();
         if (this.responseType === "json") {
             this._data = JSON.parse(this.xhr.responseText);
             console.log(this._data);
+            fun(this._data);
         } 
         // else if (this.responseType === "xml") {
         //     this._data =  	egret.XML.parse(this.xhr.responseText);

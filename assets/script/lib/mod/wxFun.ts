@@ -34,18 +34,43 @@ export let showShareMenu = function (success?:Function,fail?:Function,complete?:
     }
 }
 
-export let shareAppMessage = function (titlestr:string,imgurl:string) {
+export let shareAppMessage = function (titlestr:string,imgurl:string,query?:string,success?:Function,fail?:Function,complete?:Function) {
     if(typeof wx !== 'undefined')
     {
         console.log("shareAppMessage");
         wx.shareAppMessage({
                 title:titlestr,
                 imageUrl:imgurl,
+                query: query,
+                success: res => {
+                    console.log("shareAppMessage true");
+                    console.log(res);
+                    if(success)
+                    {
+                      success(res);
+                    }
+                },
+                fail: res => {
+                    console.log("shareAppMessage fail");
+                    console.log(res);
+                    if(fail)
+                    {
+                      fail(res);
+                    }
+                },
+                complete: res => {
+                    console.log("shareAppMessage complete");
+                    console.log(res);
+                    if(complete)
+                    {
+                      complete(res);
+                    }
+                },
           })
     }
 }
 
-export let onShareAppMessage = function (titlestr:string,imgurl:string) {
+export let onShareAppMessage = function (titlestr:string,imgurl:string,query?:string) {
     if(typeof wx !== 'undefined')
     {
         console.log("onShareAppMessage");
@@ -195,3 +220,49 @@ export let vibrateShort = function(success?:Function,fail?:Function,complete?:Fu
         })
     }
 }
+
+export let getSystemInfo = function(success?:Function,fail?:Function,complete?:Function){
+    if(typeof wx !== 'undefined')
+    {
+        wx.getSystemInfo({
+              success: res => {
+                  console.log("getSystemInfo true");
+                  console.log(res);
+                  if(success)
+                  {
+                    success(res);
+                  }
+              },
+              fail: res => {
+                  console.log("getSystemInfo fail");
+                  console.log(res);
+                  if(fail)
+                  {
+                    fail(res);
+                  }
+              },
+              complete: res => {
+                  console.log("getSystemInfo complete");
+                  console.log(res);
+                  if(complete)
+                  {
+                    complete(res);
+                  }
+              },
+        })
+    }
+}
+
+export let showToast = function(title:string,icon:string = "none")
+{
+    if(typeof wx !== 'undefined')
+    {
+        wx.showToast(
+            {
+                title:title,
+                icon:icon
+            }
+        );
+    }
+}
+

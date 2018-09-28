@@ -15,6 +15,8 @@ export default {
     showFailLabel:'ShowFailLabel',
     //改变关卡
     stageChange:'StageChange',
+    //播放关卡改变动画
+    showStageAni:'ShowStageAni',
     //itemLayer震动
     itemLayervibrate:'ItemLayervibrate',
     //额外合成槽位改变
@@ -37,5 +39,17 @@ export default {
     showExtraSlot: 'ShowExtraSlot',
     //隐藏额外攻击槽
     hideExtraSlot: 'HideExtraSlot',
+    //显示双倍攻速特效
+    showDoubleSpeed: 'ShowDoubleSpeed',
+    //隐藏双倍攻速特效
+    hideDoubleSpeed: 'HideDoubleSpeed',
+    //显示双倍金钱特效
+    showDoubleMoeny: 'ShowDoubleMoeny',
+    //隐藏双倍金钱特效
+    hideDoubleMoeny: 'HideDoubleMoeny',
+    //显示离线收益界面
+    showOffLine: 'ShowOffLine',
+    //游戏开始
+    gamestart: 'GameStart',
     
 }

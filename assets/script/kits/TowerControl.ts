@@ -4,6 +4,7 @@ import Towerattack from './TowerAttack'
 import TowerCollider from './TowerCollider'
 import nodePool from '../Manager/NodePoolInstance'
 import GameManager from '../Manager/GameManager';
+import PropManager from '../Manager/PropManager';
 
 const {ccclass, property} = cc._decorator;
 
@@ -31,6 +32,8 @@ export default class TowerControl extends cc.Component {
     @property({tooltip:"显示塔底的node组件", type: cc.Sprite }) TowerBase: cc.Sprite = null;
     /** 塔底的图片素材 */
     @property({tooltip:"塔底的图片素材", type: [cc.SpriteFrame] }) TowerBaseSpfArr: Array<cc.SpriteFrame> = [];
+    /** 双倍攻速特效的node组件 */
+    @property({tooltip:"双倍攻速特效的node组件", type: cc.Node }) DoubleSpeedAni: cc.Node = null;
     //----- 属性声明 -----//
     //颜色
     private Color: number = lib.defConfig.TowerColorEnum.red;
@@ -41,7 +44,7 @@ export default class TowerControl extends cc.Component {
     //防御塔碰撞组件
     private towerCollider: TowerCollider = null;
 
-    //是否是困
+    //是否是鲲
     private isItem: boolean = false;
 
     //当前使用的spf数组
@@ -51,10 +54,14 @@ export default class TowerControl extends cc.Component {
         this.towerattack = this.node.getComponent(Towerattack);
         this.towerCollider = this.node.getChildByName("towercollider").getComponent(TowerCollider);
         this.node.getComponent(cc.Animation).on('finished',this.ComposeAnimationFinished,this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
         // this.LevelLabel.getComponent(cc.BoxCollider).size = cc.size(this.node.width,this.node.width);
     }
     onDestroy(){
         this.node.getComponent(cc.Animation).off('finished',this.ComposeAnimationFinished,this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
     }
     //----- 公有方法 -----//
     //删除这个防御塔
@@ -110,6 +117,7 @@ export default class TowerControl extends cc.Component {
         this.isItem = true;
         this.towerattack.turnItem(this.ItemSpfArr[this.Color]);
         this.LevelLabel.node.y = -7;
+        this.hideDoubleSpeed();
     }
 
     //变成炮塔
@@ -118,6 +126,14 @@ export default class TowerControl extends cc.Component {
         this.isItem = false;
         this.showSpf();
         this.LevelLabel.node.y = 0;
+        if(PropManager.getinstance().getIsDoubleSpeed())
+        {
+            this.showDoubleSpeed();
+        }
+        else
+        {
+            this.hideDoubleSpeed();
+        }
     }
 
     //获取防御塔信息
@@ -188,6 +204,17 @@ export default class TowerControl extends cc.Component {
         this.towerattack.setRangBig();
     }
     //----- 私有方法 -----//
+    private showDoubleSpeed(){
+        if(!this.isItem)
+        {
+            this.DoubleSpeedAni.active = true;
+        }
+    }
+
+    private hideDoubleSpeed(){
+        this.DoubleSpeedAni.active = false;
+    }
+
     //更新显示外形
     private showSpf(){
         if(this.isItem)

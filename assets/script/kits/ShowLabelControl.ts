@@ -32,14 +32,22 @@ export default class ShowLabelControl extends cc.Component {
     @property(cc.Animation) CardAni: cc.Animation = null;
     //宝箱按钮组件
     @property(cc.Button) CardBtn: cc.Button = null;
+    //stageAni
+    @property(cc.Animation) stageAni: cc.Animation = null;
+    //doubleMoney
+    @property(cc.Animation) doubleMoneyAni: cc.Animation = null;
     //----- 属性声明 -----//
     
     //----- 生命周期 -----//
     // onLoad () {}
 
     start () {
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showStageAni,"showStageAni",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showDoubleMoeny,"showDoubleMoeny",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideDoubleMoeny,"hideDoubleMoeny",this);
         this.RoundAnimation.on('finished',this.hideRoundNode,this);
         this.FailAnimation.on('finished',this.hideFailNode,this);
+        this.stageAni.on('finished',this.hidestageAni,this);
     }
 
     // update (dt) {}
@@ -47,12 +55,44 @@ export default class ShowLabelControl extends cc.Component {
     onDestroy(){
         this.RoundAnimation.off('finished',this.hideRoundNode,this);
         this.FailAnimation.off('finished',this.hideFailNode,this);
+        this.stageAni.off('finished',this.hidestageAni,this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showStageAni,"showStageAni",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showDoubleMoeny,"showDoubleMoeny",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideDoubleMoeny,"hideDoubleMoeny",this);
     }
     //----- 按钮回调 -----//
+    clickShare(){
+        if(lib.userInfo.getinstance().getisLegal())
+        {
+            lib.wxFun.showToast("功能暂未开放！");
+        }
+        else
+        {
+            lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
+                ()=>{
+                    this.playTreausre();
+                });
+        }
+    }
+
     ClickCardBtn(){
         this.Treasure.node.parent.active = false;
     }
     //----- 公有方法 -----//
+    hideDoubleMoeny(){
+        this.doubleMoneyAni.node.active = false;
+    }
+
+    showDoubleMoeny(){
+        this.doubleMoneyAni.node.active = true;
+        this.doubleMoneyAni.play();
+    }
+
+    showStageAni(){
+        this.stageAni.node.active = true;
+        this.stageAni.play();
+    }
+
     playTreausre(){
         let percent = lib.RandomParameters.RandomParameters.getRandomInt(100);
         let temp = 0;
@@ -131,5 +171,8 @@ export default class ShowLabelControl extends cc.Component {
     }
     private hideFailNode(){
         this.FailAnimation.node.active = false;
+    }
+    private hidestageAni(){
+        this.stageAni.node.active = false;
     }
 }

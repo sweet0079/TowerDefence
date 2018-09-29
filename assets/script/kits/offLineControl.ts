@@ -37,10 +37,23 @@ export default class offLineControl extends cc.Component {
         }
         else
         {
-            lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
-                ()=>{
-                    GameManager.getinstance().addMoney(this.money * 2);
-                    this.close();
+            let temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05.length);
+            let shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareInfoId;
+            let query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
+            lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                        lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                (res)=>{
+                    if (res.shareTickets != undefined)
+                    { 
+                        let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
+                        lib.httpRequest.getinstance().send(url);
+                        GameManager.getinstance().addMoney(this.money * 2);
+                        this.close();
+                    }
+                    else
+                    {
+                        lib.wxFun.showToast("请分享到微信群哦～");
+                    }
                 });
         }
     }

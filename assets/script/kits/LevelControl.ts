@@ -28,6 +28,29 @@ export default class LevelControl extends cc.Component {
     private StageNum:number = 0;
     //----- 生命周期 -----//
     onLoad () {
+        wx.onShow((res)=>{
+            console.log("onShow");
+            console.log(res);
+            if(res.query.uid 
+                && res.query.shareId)
+            {
+                lib.userInfo.getinstance().setquery(res.query);
+                if(lib.userInfo.getinstance().getquery().uid 
+                    && lib.userInfo.getinstance().getquery().shareId)
+                    {
+                        let netData: Object = { 'uid': lib.userInfo.getinstance().getuid(), 'appId': lib.userInfo.getinstance().getappID(), "qudao": "share_" + lib.userInfo.getinstance().getquery().shareId};
+                        let type = "POST";
+                        let str = JSON.stringify(netData);
+                        let url = "https://api.xyx.bkdau.cn/?c=user&a=addShareClick";
+                        lib.httpRequest.getinstance().send(url, str, 'json');
+                    }
+            }
+        });
+        console.log(wx.getLaunchOptionsSync());
+        if(wx.getLaunchOptionsSync().query)
+        {
+            lib.userInfo.getinstance().setquery(wx.getLaunchOptionsSync().query);
+        }
         lib.wxFun.getSystemInfo((res)=>{
             let arr:string = res.system;
             if(arr.indexOf("iOS") == -1)
@@ -43,13 +66,21 @@ export default class LevelControl extends cc.Component {
         });
         lib.wxFun.getUserInfo(()=>{
             let netData: Object = { 'code': lib.userInfo.getinstance().getcode(), 'appId': lib.userInfo.getinstance().getappID(), 'ver': lib.userInfo.getinstance().getver() };
+            console.log(lib.userInfo.getinstance().getquery().uid);
+            console.log(lib.userInfo.getinstance().getquery().shareId);
+            if(lib.userInfo.getinstance().getquery().uid 
+                && lib.userInfo.getinstance().getquery().shareId)
+            {
+                netData = { 'code': lib.userInfo.getinstance().getcode(), 'appId': lib.userInfo.getinstance().getappID(), 'ver': lib.userInfo.getinstance().getver() 
+                            ,"fromUid": lib.userInfo.getinstance().getquery().uid , "qudao": "share_" + lib.userInfo.getinstance().getquery().shareId};
+            }
             let type = "POST";
             let str = JSON.stringify(netData);
             let url = "https://api.xyx.bkdau.cn/?c=xyx&a=wxProgramLogin";
             let headers = ["Content-Type", "application/json"];
             lib.httpRequest.getinstance().send(url, str, 'json', headers,(res:_qudao.LoginCB)=>{
                 console.log("fun");
-                console.log(res);
+                lib.userInfo.getinstance().setuid(res.user.id);
                 if(res.user.isLegal)
                 {
                     lib.userInfo.getinstance().setisLegal(true);
@@ -107,12 +138,31 @@ export default class LevelControl extends cc.Component {
             });
             url = "https://www.bkdau.cn/xiaoyouxi/_share/" + lib.userInfo.getinstance().getappID() + "/shareConfig.json";
             
-            var _type = cc.RawAsset;
-            cc.loader.load(url , _type ,(err, res) =>{
-                cc.log(res);
-                var i = JSON.stringify(res);
-                cc.log(i);
-                cc.log(res.json);
+            var _type = "cc.RawAsset";
+            cc.loader.load({url:url , type:_type} ,(err, res) =>{
+                console.log("shareConfig");
+                console.log(res);
+                var i = JSON.parse(res);
+                console.log(i);
+                lib.userInfo.getinstance().setShareInfo(i);
+            });
+            if(lib.userInfo.getinstance().getisiOS())
+            {
+                url = "https://www.bkdau.cn/xiaoyouxi_cfg_json/" + lib.userInfo.getinstance().getappID() + "/myadv_ios.json";
+            }
+            else
+            {
+                url = "https://www.bkdau.cn/xiaoyouxi_cfg_json/" + lib.userInfo.getinstance().getappID() + "/myadv_android.json";
+            }
+            
+            var _type = "cc.RawAsset";
+            cc.loader.load({url:url , type:_type} ,(err, res) =>{
+                console.log("guanggaoConfig");
+                console.log(res);
+                var i = JSON.parse(res);
+                console.log(i);
+                lib.userInfo.getinstance().setadvnfo(i);
+                lib.msgEvent.getinstance().emit(lib.msgConfig.initAdv);
             });
         },
         ()=>{

@@ -15,4 +15,10 @@ declare namespace _qudao {
         limit_time: string,
         task: Array<string>,
     }
+    interface shareConfig {
+        "appId": string,
+        "shareInfo": any,
+        "relation": any,
+    }
 }
+

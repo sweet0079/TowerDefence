@@ -8,6 +8,7 @@ import PropManager from '../Manager/PropManager';
 import nodePool from '../Manager/NodePoolInstance';
 import JsonManager from '../Manager/JsonReaderManager';
 import AddMoneyCon from "./AddMoneyCon";
+import NoviceGuidanceControl from "./NoviceGuidanceControl";
 
 const {ccclass, property} = cc._decorator;
 
@@ -26,6 +27,10 @@ export default class itemsCon extends cc.Component {
     @property(cc.Prefab) AddMoneyPfb: cc.Prefab = null;
     //特效层节点
     @property(cc.Node) effectLayer: cc.Node = null;
+    //新手引导
+    @property(NoviceGuidanceControl) NoviceGuidance: NoviceGuidanceControl = null;
+
+
     
 
     //----- 属性声明 -----//
@@ -64,6 +69,7 @@ export default class itemsCon extends cc.Component {
         lib.wxFun.vibrateShort();
         if(this.findisEmpty())
         {
+            this.NoviceGuidance.clickbuild();
             if(PropManager.getinstance().getAutoCompose())
             {
                 let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);

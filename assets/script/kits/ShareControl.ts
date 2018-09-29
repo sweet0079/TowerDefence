@@ -28,15 +28,36 @@ export default class ShareControl extends cc.Component {
     //----- 属性声明 -----//
     private ShareType:number = 0;
     private itemType:number = 0;
+    private bannerAd;
     //----- 生命周期 -----//
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
-    start () {
+    // start () {
 
+    // }
+    onEnable(){
+        let temp = lib.userInfo.getinstance().getShareInfo().banner.finsh_bottom;
+        this.bannerAd = wx.createBannerAd({
+            adUnitId: temp,
+            style: {
+            left: 10,
+            top: 76,
+            width: 320
+            }
+        });
+        this.bannerAd.show();
     }
+
+    onDisable(){
+        if(this.bannerAd)
+        {
+            this.bannerAd.hide();
+        }
+    }
+
 
     // update (dt) {}
     //----- 按钮回调 -----//
@@ -49,44 +70,85 @@ export default class ShareControl extends cc.Component {
             lib.wxFun.showToast("功能暂未开放！");
         }
         else
-        {
+        {   let temp;
+            let shareinfo;
+            let query;
             switch(this.ShareType)
             {
                 case 0:
-                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
-                            ()=>{
-                                this.ProControl.addDoubleMoneyTime(300);
-                                this.init(0);
+                    temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar02.length);
+                    shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar02[temp].shareInfoId;
+                    query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar02[temp].shareId;
+                    lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                                lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                            (res)=>{
+                                if (res.shareTickets != undefined)
+                                {
+                                    let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar02[temp].shareId;
+                                    lib.httpRequest.getinstance().send(url);
+                                    this.ProControl.addDoubleMoneyTime(300);
+                                    this.init(0);
+                                }
+                                else
+                                {
+                                    lib.wxFun.showToast("请分享到微信群哦～");
+                                }
                             });
                     break;
                 case 1:
-                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
-                        ()=>{
-                            this.ProControl.addDoubleSpeedTime(300);
-                            this.init(1);
+                    temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar01.length);
+                    shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar01[temp].shareInfoId;
+                    query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar01[temp].shareId;
+                    lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                                lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                        (res)=>{
+                            if (res.shareTickets != undefined)
+                            {
+                                let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar01[temp].shareId;
+                                lib.httpRequest.getinstance().send(url);
+                                this.ProControl.addDoubleSpeedTime(300);
+                                this.init(1);
+                            }
+                            else
+                            {
+                                lib.wxFun.showToast("请分享到微信群哦～");
+                            }
                         });
                     break;
                 case 2:
-                    lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
-                        ()=>{
-                            switch(this.itemType)
+                    temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar04.length);
+                    shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar04[temp].shareInfoId;
+                    query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar04[temp].shareId;
+                    lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                                lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                        (res)=>{
+                            if (res.shareTickets != undefined)
                             {
-                                case 0:
-                                    GameManager.getinstance().addMoney(120);
-                                    break;
-                                case 1:
-                                    this.ProControl.addDoubleSpeedTime(300);
-                                    break;
-                                case 2:
-                                    this.ProControl.addDoubleMoneyTime(300);
-                                    break;
-                                case 3:
-                                    this.ProControl.addExtraSlotTime(300);
-                                    break;
-                                default:
-                                    break;
+                                let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar04[temp].shareId;
+                                lib.httpRequest.getinstance().send(url);
+                                switch(this.itemType)
+                                {
+                                    case 0:
+                                        GameManager.getinstance().addMoney(120);
+                                        break;
+                                    case 1:
+                                        this.ProControl.addDoubleSpeedTime(300);
+                                        break;
+                                    case 2:
+                                        this.ProControl.addDoubleMoneyTime(300);
+                                        break;
+                                    case 3:
+                                        this.ProControl.addExtraSlotTime(300);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                this.closeShare();
                             }
-                            this.closeShare();
+                            else
+                            {
+                                lib.wxFun.showToast("请分享到微信群哦～");
+                            }
                         });
                     // this.ProControl.addDoubleSpeedTime(300);
                     break;

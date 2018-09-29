@@ -4,7 +4,7 @@ import RoundLabelCon from './RoundLabelControl';
 import GameManager from '../Manager/GameManager';
 import ShowLabelCon from './ShowLabelControl';
 import ShareControl from './ShareControl';
-import offLineControl from './offLineControl'
+import offLineControl from './offLineControl';
 
 const {ccclass, property} = cc._decorator;
 

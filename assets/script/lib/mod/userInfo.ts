@@ -5,6 +5,8 @@ class WxUserinfo {
     avatarUrl: string = null;
     /** 登录凭证 */
     code: string = null;
+    /** uid */
+    uid: string = null;
     /** appId */
     appId: string = "wxed988900f738b004";
     /** ver */
@@ -13,6 +15,12 @@ class WxUserinfo {
     isiOS: boolean = false;
     /** 是否合法 */
     isLegal: boolean = false;
+    /** shareInfo */
+    shareInfo: any
+    /** query */
+    query: any
+    /** advnfo */
+    advnfo: any
 }
 
 export default class userInfo {
@@ -30,6 +38,49 @@ export default class userInfo {
         this.User = new WxUserinfo();
         userInfo.instance = this;
     }
+
+    //设置广告信息
+    getadvnfo(){
+        return this.User.advnfo;
+    }
+
+    //设置广告信息
+    setadvnfo(Info){
+        this.User.advnfo = Info;
+    }
+
+    //设置分享信息
+    getquery(){
+        return this.User.query;
+    }
+
+    //设置分享信息
+    setquery(Info){
+        this.User.query = Info;
+    }
+
+
+    //设置分享信息
+    getuid(){
+        return this.User.uid;
+    }
+
+    //设置分享信息
+    setuid(Info){
+        this.User.uid = Info;
+    }
+
+
+    //设置分享信息
+    getShareInfo(){
+        return this.User.shareInfo;
+    }
+
+    //设置分享信息
+    setShareInfo(Info){
+        this.User.shareInfo = Info;
+    }
+
     //获取是否合法
     getisLegal() {
         return this.User.isLegal;

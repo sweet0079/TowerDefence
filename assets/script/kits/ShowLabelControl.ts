@@ -68,9 +68,22 @@ export default class ShowLabelControl extends cc.Component {
         }
         else
         {
-            lib.wxFun.shareAppMessage("小情侣在树林里发出奇怪的声音，原来是在玩这个......","res/raw-assets/pic/share/dapao.jpg","",
-                ()=>{
-                    this.playTreausre();
+            let temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03.length);
+            let shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareInfoId;
+            let query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
+            lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                        lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                (res)=>{
+                    if (res.shareTickets != undefined)
+                    {
+                        let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
+                        lib.httpRequest.getinstance().send(url);
+                        this.playTreausre();
+                    }
+                    else
+                    {
+                        lib.wxFun.showToast("请分享到微信群哦～");
+                    }
                 });
         }
     }

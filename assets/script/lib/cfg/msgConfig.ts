@@ -51,5 +51,7 @@ export default {
     showOffLine: 'ShowOffLine',
     //游戏开始
     gamestart: 'GameStart',
+    //初始化广告
+    initAdv: 'InitAdv',
     
 }

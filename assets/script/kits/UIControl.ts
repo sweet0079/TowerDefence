@@ -87,6 +87,11 @@ export default class UIControl extends cc.Component {
         this.offLine.node.active = true;
     }
 
+    moneyNotEnough(){
+        this.Share.node.active = true;
+        this.Share.init(3);
+    }
+
     GameOverShowShare(){
         this.Share.node.active = true;
         this.Share.init(2);

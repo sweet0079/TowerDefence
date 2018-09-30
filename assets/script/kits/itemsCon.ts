@@ -61,9 +61,9 @@ export default class itemsCon extends cc.Component {
     // update (dt) {}
     //----- 按钮回调 -----//
     createTower(){
-        console.log("createTower");
         if(this.price > this._GameManager.getMoney())
         {
+            this.uiControl.moneyNotEnough();
             return;
         }
         lib.wxFun.vibrateShort();

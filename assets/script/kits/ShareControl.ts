@@ -126,6 +126,7 @@ export default class ShareControl extends cc.Component {
                             {
                                 let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar04[temp].shareId;
                                 lib.httpRequest.getinstance().send(url);
+                                GameManager.getinstance().addMoney(120);
                                 switch(this.itemType)
                                 {
                                     case 0:
@@ -143,6 +144,28 @@ export default class ShareControl extends cc.Component {
                                     default:
                                         break;
                                 }
+                                this.closeShare();
+                            }
+                            else
+                            {
+                                lib.wxFun.showToast("请分享到微信群哦～");
+                            }
+                        });
+                    // this.ProControl.addDoubleSpeedTime(300);
+                    break;
+                case 3:
+                    temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar06.length);
+                    shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar06[temp].shareInfoId;
+                    query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar06[temp].shareId;
+                    lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                                                lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+                        (res)=>{
+                            if (res.shareTickets != undefined)
+                            {
+                                let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar06[temp].shareId;
+                                lib.httpRequest.getinstance().send(url);
+                                GameManager.getinstance().addMoney(120);
+                                GameManager.getinstance().addMoney(120);
                                 this.closeShare();
                             }
                             else
@@ -244,6 +267,12 @@ export default class ShareControl extends cc.Component {
                 let num = lib.RandomParameters.RandomParameters.getRandomInt(this.ItemSpfArr.length);
                 this.itemType = num;
                 this.ItemSprite.spriteFrame = this.ItemSpfArr[num];
+                break;
+            case 3:
+                this.progressBar.node.active = false;
+                this.ItemLayer.active = true;
+                this.itemType = num;
+                this.ItemSprite.spriteFrame = this.ItemSpfArr[0];
                 break;
             default:
                 break;

@@ -142,11 +142,13 @@ export default class PropControl extends cc.Component {
             if(!this._PropManager.getIsDoubleMoney())
             {
                 this._PropManager.setIsDoubleMoney(true);
+                lib.msgEvent.getinstance().emit(lib.msgConfig.showDoubleMoeny);
             }
         }
         if(this.DoubleMoneyTime <= 0 && this._PropManager.getIsDoubleMoney())
         {
             this._PropManager.setIsDoubleMoney(false);
+            lib.msgEvent.getinstance().emit(lib.msgConfig.hideDoubleMoeny);
             this.DoubleMoneyTime = 0;
         }
 

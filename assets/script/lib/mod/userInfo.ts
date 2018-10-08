@@ -21,6 +21,8 @@ class WxUserinfo {
     query: any
     /** advnfo */
     advnfo: any
+    /** session_key */
+    session_key:string
 }
 
 export default class userInfo {
@@ -38,6 +40,17 @@ export default class userInfo {
         this.User = new WxUserinfo();
         userInfo.instance = this;
     }
+
+    //获取session_key
+    getsession_key(){
+        return this.User.session_key;
+    }
+
+    //设置session_key
+    setsession_key(Info){
+        this.User.session_key = Info;
+    }
+
 
     //设置广告信息
     getadvnfo(){

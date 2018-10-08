@@ -55,8 +55,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 45,
-      "height": 45
+      "width": 84,
+      "height": 93
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -182,7 +182,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "77tQ26BftF+6XK6WMyzd43"
+    "_id": "a4OKSdS29DzYbNaE9D+mnC"
   },
   {
     "__type__": "cc.Animation",
@@ -201,7 +201,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "2d+b2Wy9ZEkZryvHf81Zrm"
+    "_id": "4b7NNZ7sBAYaeEiYT0RP+A"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -306,7 +306,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "64A1H1V2hAQrRV1RSzLo0L"
+    "_id": "ccOqKHqJhOZZMqRGC6AvbV"
   },
   {
     "__type__": "cc.Animation",
@@ -325,7 +325,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "2195DP2RlAs6gYcv7gSoTD"
+    "_id": "82sFqsP0xBe6AFZZd5KdHH"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -427,7 +427,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "9bsXA/UG5NCJQqMBchqa2Z"
+    "_id": "e5YTBhkFZBwqM3GAvOfpax"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -451,7 +451,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "6a8a60fd-05a3-406c-a025-85e33740426c"
+      "__uuid__": "91fa38ba-afbf-4f4d-a384-bf8e8774785c"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -466,7 +466,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "3edt0tS6tMlqB1BxZ3XfPN"
+    "_id": "fdmu79C4pEUracKBTCTR4z"
   },
   {
     "__type__": "d39b4PqUFVF/rR6xOURbgDX",
@@ -636,7 +636,7 @@
         "__uuid__": "29bb586a-e388-44bb-ad77-025e140b8e3f"
       }
     ],
-    "_id": "00uParOcVKxbRAO4CIMOu/"
+    "_id": "06dbHb5ipGlouQhj5YiuW7"
   },
   {
     "__type__": "cc.CircleCollider",
@@ -653,7 +653,7 @@
       "y": 0
     },
     "_radius": 22.5,
-    "_id": "46IA9R+pND9b/5UyMfF4pj"
+    "_id": "f9NzkoG4NHfICl5AKXQv8J"
   },
   {
     "__type__": "cc.Animation",
@@ -672,7 +672,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "a7IwpplX1OpI2mPWoCW2h8"
+    "_id": "8b0rNbuBJO7odJ4+8oB66t"
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -1,5 +1,6 @@
 /** 道具管理控制组件 */
 import * as lib from '../lib/lib';
+import uiCon from './UIControl';
 import PropManager from '../Manager/PropManager';
 import ShareCon from "./ShareControl"
 
@@ -11,6 +12,10 @@ export default class PropControl extends cc.Component {
     //----- 编辑器属性 -----//
     //分享layer
     @property(cc.Node) shareLayer: cc.Node = null;
+    //感叹号
+    @property(cc.Node) amazing: cc.Node = null;
+    //UI控制节点
+    @property(cc.Node) uiControl: cc.Node = null;
     //----- 属性声明 -----//
     //自动合成剩余时间
     private composeTime: number = 0;
@@ -20,6 +25,8 @@ export default class PropControl extends cc.Component {
     private DoubleMoneyTime: number = 0;
     //额外攻击槽剩余时间
     private ExtraSlotTime: number = 0;
+    //上次开宝箱的时间
+    private LastTreasureTime: number = 0;
     private _PropManager:PropManager = null;
     //----- 生命周期 -----//
     // onLoad () {}
@@ -37,6 +44,17 @@ export default class PropControl extends cc.Component {
         {
             lib.msgEvent.getinstance().emit(lib.msgConfig.gamestart);
         }
+
+        let tempTreasureTime:number = parseInt(cc.sys.localStorage.getItem('LastTreasureTime'));
+        if(tempTreasureTime)
+        {
+            this.LastTreasureTime = tempTreasureTime;
+        }
+        else
+        {
+            this.LastTreasureTime = null;
+        }
+
         
         let timestamp:number = new Date().getTime();
         cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());
@@ -47,6 +65,28 @@ export default class PropControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.addComposeTime,"addComposeTime",this);
     }
     //----- 按钮回调 -----//
+    clickTreausre(){
+        let timestamp:number = new Date().getTime();
+        if(this.LastTreasureTime)
+        {
+            if(timestamp - this.LastTreasureTime > 14400000)
+            {
+                this.uiControl.getComponent(uiCon).clickTreausre();
+                cc.sys.localStorage.setItem('LastTreasureTime', timestamp.toString());
+                this.LastTreasureTime = timestamp;
+            }
+            else
+            {
+                lib.wxFun.showToast("每4小时只能开一次哦~");
+            }
+        }
+        else
+        {
+            this.uiControl.getComponent(uiCon).clickTreausre();
+            cc.sys.localStorage.setItem('LastTreasureTime', timestamp.toString());
+            this.LastTreasureTime = timestamp;
+        }
+    }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
     //增加自动合成时间
@@ -99,6 +139,21 @@ export default class PropControl extends cc.Component {
         return this.DoubleMoneyTime;
     }
     //----- 私有方法 -----//
+    private checkAmazing(){
+        let timestamp:number = new Date().getTime();
+        if(this.LastTreasureTime)
+        {
+            if(timestamp - this.LastTreasureTime > 14400000)
+            {
+                this.amazing.active = true;
+            }
+            else
+            {
+                this.amazing.active = false;
+            }
+        }
+    }
+
     private minTime(){
         //自动合成
         if(this.composeTime > 0)
@@ -170,5 +225,6 @@ export default class PropControl extends cc.Component {
         }
 
         this.shareLayer.getComponent(ShareCon).updateTime();
+        this.checkAmazing();
     }
 }

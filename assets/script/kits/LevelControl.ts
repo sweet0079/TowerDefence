@@ -81,6 +81,7 @@ export default class LevelControl extends cc.Component {
             lib.httpRequest.getinstance().send(url, str, 'json', headers,(res:_qudao.LoginCB)=>{
                 console.log("fun");
                 lib.userInfo.getinstance().setuid(res.user.id);
+                lib.userInfo.getinstance().setsession_key(res.session_key);
                 if(res.user.isLegal)
                 {
                     lib.userInfo.getinstance().setisLegal(true);

@@ -40,21 +40,35 @@ export default class offLineControl extends cc.Component {
             let temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05.length);
             let shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareInfoId;
             let query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
-            lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
-                                        lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
-                (res)=>{
-                    if (res.shareTickets != undefined)
-                    { 
-                        let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
-                        lib.httpRequest.getinstance().send(url);
-                        GameManager.getinstance().addMoney(this.money * 2);
-                        this.close();
-                    }
-                    else
-                    {
+            // lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+            //                             lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+            //     (res)=>{
+            //         if (res.shareTickets != undefined)
+            //         { 
+            //             let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
+            //             lib.httpRequest.getinstance().send(url);
+            //             GameManager.getinstance().addMoney(this.money * 2);
+            //             this.close();
+            //         }
+            //         else
+            //         {
+            //             lib.wxFun.showToast("请分享到微信群哦～");
+            //         }
+            //     });
+            lib.wxFun.shareApp({title:lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                imageUrl:lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query: query},
+                        (res)=>{
+                            let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
+                            lib.httpRequest.getinstance().send(url);
+                            GameManager.getinstance().addMoney(this.money * 2);
+                            this.close();
+                        },
+                    (res)=>{
                         lib.wxFun.showToast("请分享到微信群哦～");
-                    }
-                });
+                    },
+                    (res)=>{
+                        lib.wxFun.showToast("不要连续分享到同一个群哦~");
+                    });
         }
     }
     //----- 事件回调 -----//

@@ -1,4 +1,5 @@
-import userInfo from "./userInfo"
+import userInfo from "./userInfo";
+// import RdWXBizDataCrypt = require('../waibu/RdWXBizDataCrypt');
 
 export let showShareMenu = function (success?:Function,fail?:Function,complete?:Function) {
     if(typeof wx !== 'undefined')
@@ -266,3 +267,102 @@ export let showToast = function(title:string,icon:string = "none")
     }
 }
 
+export let shareApp = function(info: any, successfun: Function = null, qun: Function = null, same_qun: Function = null) {
+    wx.shareAppMessage({
+        title: info.title, imageUrl: info.imageUrl, query: info.query, success: function (res) {
+            if (info.callBack) {
+                info.callBack.apply([res]);
+            }
+
+            //分享回调
+            //判断是否有分享到群
+            var shareTickets = "";
+            if (res.shareTickets != undefined) {
+                if (res.shareTickets[0] != undefined) {
+                    shareTickets = res.shareTickets[0];
+                }
+
+                if (shareTickets == "") {
+                    // PopUpManager.toast("请分享到微信群哦～");
+
+                    if (qun) {
+
+                        qun.apply(res);
+                    }
+                } else {
+                    //是否分享到通一个群
+                    shareTipInfo(shareTickets, function (has_shared_group) {
+                        if (has_shared_group) {
+                            if (same_qun) {
+                                same_qun.apply(res);
+                            }
+                            // PopUpManager.toast("不要频繁分享到一个群哦～");
+                        } else {
+                            if (successfun) {
+                                successfun.apply(shareTickets);
+                            }
+                        }
+                    });
+                }
+            } else {
+                if (qun) {
+                    qun.apply(res);
+                }
+                // PopUpManager.toast("分享到群受益更大哟～");
+            }
+        }
+    })
+}
+
+let parseEntry = function(encryptedData, iv, appid, sessionKey) {
+    let pc = new RdWXBizDataCrypt(appid, sessionKey);
+
+    let data = pc.decryptData(encryptedData, iv);
+
+    console.log('解密后 data: ', data)
+    return data;
+}
+
+let shareTipInfo = function(shareTickets: string, success_call: Function = null) {
+    var now = new Date().getTime();
+    wx.getShareInfo(
+    { 
+        shareTicket: shareTickets,
+        success:(group_info)=>{
+
+            var roup__: any = parseEntry(group_info.encryptedData, group_info.iv, userInfo.getinstance().getappID(), userInfo.getinstance().getsession_key());
+            console.log(roup__);
+        
+            var result = wx.getStorageSync("sharetask");
+            console.log(result);
+        
+            var has = true;
+            var share = {}
+            //如果没有保存过
+            if (result) {
+                share = JSON.parse(result);
+                if (!share[roup__.openGId]) {
+                    has = false;
+                } else {
+                    //120分钟 7200000
+                    if (now - Number(share[roup__.openGId]) >= 7200000) {
+                        has = false;
+                    }
+                }
+            } else {
+                has = false;
+            }
+            if (has == false) {
+                share[roup__.openGId] = now;
+                wx.setStorageSync("sharetask", JSON.stringify(share));
+                if (success_call) {
+                    success_call.apply(this, [has]);
+                }
+            } else {
+                if (success_call) {
+                    success_call.apply(this, [has]);
+                }
+            }
+        }
+    });
+}

@@ -119,6 +119,10 @@ export let getUserInfo = function (success:Function,fail:Function,complete:Funct
                                 borderRadius: 4
                             }
                         })
+                        button.onTap((res) => {
+                            console.log(res);
+                            success(res);
+                        });
                         fail(res);
                     },
                     complete: res => {
@@ -364,5 +368,22 @@ let shareTipInfo = function(shareTickets: string, success_call: Function = null)
                 }
             }
         }
+    });
+}
+
+export let showRewardedVideoAd = function(adUnitId) {
+    return new Promise((resolve, reject) => {
+        this.videoAd = wx.createRewardedVideoAd({
+            adUnitId: adUnitId,
+        });
+        this.videoAd.onClose((res) => {
+            this.videoAd.load();
+            resolve(res);
+        });
+        this.videoAd.show()
+            .catch(err => {
+                this.videoAd.load().then(
+                    () => this.videoAd.show());
+            })
     });
 }

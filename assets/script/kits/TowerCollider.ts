@@ -127,6 +127,7 @@ export default class TowerCollider extends cc.Component {
     //----- 私有方法 -----//
 
     private _clickStart(event:cc.Event.EventTouch){
+        this.node.parent.zIndex += 1000;
         this.towerControl.setTowerBig();
         this.BFPos = this.node.parent.position;
         lib.msgEvent.getinstance().emit(lib.msgConfig.showrubbish);
@@ -139,6 +140,7 @@ export default class TowerCollider extends cc.Component {
     }
 
     private _clickEnd(event:cc.Event.EventTouch){
+        this.node.parent.zIndex -= 1000;
         this.towerControl.setTowerSmall();
         if(this.isSell)
         {

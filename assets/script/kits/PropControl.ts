@@ -36,9 +36,16 @@ export default class PropControl extends cc.Component {
         this._PropManager = PropManager.getinstance();
         this.schedule(this.minTime,1);
         let temptime:number = parseInt(cc.sys.localStorage.getItem('OffLineTime'));
-        if(temptime)
+        let timestamp:number = new Date().getTime();
+        let delt = timestamp - temptime;
+        if(delt >= 1800000)
         {
-            lib.msgEvent.getinstance().emit(lib.msgConfig.showOffLine);
+            if(delt > 43200000)
+            {
+                delt = 43200000;
+            }
+            let tempmoney = delt / 60000 * 0.3;
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showOffLine,tempmoney);
         }
         else
         {
@@ -56,7 +63,6 @@ export default class PropControl extends cc.Component {
         }
 
         
-        let timestamp:number = new Date().getTime();
         cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());
     }
 
@@ -226,5 +232,8 @@ export default class PropControl extends cc.Component {
 
         this.shareLayer.getComponent(ShareCon).updateTime();
         this.checkAmazing();
+
+        let timestamp:number = new Date().getTime();
+        cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());
     }
 }

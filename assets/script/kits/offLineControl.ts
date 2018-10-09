@@ -20,9 +20,8 @@ export default class offLineControl extends cc.Component {
 
     // }
 
-    onEnable(){
-        this.init();
-    }
+    // onEnable(){
+    // }
     // update (dt) {}
     //----- 按钮回调 -----//
     Clickclose(){
@@ -60,7 +59,7 @@ export default class offLineControl extends cc.Component {
                         (res)=>{
                             let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar05[temp].shareId;
                             lib.httpRequest.getinstance().send(url);
-                            GameManager.getinstance().addMoney(this.money * 2);
+                            GameManager.getinstance().addMoney(this.money * 3);
                             this.close();
                         },
                     (res)=>{
@@ -73,8 +72,8 @@ export default class offLineControl extends cc.Component {
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
-    init(){
-        this.money = (GameManager.getinstance().getLevel() + 1) * 40;
+    init(num:number){
+        this.money = parseInt(num.toString());
         this.MoneyLabel.string = "/" + this.money.toString();
     }
     //----- 私有方法 -----//

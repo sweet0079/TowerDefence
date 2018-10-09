@@ -44,8 +44,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.5645061753135829,
-      "y": 0.5645061753135829,
+      "x": 0.3427102551375837,
+      "y": 0.3427102551375837,
       "z": 1
     },
     "_quat": {
@@ -12220,13 +12220,13 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 75,
+      "y": 90,
       "z": 0
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 0,
+      "y": 0,
       "z": 1
     },
     "_rotationX": 0,
@@ -16500,7 +16500,7 @@
         "__id__": 472
       }
     ],
-    "_active": false,
+    "_active": true,
     "_level": 3,
     "_components": [
       {
@@ -19392,8 +19392,8 @@
     "_spriteFrame": {
       "__uuid__": "b1bb6629-b7d7-4fd0-8b79-99201fb7a443"
     },
-    "_type": 0,
-    "_sizeMode": 1,
+    "_type": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -19611,7 +19611,7 @@
         "__id__": 515
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 3,
     "_components": [
       {
@@ -22099,15 +22099,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 37,
+      "g": 113,
+      "b": 163,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81,
-      "height": 33
+      "width": 102,
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -22142,32 +22142,29 @@
     "_id": "500UTWfhBMtaDhIeC16/8S"
   },
   {
-    "__type__": "cc.Sprite",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 531
     },
     "_enabled": true,
-    "_srcBlendFactor": 770,
+    "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "90821d21-7511-41a3-ad22-3c6927bccf88"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_state": 0,
-    "_atlas": null,
-    "_id": "b5YQZs03pFF52327Y4gdpW"
+    "_useOriginalSize": true,
+    "_string": "三倍！",
+    "_N$string": "三倍！",
+    "_fontSize": 34,
+    "_lineHeight": 45,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_N$horizontalAlign": 0,
+    "_N$verticalAlign": 0,
+    "_N$fontFamily": "微软雅黑",
+    "_N$overflow": 0,
+    "_id": "d7viwL1iBMc7PmuqDNChgh"
   },
   {
     "__type__": "cc.Sprite",

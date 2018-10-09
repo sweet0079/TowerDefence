@@ -64,7 +64,14 @@ export default class LevelControl extends cc.Component {
                 lib.userInfo.getinstance().setisiOS(true);
             }
         });
-        lib.wxFun.getUserInfo(()=>{
+        lib.wxFun.getUserInfo(
+        ()=>{
+            
+        },
+        ()=>{
+
+        },
+        ()=>{
             let netData: Object = { 'code': lib.userInfo.getinstance().getcode(), 'appId': lib.userInfo.getinstance().getappID(), 'ver': lib.userInfo.getinstance().getver() };
             console.log(lib.userInfo.getinstance().getquery().uid);
             console.log(lib.userInfo.getinstance().getquery().shareId);
@@ -165,12 +172,6 @@ export default class LevelControl extends cc.Component {
                 lib.userInfo.getinstance().setadvnfo(i);
                 lib.msgEvent.getinstance().emit(lib.msgConfig.initAdv);
             });
-        },
-        ()=>{
-
-        },
-        ()=>{
-
         });
         //读取相关json
         JsonManager.getinstance();

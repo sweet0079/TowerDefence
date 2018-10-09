@@ -83,8 +83,9 @@ export default class UIControl extends cc.Component {
         this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
-    showOffLine(){
+    showOffLine(num:number){
         this.offLine.node.active = true;
+        this.offLine.init(num);
     }
 
     moneyNotEnough(){

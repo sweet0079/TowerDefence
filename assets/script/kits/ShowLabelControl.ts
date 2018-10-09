@@ -71,20 +71,33 @@ export default class ShowLabelControl extends cc.Component {
             let temp = lib.RandomParameters.RandomParameters.getRandomInt(lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03.length);
             let shareinfo = lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareInfoId;
             let query = "uid=" + lib.userInfo.getinstance().getuid() + "&shareId=" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
-            lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
-                                        lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
-                (res)=>{
-                    if (res.shareTickets != undefined)
-                    {
-                        let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
-                        lib.httpRequest.getinstance().send(url);
-                        this.playTreausre();
-                    }
-                    else
-                    {
+            // lib.wxFun.shareAppMessage(lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+            //                             lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query,
+            //     (res)=>{
+            //         if (res.shareTickets != undefined)
+            //         {
+            //             let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
+            //             lib.httpRequest.getinstance().send(url);
+            //             this.playTreausre();
+            //         }
+            //         else
+            //         {
+            //             lib.wxFun.showToast("请分享到微信群哦～");
+            //         }
+            //     });
+            lib.wxFun.shareApp({title:lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].content,
+                imageUrl:lib.userInfo.getinstance().getShareInfo().shareInfo[shareinfo].img_url,query: query},
+                        (res)=>{
+                            let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
+                            lib.httpRequest.getinstance().send(url);
+                            this.playTreausre();
+                        },
+                    (res)=>{
                         lib.wxFun.showToast("请分享到微信群哦～");
-                    }
-                });
+                    },
+                    (res)=>{
+                        lib.wxFun.showToast("不要连续分享到同一个群哦~");
+                    });
         }
     }
 
@@ -109,15 +122,15 @@ export default class ShowLabelControl extends cc.Component {
     playTreausre(){
         let percent = lib.RandomParameters.RandomParameters.getRandomInt(100);
         let temp = 0;
-        if(percent < 19)
+        if(percent < 0)
         {
             temp = lib.defConfig.CardTypeEnum.money;
         }
-        else if(percent < 32)
+        else if(percent < 10)
         {
             temp = lib.defConfig.CardTypeEnum.autoCompose;
         }
-        else if(percent < 66)
+        else if(percent < 60)
         {
             temp = lib.defConfig.CardTypeEnum.initTower;
         }

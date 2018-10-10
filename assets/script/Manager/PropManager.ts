@@ -101,6 +101,7 @@ export default class PropManager {
     addInitalTowerlFragment(num:number){
         this.initalTowerlFragment += num;
         cc.sys.localStorage.setItem('initalTowerlFragment', this.initalTowerlFragment.toString());
+        lib.msgEvent.getinstance().emit(lib.msgConfig.setamazeactive);
     }
 
     //获取初始塔碎片
@@ -113,6 +114,7 @@ export default class PropManager {
     addExtralItemFragment(num:number){
         this.ExtralItemFragment += num;
         cc.sys.localStorage.setItem('ExtralItemFragment', this.ExtralItemFragment.toString());
+        lib.msgEvent.getinstance().emit(lib.msgConfig.setamazeactive);
     }
 
     //获取初始塔碎片

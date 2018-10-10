@@ -408,10 +408,11 @@ export default class enemy extends cc.Component {
         addmoney.getComponent(AddMoneyCon).init(this.node.getPosition(),money);
         // _GameManager.delMonsterVector(this.node);
         this.runSpeed = 0;
-        this.node.scale = 0.5;
+        this.node.scale = 1.5;
         this.node.getComponent(cc.Collider).enabled = false;
         this.node.getComponent(cc.Animation).play();
         this.dieXueJi.node.active = true;
+        this.EffAnimationFinished();
         // nodePool.getinstance().dissEnemy(this.node);
     }
 

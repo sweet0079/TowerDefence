@@ -55,8 +55,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1.5,
-      "y": 1.5,
+      "x": 1.3,
+      "y": 1,
       "z": 1
     },
     "_rotationX": 0,
@@ -85,7 +85,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "8a36b90d-1f86-4f20-aad2-8d7612fc0e51"
+      "__uuid__": "35ccbd24-2426-4e98-9624-951afa6dc337"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -100,7 +100,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "85oKte9lVKvbUKqzA3wxKc"
+    "_id": "d3/h8F75JAaYhWbNZPNO1s"
   },
   {
     "__type__": "cc.Animation",
@@ -126,7 +126,7 @@
       }
     ],
     "playOnLoad": false,
-    "_id": "0fKlOtrS9Pq6sbYYNB6zz2"
+    "_id": "b8VIWFNRFCVou6oPLjiCcU"
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -53,5 +53,7 @@ export default {
     gamestart: 'GameStart',
     //初始化广告
     initAdv: 'InitAdv',
+    //设置卡片感叹号
+    setamazeactive: 'SetAmazeActive',
     
 }

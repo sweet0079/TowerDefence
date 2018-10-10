@@ -82,6 +82,7 @@ export default class TowerCollider extends cc.Component {
         {
             if(other.node != this.OtherNode)
             {
+                console.log("onCollisionEnter" + other.node.name);
                 this.OtherNode = other.node;
             }
         }
@@ -104,6 +105,7 @@ export default class TowerCollider extends cc.Component {
         {
             if(other.node == this.OtherNode)
             {
+                console.log("onCollisionExit" + other.node.name);
                 this.OtherNode = null;
             }
         }

@@ -14,6 +14,8 @@ export default class PropControl extends cc.Component {
     @property(cc.Node) shareLayer: cc.Node = null;
     //感叹号
     @property(cc.Node) amazing: cc.Node = null;
+    //卡牌感叹号
+    @property(cc.Node) Cardamazing: cc.Node = null;
     //UI控制节点
     @property(cc.Node) uiControl: cc.Node = null;
     //----- 属性声明 -----//
@@ -64,11 +66,14 @@ export default class PropControl extends cc.Component {
 
         
         cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.setamazeactive,"setCardamazingactive",this);
+        this.setCardamazingactive();
     }
 
     // update (dt) {}
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.addComposeTime,"addComposeTime",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.setamazeactive,"setCardamazingactive",this);
     }
     //----- 按钮回调 -----//
     clickTreausre(){
@@ -94,6 +99,17 @@ export default class PropControl extends cc.Component {
         }
     }
     //----- 事件回调 -----//
+    private setCardamazingactive(){
+        if(this._PropManager.getExtralItemFragment() >= 3
+            || this._PropManager.getInitalTowerlFragment() >= 3)
+        {
+            this.Cardamazing.active = true;
+        }
+        else
+        {
+            this.Cardamazing.active = false;
+        }
+    }
     //----- 公有方法 -----//
     //增加自动合成时间
     addComposeTime(num: number)

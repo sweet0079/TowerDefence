@@ -27,7 +27,7 @@ export default class ShowLabelControl extends cc.Component {
     //失败Animation组件
     @property(cc.Animation) FailAnimation: cc.Animation = null;
     //宝箱组件
-    @property(sp.Skeleton) Treasure: sp.Skeleton = null;
+    @property(cc.Animation) Treasure: cc.Animation = null;
     //卡牌动画组件
     @property(cc.Animation) CardAni: cc.Animation = null;
     //宝箱按钮组件
@@ -143,8 +143,9 @@ export default class ShowLabelControl extends cc.Component {
         this.CardAni.node.scale = 0;
         this.CardBtn.node.active = false;
         // this.Treasure.setToSetupPose();
-        this.Treasure.setAnimation(0,"animation",false);
-        this.scheduleOnce(this.TreasureEnd,3);
+        // this.Treasure.setAnimation(0,"animation",false);
+        this.Treasure.play();
+        this.scheduleOnce(this.TreasureEnd,0.8);
         this.Treasure.node.parent.active = true;
     }
 

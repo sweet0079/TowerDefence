@@ -55,5 +55,6 @@ export default {
     initAdv: 'InitAdv',
     //设置卡片感叹号
     setamazeactive: 'SetAmazeActive',
-    
+    //第一次滿
+    firstfull: 'FirstFull',
 }

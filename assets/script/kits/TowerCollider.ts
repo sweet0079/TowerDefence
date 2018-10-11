@@ -100,6 +100,17 @@ export default class TowerCollider extends cc.Component {
         }
     }
 
+    onCollisionStay(other:cc.Collider, self:cc.Collider){
+        if(other.node.group == "item")
+        {
+            if(this.OtherNode == null)
+            {
+                console.log("onCollisionStay" + other.node.name);
+                this.OtherNode = other.node;
+            }
+        }
+    }
+
     onCollisionExit(other:cc.Collider, self:cc.Collider) {
         if(other.node.group == "item")
         {
@@ -127,9 +138,14 @@ export default class TowerCollider extends cc.Component {
         }
     }
     //----- 私有方法 -----//
-
     private _clickStart(event:cc.Event.EventTouch){
         this.node.parent.zIndex += 1000;
+        let touchx = event.getLocation().x - cc.view.getDesignResolutionSize().width / 2;
+        let touchy = event.getLocation().y - cc.view.getDesignResolutionSize().height / 2;
+        // console.log(event.getLocation());
+        // console.log(cc.v2(touchx,touchy));
+        this.node.parent.x = touchx;
+        this.node.parent.y = touchy;
         this.towerControl.setTowerBig();
         this.BFPos = this.node.parent.position;
         lib.msgEvent.getinstance().emit(lib.msgConfig.showrubbish);
@@ -161,13 +177,13 @@ export default class TowerCollider extends cc.Component {
                 this.cleanPlaceNode();
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
-                this.node.parent.y += lib.defConfig.TowerInItemY;
+                this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
             }
             else
             {
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
-                this.node.parent.y += lib.defConfig.TowerInItemY;
+                this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
             }
             this.OtherNode.getComponent(itemBase).show();
         }

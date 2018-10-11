@@ -123,6 +123,7 @@ export default class itemsCon extends cc.Component {
         {
             lib.msgEvent.getinstance().emit(lib.msgConfig.itemLayervibrate);
         }
+        this.CheckPlayFirstFull();
     }
     //----- 事件回调 -----//
     //----- 公有方法 -----//
@@ -291,5 +292,17 @@ export default class itemsCon extends cc.Component {
             }
         }
         return null;
+    }
+
+    private CheckPlayFirstFull(){
+        let temp:string = cc.sys.localStorage.getItem('firstFull');
+        if(!temp)
+        {
+            if(!this.findisEmpty())
+            {
+                cc.sys.localStorage.setItem('firstFull', "false");
+                lib.msgEvent.getinstance().emit(lib.msgConfig.firstfull);
+            }
+        }
     }
 }

@@ -17,6 +17,8 @@ export default class NoviceGuidanceControl extends cc.Component {
     @property(cc.Node) itemsCont: cc.Node = null;
     //放置区
     @property(cc.Node) slotsCont: cc.Node = null;
+    //垃圾桶引导动画
+    @property(cc.Animation) RubbishAni: cc.Animation = null;
     //----- 属性声明 -----//
     private clickNum = 0;
     private isNeeded:boolean = true;
@@ -24,16 +26,19 @@ export default class NoviceGuidanceControl extends cc.Component {
 
     onLoad () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.stageChange,"stageChange",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.firstfull,"showRubbishAni",this);
     }
 
-    // start () {
-
-    // }
+    start () {       
+        this.RubbishAni.on('finished',this.RubbishAniend,this);
+    }
 
     // update (dt) {}
 
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.firstfull,"showRubbishAni",this);
+        this.RubbishAni.off('finished',this.RubbishAniend,this);
     }
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
@@ -48,6 +53,11 @@ export default class NoviceGuidanceControl extends cc.Component {
         {
             this.isNeeded = false;
         }
+    }
+
+    private showRubbishAni(){
+        this.RubbishAni.node.active = true;
+        this.RubbishAni.play();
     }
     //----- 公有方法 -----//
     clickbuild(){
@@ -93,4 +103,7 @@ export default class NoviceGuidanceControl extends cc.Component {
         this.HandNode.runAction(finseq);
     }
     //----- 私有方法 -----//
+    private RubbishAniend(){
+        this.RubbishAni.node.active = false;
+    }
 }

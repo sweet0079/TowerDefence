@@ -81,6 +81,8 @@ export default class enemy extends cc.Component {
 
     //特效层节点
     private effectLayer: cc.Node = null;
+    //伤害数字层节点
+    private damageLabelLayer: cc.Node = null;
     //当前使用的spf数组
     private _spfArr: Array<cc.SpriteFrame> = null;
     //----- 生命周期 -----//
@@ -89,6 +91,7 @@ export default class enemy extends cc.Component {
         this.AoeLength = parseInt(JsonManager.getinstance().getTowerobj()[3].aoeLenght);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"putBack",this);
         this.effectLayer = this.node.parent.parent.getChildByName("enemyEffectLayer");
+        this.damageLabelLayer = this.node.parent.parent.getChildByName("UI").getChildByName("damageLabelLayer");
         this.node.getComponent(cc.Animation).on('finished',this.DieAnimationFinished,this);
         this.greenEff.on('finished',this.EffAnimationFinished,this);
     }
@@ -257,7 +260,7 @@ export default class enemy extends cc.Component {
     /** 显示被击伤害label */
     private showDamageLabel(damage:number,type:number,isblock:boolean){
         let label = nodePool.getinstance().createDamageLabel(this.damageLabel);
-        this.effectLayer.addChild(label);
+        this.damageLabelLayer.addChild(label);
         label.getComponent(damageLabelCon).init(this.node.getPosition(),damage,type,isblock);
     }
 

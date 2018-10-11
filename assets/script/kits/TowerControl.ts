@@ -76,7 +76,7 @@ export default class TowerControl extends cc.Component {
         this.level = level;
         this.showLevel();
         this.node.setPosition(node.getPosition());
-        this.node.y += lib.defConfig.TowerInItemY;
+        this.node.y = node.y + lib.defConfig.TowerInItemY;
         this.node.rotation = 0;
         if(this.towerattack)
         {

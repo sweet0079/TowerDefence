@@ -90,7 +90,7 @@ export default class ShowLabelControl extends cc.Component {
                         (res)=>{
                             let url = "https://click.xyx.bkdau.cn/share/" + lib.userInfo.getinstance().getappID() + "/" + lib.userInfo.getinstance().getShareInfo().relation.Tomatowar03[temp].shareId;
                             lib.httpRequest.getinstance().send(url);
-                            this.playTreausre();
+                            this.playTreausre(false);
                         },
                     (res)=>{
                         lib.wxFun.showToast("请分享到微信群哦～");
@@ -119,7 +119,7 @@ export default class ShowLabelControl extends cc.Component {
         this.stageAni.play();
     }
 
-    playTreausre(){
+    playTreausre(flag:boolean = true){
         let percent = lib.RandomParameters.RandomParameters.getRandomInt(100);
         let temp = 0;
         if(percent < 0)
@@ -142,6 +142,7 @@ export default class ShowLabelControl extends cc.Component {
         this.CardAni.node.getComponent(CardControl).init(temp);
         this.CardAni.node.scale = 0;
         this.CardBtn.node.active = false;
+        this.CardBtn.node.getChildByName("ShareBtn").active = flag;
         // this.Treasure.setToSetupPose();
         // this.Treasure.setAnimation(0,"animation",false);
         this.Treasure.play();

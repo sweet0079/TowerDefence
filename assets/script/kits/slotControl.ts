@@ -1,4 +1,5 @@
 /** 单个单元的控制组件的子类 */
+import * as lib from '../lib/lib'
 import TowerControl from './TowerControl'
 import itemBase from './itemBase'
 
@@ -49,7 +50,7 @@ export default class slotControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).setPlaceNode(placenode);
                 placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
-                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
+                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.x,placenode.y + lib.defConfig.TowerInItemY));
                 this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("交换");
                 return false;

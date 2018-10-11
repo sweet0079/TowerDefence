@@ -41,7 +41,7 @@ export default class itemControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).setPlaceNode(placenode);
                 placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
-                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.getPosition()));
+                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.x,placenode.y + lib.defConfig.TowerInItemY));
                 this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("交换");
                 return false;
@@ -72,7 +72,7 @@ export default class itemControl extends itemBase {
         if(this.NowTowerInfo)
         {
             this.NowTowerInfo.node.setPosition(this.node.getPosition());
-            this.NowTowerInfo.node.y += lib.defConfig.TowerInItemY;
+            this.NowTowerInfo.node.y = this.node.y + lib.defConfig.TowerInItemY;
         }
     }
 }

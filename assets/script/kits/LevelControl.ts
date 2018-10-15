@@ -28,6 +28,7 @@ export default class LevelControl extends cc.Component {
     private StageNum:number = 0;
     //----- 生命周期 -----//
     onLoad () {
+        JsonManager.getinstance();
         wx.onShow((res)=>{
             console.log("onShow");
             console.log(res);
@@ -174,7 +175,6 @@ export default class LevelControl extends cc.Component {
             });
         });
         //读取相关json
-        JsonManager.getinstance();
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.nextlevel,"nextlevel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"failsetlevel",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gamestart,"gameStart",this);
@@ -205,6 +205,7 @@ export default class LevelControl extends cc.Component {
 
     private nextlevel(num){
         console.log("nextlevel");
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micNextLevel);
         if(num >= JsonManager.getinstance().getLevelobj(0).length
         && this.StageNum != 1)
         {   
@@ -217,7 +218,6 @@ export default class LevelControl extends cc.Component {
         {
             this.FailLevel = temp;
             lib.msgEvent.getinstance().emit(lib.msgConfig.showRoundLabel,this.FailLevel - 1);
-            console.log("this.FailLevel = " + this.FailLevel);
         }
     }
     //----- 公有方法 -----//
@@ -255,10 +255,14 @@ export default class LevelControl extends cc.Component {
             temp += JsonManager.getinstance().getLevelobj(0).length;
         }
         GameManager.getinstance().setLevel(temp);
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micFail);
         lib.msgEvent.getinstance().emit(lib.msgConfig.showFailLabel);
+        this.scheduleOnce(()=>{
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showFailLabel);
+        },0.5);
         this.scheduleOnce(()=>{
             this.setlevel(temp);
             lib.msgEvent.getinstance().emit(lib.msgConfig.showGroupLabel,0);
-        },1);
+        },2.5);
     }
 }

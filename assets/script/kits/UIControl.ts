@@ -66,6 +66,7 @@ export default class UIControl extends cc.Component {
     }
     //----- 按钮回调 -----//
     clickCollection(){
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micUIClick);
         this.Collection.active = true;
     }
 
@@ -74,12 +75,14 @@ export default class UIControl extends cc.Component {
     }
 
     clickShare(event, customEventData){
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micUIClick);
         let temp = parseInt(customEventData);
         this.Share.node.active = true;
         this.Share.init(temp);
     }
 
     clickTreausre(){
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micUIClick);
         this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
@@ -94,8 +97,10 @@ export default class UIControl extends cc.Component {
     }
 
     GameOverShowShare(){
-        this.Share.node.active = true;
-        this.Share.init(2);
+        this.scheduleOnce(()=>{
+            this.Share.node.active = true;
+            this.Share.init(2);
+        },1.7);
     }
 
     showChilun(){
@@ -145,13 +150,13 @@ export default class UIControl extends cc.Component {
         this.StageNum.string = (num + 1).toString();
         if(num == 0)
         {
-            this.Price.node.parent.setPosition(0,-177);
-            this.Money.node.setPosition(0,-252);
+            this.Price.node.parent.setPosition(0,-210);
+            this.Money.node.setPosition(0,-285);
         }
         else
         {
-            this.Price.node.parent.setPosition(160,-263);
-            this.Money.node.setPosition(160,-180);
+            this.Price.node.parent.setPosition(160,-215);
+            this.Money.node.setPosition(160,-140);
         }
     }
 }

@@ -1,6 +1,6 @@
 [
     {
-        " ":"10001",
+        "stage1":"10001",
         "TowerGold":"4",
         "GetGold":"1",
         "monsterID":"0",
@@ -10,7 +10,7 @@
         "TowerQuantity":"4"
     },
     {
-        " ":"10002",
+        "stage1":"10002",
         "TowerGold":"4",
         "GetGold":"1",
         "monsterID":"0",
@@ -20,7 +20,7 @@
         "TowerQuantity":"4"
     },
     {
-        " ":"10003",
+        "stage1":"10003",
         "TowerGold":"4",
         "GetGold":"1",
         "monsterID":"1",
@@ -30,7 +30,7 @@
         "TowerQuantity":"4"
     },
     {
-        " ":"10004",
+        "stage1":"10004",
         "TowerGold":"4",
         "GetGold":"1",
         "monsterID":"2",
@@ -40,7 +40,7 @@
         "TowerQuantity":"4"
     },
     {
-        " ":"10005",
+        "stage1":"10005",
         "TowerGold":"4",
         "GetGold":"25",
         "monsterID":"5",
@@ -50,7 +50,7 @@
         "TowerQuantity":"4"
     },
     {
-        " ":"20001",
+        "stage1":"20001",
         "TowerGold":"5",
         "GetGold":"2",
         "monsterID":"0",
@@ -60,7 +60,7 @@
         "TowerQuantity":"5"
     },
     {
-        " ":"20002",
+        "stage1":"20002",
         "TowerGold":"5",
         "GetGold":"2",
         "monsterID":"3",
@@ -70,7 +70,7 @@
         "TowerQuantity":"5"
     },
     {
-        " ":"20003",
+        "stage1":"20003",
         "TowerGold":"5",
         "GetGold":"2",
         "monsterID":"4",
@@ -80,7 +80,7 @@
         "TowerQuantity":"5"
     },
     {
-        " ":"20004",
+        "stage1":"20004",
         "TowerGold":"5",
         "GetGold":"2",
         "monsterID":"1",
@@ -90,7 +90,7 @@
         "TowerQuantity":"5"
     },
     {
-        " ":"20005",
+        "stage1":"20005",
         "TowerGold":"5",
         "GetGold":"56",
         "monsterID":"5",
@@ -100,7 +100,7 @@
         "TowerQuantity":"5"
     },
     {
-        " ":"30001",
+        "stage1":"30001",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"0",
@@ -110,7 +110,7 @@
         "TowerQuantity":"6"
     },
     {
-        " ":"30002",
+        "stage1":"30002",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"4",
@@ -120,7 +120,7 @@
         "TowerQuantity":"6"
     },
     {
-        " ":"30003",
+        "stage1":"30003",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"0",
@@ -130,7 +130,7 @@
         "TowerQuantity":"6"
     },
     {
-        " ":"30004",
+        "stage1":"30004",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"0",
@@ -140,7 +140,7 @@
         "TowerQuantity":"6"
     },
     {
-        " ":"30005",
+        "stage1":"30005",
         "TowerGold":"6",
         "GetGold":"66",
         "monsterID":"5",
@@ -150,7 +150,7 @@
         "TowerQuantity":"6"
     },
     {
-        " ":"40001",
+        "stage1":"40001",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"0",
@@ -160,7 +160,7 @@
         "TowerQuantity":"7"
     },
     {
-        " ":"40002",
+        "stage1":"40002",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"2",
@@ -170,7 +170,7 @@
         "TowerQuantity":"7"
     },
     {
-        " ":"40003",
+        "stage1":"40003",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"3",
@@ -180,7 +180,7 @@
         "TowerQuantity":"7"
     },
     {
-        " ":"40004",
+        "stage1":"40004",
         "TowerGold":"6",
         "GetGold":"2",
         "monsterID":"0",
@@ -190,7 +190,7 @@
         "TowerQuantity":"7"
     },
     {
-        " ":"40005",
+        "stage1":"40005",
         "TowerGold":"6",
         "GetGold":"70",
         "monsterID":"5",
@@ -200,7 +200,7 @@
         "TowerQuantity":"7"
     },
     {
-        " ":"50001",
+        "stage1":"50001",
         "TowerGold":"8",
         "GetGold":"2",
         "monsterID":"1",
@@ -210,7 +210,7 @@
         "TowerQuantity":"8"
     },
     {
-        " ":"50002",
+        "stage1":"50002",
         "TowerGold":"8",
         "GetGold":"2",
         "monsterID":"3",
@@ -220,7 +220,7 @@
         "TowerQuantity":"8"
     },
     {
-        " ":"50003",
+        "stage1":"50003",
         "TowerGold":"8",
         "GetGold":"2",
         "monsterID":"0",
@@ -230,7 +230,7 @@
         "TowerQuantity":"8"
     },
     {
-        " ":"50004",
+        "stage1":"50004",
         "TowerGold":"8",
         "GetGold":"2",
         "monsterID":"4",
@@ -240,7 +240,7 @@
         "TowerQuantity":"8"
     },
     {
-        " ":"50005",
+        "stage1":"50005",
         "TowerGold":"8",
         "GetGold":"82",
         "monsterID":"5",
@@ -250,7 +250,7 @@
         "TowerQuantity":"8"
     },
     {
-        " ":"60001",
+        "stage1":"60001",
         "TowerGold":"9",
         "GetGold":"2",
         "monsterID":"4",
@@ -260,7 +260,7 @@
         "TowerQuantity":"9"
     },
     {
-        " ":"60002",
+        "stage1":"60002",
         "TowerGold":"9",
         "GetGold":"2",
         "monsterID":"3",
@@ -270,7 +270,7 @@
         "TowerQuantity":"9"
     },
     {
-        " ":"60003",
+        "stage1":"60003",
         "TowerGold":"9",
         "GetGold":"2",
         "monsterID":"0",
@@ -280,7 +280,7 @@
         "TowerQuantity":"9"
     },
     {
-        " ":"60004",
+        "stage1":"60004",
         "TowerGold":"9",
         "GetGold":"2",
         "monsterID":"1",
@@ -290,7 +290,7 @@
         "TowerQuantity":"9"
     },
     {
-        " ":"60005",
+        "stage1":"60005",
         "TowerGold":"9",
         "GetGold":"92",
         "monsterID":"5",
@@ -300,7 +300,7 @@
         "TowerQuantity":"9"
     },
     {
-        " ":"70001",
+        "stage1":"70001",
         "TowerGold":"10",
         "GetGold":"3",
         "monsterID":"2",
@@ -310,7 +310,7 @@
         "TowerQuantity":"10"
     },
     {
-        " ":"70002",
+        "stage1":"70002",
         "TowerGold":"10",
         "GetGold":"3",
         "monsterID":"0",
@@ -320,7 +320,7 @@
         "TowerQuantity":"10"
     },
     {
-        " ":"70003",
+        "stage1":"70003",
         "TowerGold":"10",
         "GetGold":"3",
         "monsterID":"3",
@@ -330,7 +330,7 @@
         "TowerQuantity":"10"
     },
     {
-        " ":"70004",
+        "stage1":"70004",
         "TowerGold":"10",
         "GetGold":"3",
         "monsterID":"0",
@@ -340,7 +340,7 @@
         "TowerQuantity":"10"
     },
     {
-        " ":"70005",
+        "stage1":"70005",
         "TowerGold":"10",
         "GetGold":"104",
         "monsterID":"5",
@@ -350,7 +350,7 @@
         "TowerQuantity":"10"
     },
     {
-        " ":"80001",
+        "stage1":"80001",
         "TowerGold":"11",
         "GetGold":"3",
         "monsterID":"0",
@@ -360,7 +360,7 @@
         "TowerQuantity":"11"
     },
     {
-        " ":"80002",
+        "stage1":"80002",
         "TowerGold":"11",
         "GetGold":"3",
         "monsterID":"3",
@@ -370,7 +370,7 @@
         "TowerQuantity":"11"
     },
     {
-        " ":"80003",
+        "stage1":"80003",
         "TowerGold":"11",
         "GetGold":"3",
         "monsterID":"2",
@@ -380,7 +380,7 @@
         "TowerQuantity":"11"
     },
     {
-        " ":"80004",
+        "stage1":"80004",
         "TowerGold":"11",
         "GetGold":"3",
         "monsterID":"0",
@@ -390,7 +390,7 @@
         "TowerQuantity":"11"
     },
     {
-        " ":"80005",
+        "stage1":"80005",
         "TowerGold":"11",
         "GetGold":"118",
         "monsterID":"5",

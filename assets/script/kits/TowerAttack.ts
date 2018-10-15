@@ -195,6 +195,24 @@ export default class TowerAttack extends cc.Component {
                     })));
         }));
         act1.setTag(101);
+        switch(this.type)
+        {
+            case lib.defConfig.TowerColorEnum.red:
+                lib.msgEvent.getinstance().emit(lib.msgConfig.micredAtk);
+                break;
+            case lib.defConfig.TowerColorEnum.blue:
+                lib.msgEvent.getinstance().emit(lib.msgConfig.micbuleAtk);
+                break;
+            case lib.defConfig.TowerColorEnum.green:
+                lib.msgEvent.getinstance().emit(lib.msgConfig.micgreenAtk);
+                break;
+            case lib.defConfig.TowerColorEnum.purple:
+                lib.msgEvent.getinstance().emit(lib.msgConfig.micpurpleAtk);
+                break;
+            default:
+                break;
+        }
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micbuleAtk);
         this.node.runAction(act1);
         // this.scheduleOnce(()=>{
         // },0.1);

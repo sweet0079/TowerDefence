@@ -66,6 +66,7 @@ export default class itemsCon extends cc.Component {
             this.uiControl.moneyNotEnough();
             return;
         }
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micUIClick);
         lib.wxFun.vibrateShort();
         if(this.findisEmpty())
         {
@@ -196,6 +197,7 @@ export default class itemsCon extends cc.Component {
 
     private sell(Pos:cc.Vec2){
         this._GameManager.addMoney(this.price - 1);
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micSell);
         let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyPfb);
         this.effectLayer.addChild(addmoney);
         Pos.y += 25;

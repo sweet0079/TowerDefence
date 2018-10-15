@@ -99,6 +99,7 @@ export default class GameManager {
         if(!this.isGameOver)
         {
             this.isGameOver = true;
+            lib.wxFun.vibrateShort();
             lib.msgEvent.getinstance().emit(lib.msgConfig.gameover);
         }
     }

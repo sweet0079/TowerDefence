@@ -31,6 +31,7 @@ export default class itemControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).desTower();
                 Towercon.levelUP();
                 Towercon.play();
+                lib.msgEvent.getinstance().emit(lib.msgConfig.micComposeTower);
                 this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("合成成功");
                 return true;

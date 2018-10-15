@@ -18,15 +18,19 @@ export default class BGControl extends cc.Component {
     }
 
     start () {
-
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
     }
 
     // update (dt) {}
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showFailLabel,"showFailLabel",this);
     }
     //----- 按钮回调 -----//
     //----- 事件回调 -----//
+    private showFailLabel(){
+        this.RouteSprite.node.getComponent(cc.Animation).play();
+    }
     //----- 公有方法 -----//
     //----- 私有方法 -----//
     private stageChange(num){

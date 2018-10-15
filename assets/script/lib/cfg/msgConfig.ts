@@ -57,4 +57,31 @@ export default {
     setamazeactive: 'SetAmazeActive',
     //第一次滿
     firstfull: 'FirstFull',
+
+
+
+
+    //音效
+    //红塔攻击
+    micredAtk: 'MicredAtk',
+    //蓝塔攻击
+    micbuleAtk: 'MicbuleAtk',
+    //绿塔攻击
+    micgreenAtk: 'MicgreenAtk',
+    //紫塔攻击
+    micpurpleAtk: 'MicpurpleAtk',
+    //获得金钱
+    micGold: 'MicGold',
+    //出售塔
+    micSell: 'MicSell',
+    //拖动塔
+    micClickTower: "MicClickTower",
+    //合成塔
+    micComposeTower: "MicComposeTower",
+    //下一关
+    micNextLevel: "MicNextLevel",
+    //失败
+    micFail: "MicFail",
+    //按键音
+    micUIClick: "MicUIClick",
 }

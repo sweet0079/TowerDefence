@@ -56,12 +56,14 @@ export default class TowerControl extends cc.Component {
         this.node.getComponent(cc.Animation).on('finished',this.ComposeAnimationFinished,this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showStageAni,"desTower",this);
         // this.LevelLabel.getComponent(cc.BoxCollider).size = cc.size(this.node.width,this.node.width);
     }
     onDestroy(){
         this.node.getComponent(cc.Animation).off('finished',this.ComposeAnimationFinished,this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showStageAni,"desTower",this);
     }
     //----- 公有方法 -----//
     //删除这个防御塔

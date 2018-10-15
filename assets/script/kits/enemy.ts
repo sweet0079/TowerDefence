@@ -271,7 +271,10 @@ export default class enemy extends cc.Component {
         this.unschedule(this.initSlow);
         this.unschedule(this.poisionDamage);
         this.unschedule(this.ClearXueji);
+        this.greenEff.stop();
+        this.blueEff.stop();
         this.initSlow();
+        this.EffAnimationFinished();
     }
     /** 被紫塔攻击 */
     private ShowPurpleBeat(){
@@ -406,6 +409,7 @@ export default class enemy extends cc.Component {
             money = this.gold * 2;
         }
         _GameManager.addMoney(money);
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micGold);
         let addmoney = nodePool.getinstance().createAddMoney(this.AddMoneyLabel);
         this.effectLayer.addChild(addmoney);
         addmoney.getComponent(AddMoneyCon).init(this.node.getPosition(),money);
@@ -414,6 +418,9 @@ export default class enemy extends cc.Component {
         this.node.scale = 1.5;
         this.node.getComponent(cc.Collider).enabled = false;
         this.node.getComponent(cc.Animation).play();
+        this.greenEff.stop();
+        this.blueEff.stop();
+        this.blueEff.node.active = false;
         this.dieXueJi.node.active = true;
         this.EffAnimationFinished();
         // nodePool.getinstance().dissEnemy(this.node);

@@ -139,6 +139,8 @@ export default class TowerCollider extends cc.Component {
     }
     //----- 私有方法 -----//
     private _clickStart(event:cc.Event.EventTouch){
+        lib.msgEvent.getinstance().emit(lib.msgConfig.micClickTower);
+        this.BFPos = this.node.parent.position;
         this.node.parent.zIndex += 1000;
         let touchx = event.getLocation().x - cc.view.getDesignResolutionSize().width / 2;
         let touchy = event.getLocation().y - cc.view.getDesignResolutionSize().height / 2;
@@ -147,7 +149,6 @@ export default class TowerCollider extends cc.Component {
         this.node.parent.x = touchx;
         this.node.parent.y = touchy;
         this.towerControl.setTowerBig();
-        this.BFPos = this.node.parent.position;
         lib.msgEvent.getinstance().emit(lib.msgConfig.showrubbish);
     }
 

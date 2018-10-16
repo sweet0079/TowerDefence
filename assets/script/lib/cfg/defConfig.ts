@@ -45,7 +45,7 @@ export const CardTypeEnum = cc.Enum({
 });
 
 //塔在合成槽内上移的距离
-export const TowerInItemY = 5;
+export const TowerInItemY = 15;
 //初始合成槽位
 export const OriginalItemNum = 9;
 //拖动炮塔时放大倍数

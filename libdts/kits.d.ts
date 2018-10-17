@@ -7,6 +7,12 @@ declare namespace _kits.Item {
         /** 节点 */
         node: cc.Node,
     }
+    interface BuildInfo {
+        /** 颜色 */
+        Color: number,
+        /** 等级 */
+        Level: number,
+    }
 }
 
 declare namespace _kits.Enemy {

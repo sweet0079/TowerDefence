@@ -45,7 +45,7 @@ export default class TowerControl extends cc.Component {
     private towerCollider: TowerCollider = null;
 
     //是否是鲲
-    private isItem: boolean = false;
+    isItem: boolean = false;
 
     //当前使用的spf数组
     private _spfArr: Array<cc.SpriteFrame> = null;
@@ -70,6 +70,31 @@ export default class TowerControl extends cc.Component {
     desTower(){
         this.towerCollider.cleanPlaceNode();
         nodePool.getinstance().dissTower(this.node);
+    }
+
+    //只初始化显示
+    initShow(Color:number,level:number){
+        this.towerattack = this.node.getComponent(Towerattack);
+        this.Color = Color;
+        this.level = level;
+        this.showLevel();
+        if(this.Color == lib.defConfig.TowerColorEnum.red)
+        {
+            this._spfArr = this.RedTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.green)
+        {
+            this._spfArr = this.GreenTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.blue)
+        {
+            this._spfArr = this.BlueTowerSpfArr;
+        }
+        else if(this.Color == lib.defConfig.TowerColorEnum.purple)
+        {
+            this._spfArr = this.PurpleTowerSpfArr;
+        }
+        this.showSpf();
     }
 
     //初始化

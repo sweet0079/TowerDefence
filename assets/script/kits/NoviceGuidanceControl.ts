@@ -19,6 +19,14 @@ export default class NoviceGuidanceControl extends cc.Component {
     @property(cc.Node) slotsCont: cc.Node = null;
     //垃圾桶引导动画
     @property(cc.Animation) RubbishAni: cc.Animation = null;
+    //获得塔页面
+    @property(cc.Node) getTowerLayer: cc.Node = null;
+    //塔精灵
+    @property(cc.Sprite) TowerSpr: cc.Sprite = null;
+    //塔精灵
+    @property(cc.Label) disLabel: cc.Label = null;
+    /** 塔的图片素材 */
+    @property([cc.SpriteFrame]) TowerSpfArr: Array<cc.SpriteFrame> = [];
     //----- 属性声明 -----//
     private clickNum = 0;
     private isNeeded:boolean = true;
@@ -27,6 +35,7 @@ export default class NoviceGuidanceControl extends cc.Component {
     onLoad () {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.stageChange,"stageChange",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.firstfull,"showRubbishAni",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showGetTowerLayer,"showGetTowerLayer",this);
     }
 
     start () {       
@@ -38,10 +47,33 @@ export default class NoviceGuidanceControl extends cc.Component {
     onDestroy(){
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.stageChange,"stageChange",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.firstfull,"showRubbishAni",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showGetTowerLayer,"showGetTowerLayer",this);
         this.RubbishAni.off('finished',this.RubbishAniend,this);
     }
     //----- 按钮回调 -----//
+    closeGetTowerLayer(){
+        this.getTowerLayer.active = false;
+    }
     //----- 事件回调 -----//
+    private showGetTowerLayer(type:number){
+        this.getTowerLayer.active = true;
+        this.TowerSpr.spriteFrame = this.TowerSpfArr[type];
+        switch(type)
+        {
+            case 0:
+                this.disLabel.string = "毒气炮塔";
+                break;
+            case 1:
+                this.disLabel.string = "冰冻炮塔";
+                break;
+            case 2:
+                this.disLabel.string = "散射炮塔";
+                break;
+            default:
+                break;
+        }
+    }
+
     private stageChange(){
         let temp:string = cc.sys.localStorage.getItem('firstPlay');
         if(!temp)

@@ -52,13 +52,13 @@ export default class DetailControl extends cc.Component {
         switch(this.Detailtype)
         {
             case 0:
+                PropManager.getinstance().addInitalTowerlFragment(-(PropManager.getinstance().getInitalTowerLevel() + 2));
                 PropManager.getinstance().addInitalTowerLevel(1);
-                PropManager.getinstance().addInitalTowerlFragment(-3);
                 this.init(0);
                 break;
             case 1:
+                PropManager.getinstance().addExtralItemFragment(-(PropManager.getinstance().getExtralItemNum() + 3));
                 PropManager.getinstance().addExtralItemNum(1);
-                PropManager.getinstance().addExtralItemFragment(-3);
                 this.init(1);
                 break;
             default:
@@ -77,8 +77,8 @@ export default class DetailControl extends cc.Component {
                 let lv0 = PropManager.getinstance().getInitalTowerLevel();
                 this.progressBar.node.active = true;
                 this.LevelNum.string = lv0.toString();
-                this.progressBarNum.string = PropManager.getinstance().getInitalTowerlFragment().toString() + "/3";
-                if(PropManager.getinstance().getInitalTowerlFragment() >= 3)
+                this.progressBarNum.string = PropManager.getinstance().getInitalTowerlFragment().toString() + "/" + (PropManager.getinstance().getInitalTowerLevel() + 2).toString();
+                if(PropManager.getinstance().getInitalTowerlFragment() >= (PropManager.getinstance().getInitalTowerLevel() + 2))
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
@@ -90,8 +90,8 @@ export default class DetailControl extends cc.Component {
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[0];
                     this.ArrowNode.active = false;
-                    this.progressBar.progress = PropManager.getinstance().getInitalTowerlFragment() / 3;
-                    this.NeedNum.string = (3 - PropManager.getinstance().getInitalTowerlFragment()).toString();
+                    this.progressBar.progress = PropManager.getinstance().getInitalTowerlFragment() / (PropManager.getinstance().getInitalTowerLevel() + 2);
+                    this.NeedNum.string = ((PropManager.getinstance().getInitalTowerLevel() + 2) - PropManager.getinstance().getInitalTowerlFragment()).toString();
                     this.LevelUpBtn.active = false;
                 }
                 break;
@@ -99,8 +99,8 @@ export default class DetailControl extends cc.Component {
                 let lv1 = PropManager.getinstance().getExtralItemNum() + 1;
                 this.progressBar.node.active = true;
                 this.LevelNum.string = (lv1).toString();
-                this.progressBarNum.string = PropManager.getinstance().getExtralItemFragment().toString() + "/3";
-                if(PropManager.getinstance().getExtralItemFragment() >= 3)
+                this.progressBarNum.string = PropManager.getinstance().getExtralItemFragment().toString() + "/" + (PropManager.getinstance().getExtralItemNum() + 3);
+                if(PropManager.getinstance().getExtralItemFragment() >= (PropManager.getinstance().getExtralItemNum() + 3))
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
@@ -112,8 +112,8 @@ export default class DetailControl extends cc.Component {
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[0];
                     this.ArrowNode.active = false;
-                    this.progressBar.progress = PropManager.getinstance().getExtralItemFragment() / 3;
-                    this.NeedNum.string = (3 - PropManager.getinstance().getExtralItemFragment()).toString();
+                    this.progressBar.progress = PropManager.getinstance().getExtralItemFragment() / (PropManager.getinstance().getExtralItemNum() + 3);
+                    this.NeedNum.string = ((PropManager.getinstance().getExtralItemNum() + 3) - PropManager.getinstance().getExtralItemFragment()).toString();
                     this.LevelUpBtn.active = false;
                 }
                 break;

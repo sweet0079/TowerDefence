@@ -59,6 +59,12 @@ export default {
     firstfull: 'FirstFull',
 
 
+    //建造塔
+    buildTower: 'BuildTower',
+    //展现获得塔界面
+    showGetTowerLayer: 'ShowGetTowerLayer',
+    //打开宝箱
+    playTreausre: 'PlayTreausre',
 
 
     //音效

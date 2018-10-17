@@ -5,6 +5,8 @@ import GameManager from '../Manager/GameManager';
 import ShowLabelCon from './ShowLabelControl';
 import ShareControl from './ShareControl';
 import offLineControl from './offLineControl';
+import ShareTower from './ShareTower';
+import getBoxLayer from './getBoxLayer';
 
 const {ccclass, property} = cc._decorator;
 
@@ -32,6 +34,12 @@ export default class UIControl extends cc.Component {
     @property(ShareControl) Share: ShareControl = null;
     //offLine
     @property(offLineControl) offLine: offLineControl = null;
+    //offLine
+    @property(ShareTower) ShareTowerLayer: ShareTower = null;
+    //获得宝箱层
+    @property(cc.Node) GetBoxLayerParent: cc.Node = null;
+    //获得宝箱预制体
+    @property(cc.Prefab) GetBoxLayerPfb: cc.Prefab = null;
     //----- 属性声明 -----//
     // private activeLevelNodeArr:Array<cc.Node> = [];
     //----- 生命周期 -----//
@@ -49,6 +57,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showChilun,"showChilun",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideChilun,"hideChilun",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.playTreausre,"playTreausre",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
 
@@ -63,6 +72,7 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideChilun,"hideChilun",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showOffLine,"showOffLine",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.playTreausre,"playTreausre",this);
     }
     //----- 按钮回调 -----//
     clickCollection(){
@@ -81,11 +91,23 @@ export default class UIControl extends cc.Component {
         this.Share.init(temp);
     }
 
-    clickTreausre(){
+    clickTreausre(type:number){
         lib.msgEvent.getinstance().emit(lib.msgConfig.micUIClick);
-        this.ShowLabelCon.playTreausre();
+        let box = cc.instantiate(this.GetBoxLayerPfb);
+        box.getComponent(getBoxLayer).init(type);
+        this.GetBoxLayerParent.addChild(box);
+        // this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
+    playTreausre(){
+        this.ShowLabelCon.playTreausre();
+    }
+
+    showShareTowerLayer(level:number,color:number){
+        this.ShareTowerLayer.init(color,level);
+        this.ShareTowerLayer.node.active = true;
+    }
+
     showOffLine(num:number){
         this.offLine.node.active = true;
         this.offLine.init(num);
@@ -112,7 +134,9 @@ export default class UIControl extends cc.Component {
     }
 
     ShowlevelUp(){
-        this.ShowLabelCon.playTreausre();
+        let box = cc.instantiate(this.GetBoxLayerPfb);
+        box.getComponent(getBoxLayer).init(0);
+        this.GetBoxLayerParent.addChild(box);
     }
 
     showFailLabel(){

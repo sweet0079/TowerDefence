@@ -82,7 +82,7 @@ export default class PropControl extends cc.Component {
         {
             if(timestamp - this.LastTreasureTime > 14400000)
             {
-                this.uiControl.getComponent(uiCon).clickTreausre();
+                this.uiControl.getComponent(uiCon).clickTreausre(1);
                 cc.sys.localStorage.setItem('LastTreasureTime', timestamp.toString());
                 this.LastTreasureTime = timestamp;
             }
@@ -93,7 +93,7 @@ export default class PropControl extends cc.Component {
         }
         else
         {
-            this.uiControl.getComponent(uiCon).clickTreausre();
+            this.uiControl.getComponent(uiCon).clickTreausre(1);
             cc.sys.localStorage.setItem('LastTreasureTime', timestamp.toString());
             this.LastTreasureTime = timestamp;
         }

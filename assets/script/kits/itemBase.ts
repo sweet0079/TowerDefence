@@ -15,6 +15,8 @@ export default class itemBase extends cc.Component {
     //----- 属性声明 -----//
     //单元格存放的塔的属性
     protected NowTowerInfo: _kits.Item.TowerInfo = null;
+    //是否是合成格
+    isItem: boolean;
     //----- 生命周期 -----//
 
     onLoad () {

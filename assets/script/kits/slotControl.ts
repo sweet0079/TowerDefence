@@ -17,7 +17,10 @@ export default class slotControl extends itemBase {
     //----- 属性声明 -----//
     //----- 生命周期 -----//
 
-    // onLoad () {}
+    onLoad () {
+        super.onLoad();
+        this.isItem = false;
+    }
 
     // start () {
     //     this.show();
@@ -51,7 +54,14 @@ export default class slotControl extends itemBase {
                 this.NowTowerInfo.node.getComponent(TowerControl).setPlaceNode(placenode);
                 placenode.getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
                 // Towercon.getPlaceNode().getComponent(itemBase).setNowTowerInfo(this.NowTowerInfo);
-                this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.x,placenode.y + lib.defConfig.TowerInItemY));
+                if(placenode.getComponent(itemBase).isItem)
+                {
+                    this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.x,placenode.y + lib.defConfig.TowerInItemY));
+                }
+                else
+                {
+                    this.NowTowerInfo.node.runAction(cc.moveTo(0.2,placenode.x,placenode.y));
+                }
                 this.setNowTowerInfo(Towercon.getTowerInfo());
                 console.log("交换");
                 return false;

@@ -51,8 +51,8 @@ export default class CardControl extends cc.Component {
                 this.progressBar.node.active = true;
                 this.MoneyLabel.active = false;
                 this.LevelNum.string = PropManager.getinstance().getInitalTowerLevel().toString();
-                this.progressBarNum.string = PropManager.getinstance().getInitalTowerlFragment().toString() + "/3";
-                if(PropManager.getinstance().getInitalTowerlFragment() >= 3)
+                this.progressBarNum.string = PropManager.getinstance().getInitalTowerlFragment().toString() + "/" + (PropManager.getinstance().getInitalTowerLevel() + 2);
+                if(PropManager.getinstance().getInitalTowerlFragment() >= (PropManager.getinstance().getInitalTowerLevel() + 2))
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
@@ -62,15 +62,15 @@ export default class CardControl extends cc.Component {
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[0];
                     this.ArrowNode.active = false;
-                    this.progressBar.progress = PropManager.getinstance().getInitalTowerlFragment() / 3;
+                    this.progressBar.progress = PropManager.getinstance().getInitalTowerlFragment() / (PropManager.getinstance().getInitalTowerLevel() + 2);
                 }
                 break;
             case lib.defConfig.CardTypeEnum.extralItem:
                 this.progressBar.node.active = true;
                 this.MoneyLabel.active = false;
                 this.LevelNum.string = (PropManager.getinstance().getExtralItemNum() + 1).toString();
-                this.progressBarNum.string = PropManager.getinstance().getExtralItemFragment().toString() + "/3";
-                if(PropManager.getinstance().getExtralItemFragment() >= 3)
+                this.progressBarNum.string = PropManager.getinstance().getExtralItemFragment().toString() + "/" + (PropManager.getinstance().getExtralItemNum() + 3);
+                if(PropManager.getinstance().getExtralItemFragment() >= (PropManager.getinstance().getExtralItemNum() + 3))
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[1];
                     this.ArrowNode.active = true;
@@ -80,7 +80,7 @@ export default class CardControl extends cc.Component {
                 {
                     this.progressBarSpr.spriteFrame = this.progressBarSpfArr[0];
                     this.ArrowNode.active = false;
-                    this.progressBar.progress = PropManager.getinstance().getExtralItemFragment() / 3;
+                    this.progressBar.progress = PropManager.getinstance().getExtralItemFragment() / (PropManager.getinstance().getExtralItemNum() + 3);
                 }
                 break;
             case lib.defConfig.CardTypeEnum.autoCompose:

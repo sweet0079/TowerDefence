@@ -44,6 +44,7 @@ export default class itemsCon extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.autoCompose,"autocompose",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.buildTower,"buildInfoTower",this);
     }
 
     start () {
@@ -57,6 +58,7 @@ export default class itemsCon extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.initalTowerLevelChange,"initalTowerLevelChange",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.extralItemNumChange,"extralItemNumChange",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.autoCompose,"autocompose",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.buildTower,"buildInfoTower",this);
     }
     // update (dt) {}
     //----- 按钮回调 -----//
@@ -70,54 +72,19 @@ export default class itemsCon extends cc.Component {
         lib.wxFun.vibrateShort();
         if(this.findisEmpty())
         {
-            this.NoviceGuidance.clickbuild();
-            if(PropManager.getinstance().getAutoCompose())
+            let temp = lib.RandomParameters.RandomParameters.getRandomInt(100);
+            let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
+            if(color * 2 > this._GameManager.getLevel())
             {
-                let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-                if(color > this._GameManager.getLevel())
-                {
-                    color = lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1);
-                }
-                if(!this.autocomposeAfterCreate(color,this.inital))
-                {
-                    let tower = nodePool.getinstance().createTower(this.towerPfb);
-                    // let color = lib.defConfig.TowerColorEnum.red;
-                    let level = this.inital;
-                    tower.parent = this.towerLayer;
-                    let item = this.findisEmpty();
-                    // console.log(color);
-                    tower.getComponent(TowerControl).init(color,level,item.node);
-                    item.putTower(tower);
-                    this._GameManager.addMoney(-this.price);
-                    this.uiControl.showMoney(this._GameManager.getMoney());
-                }
-                else
-                {
-                    this.scheduleOnce(()=>{
-                        if(PropManager.getinstance().getAutoCompose())
-                        {
-                            lib.msgEvent.getinstance().emit(lib.msgConfig.autoCompose);
-                        }
-                    },0.5);
-                }
+                color = parseInt((lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1) / 2).toString());
+            }
+            if(temp < 25)
+            {
+                this.uiControl.showShareTowerLayer(this.inital,color);
             }
             else
             {
-                let tower = nodePool.getinstance().createTower(this.towerPfb);
-                let color = lib.RandomParameters.RandomParameters.getRandomInt(lib.defConfig.TowerColorEnum.length);
-                if(color > this._GameManager.getLevel())
-                {
-                    color = lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1);
-                }
-                // let color = lib.defConfig.TowerColorEnum.red;
-                let level = this.inital;
-                tower.parent = this.towerLayer;
-                let item = this.findisEmpty();
-                // console.log(color);
-                tower.getComponent(TowerControl).init(color,level,item.node);
-                item.putTower(tower);
-                this._GameManager.addMoney(-this.price);
-                this.uiControl.showMoney(this._GameManager.getMoney());
+                this.buildTower(this.inital,color);
             }
         }
         else
@@ -127,6 +94,9 @@ export default class itemsCon extends cc.Component {
         this.CheckPlayFirstFull();
     }
     //----- 事件回调 -----//
+    private buildInfoTower(info:_kits.Item.BuildInfo){
+        this.buildTower(info.Level,info.Color);
+    }
     //----- 公有方法 -----//
     //设定防御塔价格
     setprice(num:number){
@@ -157,6 +127,48 @@ export default class itemsCon extends cc.Component {
         }
     }
     //----- 私有方法 -----//
+    private buildTower(level:number,color:number){
+        this.NoviceGuidance.clickbuild();
+        if(PropManager.getinstance().getAutoCompose())
+        {
+            if(!this.autocomposeAfterCreate(color,this.inital))
+            {
+                let tower = nodePool.getinstance().createTower(this.towerPfb);
+                // let color = lib.defConfig.TowerColorEnum.red;
+                // let level = this.inital;
+                tower.parent = this.towerLayer;
+                let item = this.findisEmpty();
+                // console.log(color);
+                tower.getComponent(TowerControl).init(color,level,item.node);
+                item.putTower(tower);
+                this._GameManager.addMoney(-this.price);
+                this.uiControl.showMoney(this._GameManager.getMoney());
+            }
+            else
+            {
+                this.scheduleOnce(()=>{
+                    if(PropManager.getinstance().getAutoCompose())
+                    {
+                        lib.msgEvent.getinstance().emit(lib.msgConfig.autoCompose);
+                    }
+                },0.5);
+            }
+        }
+        else
+        {
+            let tower = nodePool.getinstance().createTower(this.towerPfb);
+            // let color = lib.defConfig.TowerColorEnum.red;
+            // let level = this.inital;
+            tower.parent = this.towerLayer;
+            let item = this.findisEmpty();
+            // console.log(color);
+            tower.getComponent(TowerControl).init(color,level,item.node);
+            item.putTower(tower);
+            this._GameManager.addMoney(-this.price);
+            this.uiControl.showMoney(this._GameManager.getMoney());
+        }
+    }
+
     private loadStorage(){
         for(let i = 0 ; i < this.items.length ; i++)
         {

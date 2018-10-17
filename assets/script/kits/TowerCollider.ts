@@ -178,13 +178,27 @@ export default class TowerCollider extends cc.Component {
                 this.cleanPlaceNode();
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
-                this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
+                if(this.towerControl.isItem)
+                {
+                    this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
+                }
+                else
+                {
+                    this.node.parent.y = this.OtherNode.y;
+                }
             }
             else
             {
                 this.PlaceNode = this.OtherNode;
                 this.node.parent.position = this.OtherNode.position;
-                this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
+                if(this.towerControl.isItem)
+                {
+                    this.node.parent.y = this.OtherNode.y + lib.defConfig.TowerInItemY;
+                }
+                else
+                {
+                    this.node.parent.y = this.OtherNode.y;
+                }
             }
             this.OtherNode.getComponent(itemBase).show();
         }

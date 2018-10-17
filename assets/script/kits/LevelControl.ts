@@ -219,6 +219,30 @@ export default class LevelControl extends cc.Component {
             this.FailLevel = temp;
             lib.msgEvent.getinstance().emit(lib.msgConfig.showRoundLabel,this.FailLevel - 1);
         }
+        console.log("num = " + num);
+        switch(num)
+        {
+            case 2:
+                console.log("showGetTowerLayer = " + 0);
+                this.scheduleOnce(()=>{
+                    lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,0);
+                },1);
+                break;
+            case 4:
+                console.log("showGetTowerLayer = " + 1);
+                this.scheduleOnce(()=>{
+                    lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,1);
+                },1);
+                break;
+            case 6:
+                console.log("showGetTowerLayer = " + 2);
+                this.scheduleOnce(()=>{
+                    lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,2);
+                },1);
+                break;
+            default:
+                break;
+        }
     }
     //----- 公有方法 -----//
     //----- 私有方法 -----//

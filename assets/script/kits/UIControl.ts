@@ -7,6 +7,7 @@ import ShareControl from './ShareControl';
 import offLineControl from './offLineControl';
 import ShareTower from './ShareTower';
 import getBoxLayer from './getBoxLayer';
+import CollectionControl from './CollectionControl';
 
 const {ccclass, property} = cc._decorator;
 
@@ -58,6 +59,8 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideChilun,"hideChilun",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.playTreausre,"playTreausre",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.getBossTreasure,"getBossTreasure",this);
+        lib.msgEvent.getinstance().addEvent(lib.msgConfig.showDetailCard,"showDetailCardLayer",this);
         this.showMoney(GameManager.getinstance().getMoney());
     }
 
@@ -73,6 +76,8 @@ export default class UIControl extends cc.Component {
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.gameover,"GameOverShowShare",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showOffLine,"showOffLine",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.playTreausre,"playTreausre",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.getBossTreasure,"getBossTreasure",this);
+        lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showDetailCard,"showDetailCardLayer",this);
     }
     //----- 按钮回调 -----//
     clickCollection(){
@@ -99,6 +104,17 @@ export default class UIControl extends cc.Component {
         // this.ShowLabelCon.playTreausre();
     }
     //----- 事件回调 -----//
+    showDetailCardLayer(type){
+        this.Collection.active = true;
+        this.Collection.getComponent(CollectionControl).showDetailCardLayer(type);
+    }
+
+    getBossTreasure(){
+        let box = cc.instantiate(this.GetBoxLayerPfb);
+        box.getComponent(getBoxLayer).init(2);
+        this.GetBoxLayerParent.addChild(box);
+    }
+
     playTreausre(){
         this.ShowLabelCon.playTreausre();
     }
@@ -114,8 +130,10 @@ export default class UIControl extends cc.Component {
     }
 
     moneyNotEnough(){
-        this.Share.node.active = true;
-        this.Share.init(3);
+        this.ShowLabelCon.PlaymoneyNotEnough(()=>{
+            this.Share.node.active = true;
+            this.Share.init(3);
+        });
     }
 
     GameOverShowShare(){

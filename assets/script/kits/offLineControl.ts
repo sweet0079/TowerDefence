@@ -10,6 +10,9 @@ export default class offLineControl extends cc.Component {
     //----- 编辑器属性 -----//
     //金币label组件
     @property(cc.Label) MoneyLabel: cc.Label = null;
+    //三倍金币label组件
+    @property(cc.Label) TripleMoneyLabel: cc.Label = null;
+    
     //----- 属性声明 -----//
     private money: number = 0;
     //----- 生命周期 -----//
@@ -74,6 +77,7 @@ export default class offLineControl extends cc.Component {
     //----- 公有方法 -----//
     init(num:number){
         this.money = parseInt(num.toString());
+        this.TripleMoneyLabel.string = "/" + parseInt((num * 3).toString());
         this.MoneyLabel.string = "/" + this.money.toString();
     }
     //----- 私有方法 -----//

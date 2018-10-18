@@ -36,6 +36,8 @@ export default class ShowLabelControl extends cc.Component {
     @property(cc.Animation) stageAni: cc.Animation = null;
     //doubleMoney
     @property(cc.Animation) doubleMoneyAni: cc.Animation = null;
+    //MoneyNotEnough
+    @property(cc.Animation) MoneyNotEnough: cc.Animation = null;
     //----- 属性声明 -----//
     
     //----- 生命周期 -----//
@@ -102,9 +104,26 @@ export default class ShowLabelControl extends cc.Component {
     }
 
     ClickCardBtn(){
+        if(PropManager.getinstance().getInitalTowerlFragment() >= (PropManager.getinstance().getInitalTowerLevel() + 2))
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showDetailCard,0);
+        }
+        else if(PropManager.getinstance().getExtralItemFragment() >= (PropManager.getinstance().getExtralItemNum() + 3))
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.showDetailCard,1);
+        }
         this.Treasure.node.parent.active = false;
     }
     //----- 公有方法 -----//
+    PlaymoneyNotEnough(fun:Function){
+        this.MoneyNotEnough.node.active = true;
+        this.MoneyNotEnough.once('finished',()=>{
+            this.MoneyNotEnough.node.active = false;
+            fun();
+        });
+        this.MoneyNotEnough.play();
+    }
+
     hideDoubleMoeny(){
         this.doubleMoneyAni.node.active = false;
     }

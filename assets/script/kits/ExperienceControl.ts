@@ -10,6 +10,8 @@ export default class ExperienceControl extends cc.Component {
     @property(cc.Sprite) ExperienceSprite: cc.Sprite = null;
     //等级数字Label组件
     @property(cc.Label) LevelNum: cc.Label = null;
+    //LevelUp动画组件
+    @property(cc.Animation) LevelUpAni: cc.Animation = null;
     //----- 属性声明 -----//
     //当前经验值
     private experience: number = 0;
@@ -63,8 +65,13 @@ export default class ExperienceControl extends cc.Component {
     //升级
     private levelUp(){
         this.level++;
-        lib.msgEvent.getinstance().emit(lib.msgConfig.levelUp);
-        this.ShowExperience();
+        this.LevelUpAni.node.active = true;
+        this.LevelUpAni.once('finished',()=>{
+            this.LevelUpAni.node.active = false;
+            lib.msgEvent.getinstance().emit(lib.msgConfig.levelUp);
+            this.ShowExperience();
+        },this);
+        this.LevelUpAni.play();
     }
 
     //显示经验值精度条和等级

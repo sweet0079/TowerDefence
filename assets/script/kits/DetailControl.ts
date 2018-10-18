@@ -38,15 +38,21 @@ export default class DetailControl extends cc.Component {
     @property(cc.Node) LevelUpBtn: cc.Node = null;
     //价格label
     @property(cc.Label) priceLabel: cc.Label = null;
+    //升级成功
+    @property(cc.Animation) LevelUpSuccess: cc.Animation = null;
     //----- 属性声明 -----//
     private Detailtype = 0;
     //----- 生命周期 -----//
     // onLoad () {}
 
     start () {
+        this.LevelUpSuccess.on('finished',this.hideLevelUpSuccess,this);
     }
 
     // update (dt) {}
+    onDestroy(){
+        this.LevelUpSuccess.off('finished',this.hideLevelUpSuccess,this);
+    }
     //----- 按钮回调 -----//
     clcikLevelUp(){
         switch(this.Detailtype)
@@ -55,11 +61,15 @@ export default class DetailControl extends cc.Component {
                 PropManager.getinstance().addInitalTowerlFragment(-(PropManager.getinstance().getInitalTowerLevel() + 2));
                 PropManager.getinstance().addInitalTowerLevel(1);
                 this.init(0);
+                this.LevelUpSuccess.node.active = true;
+                this.LevelUpSuccess.play();
                 break;
             case 1:
                 PropManager.getinstance().addExtralItemFragment(-(PropManager.getinstance().getExtralItemNum() + 3));
                 PropManager.getinstance().addExtralItemNum(1);
                 this.init(1);
+                this.LevelUpSuccess.node.active = true;
+                this.LevelUpSuccess.play();
                 break;
             default:
                 break;
@@ -122,4 +132,7 @@ export default class DetailControl extends cc.Component {
         }
     }
     //----- 私有方法 -----//
+    private hideLevelUpSuccess(){
+        this.LevelUpSuccess.node.active = false;
+    }
 }

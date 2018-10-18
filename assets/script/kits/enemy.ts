@@ -438,6 +438,10 @@ export default class enemy extends cc.Component {
             console.log("过关");
             lib.msgEvent.getinstance().emit(lib.msgConfig.nextlevel,_GameManager.getLevel());
         }
+        if(this._spfArr == this.BossSpfArray)
+        {
+            lib.msgEvent.getinstance().emit(lib.msgConfig.getBossTreasure);
+        }
         this.scheduleOnce(this.ClearXueji,9);
     }
 

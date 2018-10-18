@@ -65,6 +65,10 @@ export default {
     showGetTowerLayer: 'ShowGetTowerLayer',
     //打开宝箱
     playTreausre: 'PlayTreausre',
+    //获得boss宝箱
+    getBossTreasure: 'GetBossTreasure',
+    //显示卡牌细节界面
+    showDetailCard: 'ShowDetailCard',
 
 
     //音效

@@ -18,6 +18,12 @@ export default class PropControl extends cc.Component {
     @property(cc.Node) Cardamazing: cc.Node = null;
     //UI控制节点
     @property(cc.Node) uiControl: cc.Node = null;
+    //双倍金币事件
+    @property(cc.Label) DoubleMoneyTimeLabel: cc.Label = null;
+    //双倍攻速事件
+    @property(cc.Label) DoubleSpeedTimeLabel: cc.Label = null;
+    //宝箱剩余时间
+    @property(cc.Label) TreasureTimeLabel: cc.Label = null;
     //----- 属性声明 -----//
     //自动合成剩余时间
     private composeTime: number = 0;
@@ -161,6 +167,77 @@ export default class PropControl extends cc.Component {
         return this.DoubleMoneyTime;
     }
     //----- 私有方法 -----//
+    private setTime(){
+        if(this.DoubleMoneyTime > 0)
+        {
+            this.DoubleMoneyTimeLabel.node.parent.active = true;
+            let min;
+            let sec;
+            min = parseInt((this.DoubleMoneyTime / 60).toString());
+            sec = this.DoubleMoneyTime % 60;
+            if(sec < 10)
+            {
+                this.DoubleMoneyTimeLabel.string = min + ":0" + sec;
+            }
+            else
+            {
+                this.DoubleMoneyTimeLabel.string = min + ":" + sec;
+            }
+        }
+        else
+        {
+            this.DoubleMoneyTimeLabel.node.parent.active = false;
+        }
+        if(this.DoubleSpeedTime > 0)
+        {
+            this.DoubleSpeedTimeLabel.node.parent.active = true;
+            let min;
+            let sec;
+            min = parseInt((this.DoubleSpeedTime / 60).toString());
+            sec = this.DoubleSpeedTime % 60;
+            if(sec < 10)
+            {
+                this.DoubleSpeedTimeLabel.string = min + ":0" + sec;
+            }
+            else
+            {
+                this.DoubleSpeedTimeLabel.string = min + ":" + sec;
+            }
+        }
+        else
+        {
+            this.DoubleSpeedTimeLabel.node.parent.active = false;
+        }
+        let timestamp:number = new Date().getTime();
+        if(this.LastTreasureTime)
+        {
+            let deltTime = timestamp - this.LastTreasureTime;
+            if(deltTime > 14400000)
+            {
+                this.TreasureTimeLabel.node.parent.active = false;
+            }
+            else
+            {
+                this.TreasureTimeLabel.node.parent.active = true;
+                let time = parseInt(((14400000 - deltTime) / 1000).toString());
+                let hour;
+                let min;
+                let sec;
+                hour = parseInt((time / 3600).toString());
+                min = parseInt(((time - hour * 3600) / 60).toString());
+                sec = time % 60;
+                if(min < 10)
+                {
+                    this.TreasureTimeLabel.string = hour + ":0" + min;
+                }
+                else
+                {
+                    this.TreasureTimeLabel.string = hour + ":" + min;
+                }
+            }
+        }
+    }
+
     private checkAmazing(){
         let timestamp:number = new Date().getTime();
         if(this.LastTreasureTime)
@@ -248,6 +325,7 @@ export default class PropControl extends cc.Component {
 
         this.shareLayer.getComponent(ShareCon).updateTime();
         this.checkAmazing();
+        this.setTime();
 
         let timestamp:number = new Date().getTime();
         cc.sys.localStorage.setItem('OffLineTime', timestamp.toString());

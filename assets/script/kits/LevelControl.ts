@@ -222,19 +222,19 @@ export default class LevelControl extends cc.Component {
         console.log("num = " + num);
         switch(num)
         {
-            case 2:
+            case 4:
                 console.log("showGetTowerLayer = " + 0);
                 this.scheduleOnce(()=>{
                     lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,0);
                 },1);
                 break;
-            case 4:
+            case 8:
                 console.log("showGetTowerLayer = " + 1);
                 this.scheduleOnce(()=>{
                     lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,1);
                 },1);
                 break;
-            case 6:
+            case 12:
                 console.log("showGetTowerLayer = " + 2);
                 this.scheduleOnce(()=>{
                     lib.msgEvent.getinstance().emit(lib.msgConfig.showGetTowerLayer,2);

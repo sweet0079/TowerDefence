@@ -23,7 +23,8 @@ export default class CollectionControl extends cc.Component {
     //----- 生命周期 -----//
     // onLoad () {}
 
-    // start () {  }
+    // start () {  
+    // }
 
     onEnable(){
         this.CardArr[0].init(lib.defConfig.CardTypeEnum.initTower);
@@ -35,7 +36,9 @@ export default class CollectionControl extends cc.Component {
 
     // update (dt) {}
 
-    // onDestroy(){ }
+    // onDestroy(){ 
+    // }
+    //----- 事件回调 -----//
     //----- 按钮回调 -----//
     private clickCard(event, customEventData){
         let temp = parseInt(customEventData);
@@ -52,5 +55,10 @@ export default class CollectionControl extends cc.Component {
         this.AllCardLayer.active = true;
     }
     //----- 公有方法 -----//
+    showDetailCardLayer(type){
+        this.detailLayer.node.active = true;
+        this.AllCardLayer.active = false;
+        this.detailLayer.init(type);
+    }
     //----- 私有方法 -----//
 }

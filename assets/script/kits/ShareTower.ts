@@ -10,8 +10,10 @@ const {ccclass, property} = cc._decorator;
 export default class ShareTower extends cc.Component {
 
     //----- 编辑器属性 -----//
-    //塔
-    @property(TowerControl) Tower: TowerControl = null;
+    //qian塔
+    @property(TowerControl) BeforeTower: TowerControl = null;
+    //hou塔
+    @property(TowerControl) NowTower: TowerControl = null;
     //----- 属性声明 -----//
     private color:number = 0;
     private level:number = 0;
@@ -76,6 +78,7 @@ export default class ShareTower extends cc.Component {
                                 Color : this.color,
                             }
                             lib.msgEvent.getinstance().emit(lib.msgConfig.buildTower,info);
+                            this.node.active = false;
                             // this.ProControl.addDoubleMoneyTime(300);
                             // this.init(0);
                     },
@@ -91,7 +94,8 @@ export default class ShareTower extends cc.Component {
     init(Color:number,level:number){
         this.color = Color;
         this.level = level;
-        this.Tower.initShow(Color,level + 2);
+        this.BeforeTower.initShow(Color,level);
+        this.NowTower.initShow(Color,level + 2);
     }
     //----- 私有方法 -----//
 }

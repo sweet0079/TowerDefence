@@ -106,8 +106,8 @@ export default class PropControl extends cc.Component {
     }
     //----- 事件回调 -----//
     private setCardamazingactive(){
-        if(this._PropManager.getExtralItemFragment() >= 3
-            || this._PropManager.getInitalTowerlFragment() >= 3)
+        if(this._PropManager.getExtralItemFragment() >= (PropManager.getinstance().getExtralItemNum() + 3)
+            || this._PropManager.getInitalTowerlFragment() >= (PropManager.getinstance().getInitalTowerLevel() + 2))
         {
             this.Cardamazing.active = true;
         }
@@ -233,6 +233,14 @@ export default class PropControl extends cc.Component {
                 else
                 {
                     this.TreasureTimeLabel.string = hour + ":" + min;
+                }
+                if(sec < 10)
+                {
+                    this.TreasureTimeLabel.string += ":0" + sec;
+                }
+                else
+                {
+                    this.TreasureTimeLabel.string += ":" + sec;
                 }
             }
         }

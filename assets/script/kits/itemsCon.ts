@@ -78,7 +78,7 @@ export default class itemsCon extends cc.Component {
             {
                 color = parseInt((lib.RandomParameters.RandomParameters.getRandomInt(this._GameManager.getLevel() + 1) / 4).toString());
             }
-            if(temp < 10)
+            if(temp < 5)
             {
                 this.uiControl.showShareTowerLayer(this.inital,color);
             }

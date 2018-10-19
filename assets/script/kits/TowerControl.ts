@@ -49,10 +49,16 @@ export default class TowerControl extends cc.Component {
 
     //当前使用的spf数组
     private _spfArr: Array<cc.SpriteFrame> = null;
+
+    private justShow:boolean = false;
     //----- 生命周期 -----//
     onLoad () {
         this.towerattack = this.node.getComponent(Towerattack);
         this.towerCollider = this.node.getChildByName("towercollider").getComponent(TowerCollider);
+        if(this.justShow)
+        {
+            return;
+        }
         this.node.getComponent(cc.Animation).on('finished',this.ComposeAnimationFinished,this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
         lib.msgEvent.getinstance().addEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
@@ -60,6 +66,10 @@ export default class TowerControl extends cc.Component {
         // this.LevelLabel.getComponent(cc.BoxCollider).size = cc.size(this.node.width,this.node.width);
     }
     onDestroy(){
+        if(this.justShow)
+        {
+            return;
+        }
         this.node.getComponent(cc.Animation).off('finished',this.ComposeAnimationFinished,this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.showDoubleSpeed,"showDoubleSpeed",this);
         lib.msgEvent.getinstance().removeEvent(lib.msgConfig.hideDoubleSpeed,"hideDoubleSpeed",this);
@@ -74,6 +84,7 @@ export default class TowerControl extends cc.Component {
 
     //只初始化显示
     initShow(Color:number,level:number){
+        this.justShow = true;
         this.towerattack = this.node.getComponent(Towerattack);
         this.Color = Color;
         this.level = level;

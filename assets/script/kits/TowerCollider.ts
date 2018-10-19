@@ -105,8 +105,15 @@ export default class TowerCollider extends cc.Component {
         {
             if(this.OtherNode == null)
             {
-                console.log("onCollisionStay" + other.node.name);
+                console.log("onCollisionStay item" + other.node.name);
                 this.OtherNode = other.node;
+            }
+        }
+        else if(other.node.group == "ItemLayer")
+        {
+            if(!this.towerControl.isItem)
+            {
+                this.towerControl.turnItem();
             }
         }
     }

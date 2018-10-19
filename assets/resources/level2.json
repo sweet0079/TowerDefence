@@ -5,8 +5,8 @@
         "GetGold":"1",
         "monsterID":"0",
         "Quantity":"12",
-        "HP":"708",
-        "TotalHP":"8496",
+        "HP":"848.4",
+        "TotalHP":"10180.8",
         "TowerQuantity":"4"
     },
     {
@@ -15,8 +15,8 @@
         "GetGold":"1",
         "monsterID":"0",
         "Quantity":"12",
-        "HP":"817",
-        "TotalHP":"9804",
+        "HP":"859.2",
+        "TotalHP":"10310.4",
         "TowerQuantity":"4"
     },
     {
@@ -25,8 +25,8 @@
         "GetGold":"1",
         "monsterID":"1",
         "Quantity":"12",
-        "HP":"1067",
-        "TotalHP":"12804",
+        "HP":"1280.4",
+        "TotalHP":"15364.8",
         "TowerQuantity":"4"
     },
     {
@@ -35,8 +35,8 @@
         "GetGold":"1",
         "monsterID":"2",
         "Quantity":"12",
-        "HP":"1209",
-        "TotalHP":"14508",
+        "HP":"1450.8",
+        "TotalHP":"17409.6",
         "TowerQuantity":"4"
     },
     {
@@ -45,7 +45,7 @@
         "GetGold":"25",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"7560",
+        "HP":"15552",
         "TotalHP":"7560",
         "TowerQuantity":"4"
     },
@@ -55,8 +55,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"13",
-        "HP":"985",
-        "TotalHP":"12805",
+        "HP":"1562.4",
+        "TotalHP":"20311.2",
         "TowerQuantity":"5"
     },
     {
@@ -65,8 +65,8 @@
         "GetGold":"2",
         "monsterID":"3",
         "Quantity":"13",
-        "HP":"1116",
-        "TotalHP":"14508",
+        "HP":"1747.2",
+        "TotalHP":"22713.6",
         "TowerQuantity":"5"
     },
     {
@@ -75,8 +75,8 @@
         "GetGold":"2",
         "monsterID":"4",
         "Quantity":"13",
-        "HP":"1413",
-        "TotalHP":"18369",
+        "HP":"2210.6",
+        "TotalHP":"28737.8",
         "TowerQuantity":"5"
     },
     {
@@ -85,8 +85,8 @@
         "GetGold":"2",
         "monsterID":"1",
         "Quantity":"13",
-        "HP":"1579",
-        "TotalHP":"20527",
+        "HP":"2443",
+        "TotalHP":"31759",
         "TowerQuantity":"5"
     },
     {
@@ -95,7 +95,7 @@
         "GetGold":"56",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"10667",
+        "HP":"22400",
         "TotalHP":"10667",
         "TowerQuantity":"5"
     },
@@ -105,8 +105,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"14",
-        "HP":"1312",
-        "TotalHP":"18368",
+        "HP":"2754",
+        "TotalHP":"38556",
         "TowerQuantity":"6"
     },
     {
@@ -115,8 +115,8 @@
         "GetGold":"2",
         "monsterID":"4",
         "Quantity":"14",
-        "HP":"1466",
-        "TotalHP":"20524",
+        "HP":"3017.5",
+        "TotalHP":"42245",
         "TowerQuantity":"6"
     },
     {
@@ -125,8 +125,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"14",
-        "HP":"1810",
-        "TotalHP":"25340",
+        "HP":"5424.7",
+        "TotalHP":"75945.8",
         "TowerQuantity":"6"
     },
     {
@@ -135,8 +135,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"14",
-        "HP":"2000",
-        "TotalHP":"28000",
+        "HP":"4047.7",
+        "TotalHP":"56667.8",
         "TowerQuantity":"6"
     },
     {
@@ -145,7 +145,7 @@
         "GetGold":"66",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"14520",
+        "HP":"35655.8",
         "TotalHP":"14520",
         "TowerQuantity":"6"
     },
@@ -155,8 +155,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"15",
-        "HP":"1949",
-        "TotalHP":"29235",
+        "HP":"5130",
+        "TotalHP":"76950",
         "TowerQuantity":"7"
     },
     {
@@ -165,8 +165,8 @@
         "GetGold":"2",
         "monsterID":"2",
         "Quantity":"15",
-        "HP":"2154",
-        "TotalHP":"32310",
+        "HP":"5540",
+        "TotalHP":"83100",
         "TowerQuantity":"7"
     },
     {
@@ -175,8 +175,8 @@
         "GetGold":"2",
         "monsterID":"3",
         "Quantity":"15",
-        "HP":"2607",
-        "TotalHP":"39105",
+        "HP":"6702",
+        "TotalHP":"100530",
         "TowerQuantity":"7"
     },
     {
@@ -185,8 +185,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"15",
-        "HP":"2854",
-        "TotalHP":"42810",
+        "HP":"7198",
+        "TotalHP":"107970",
         "TowerQuantity":"7"
     },
     {
@@ -195,7 +195,7 @@
         "GetGold":"70",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"22154",
+        "HP":"62032",
         "TotalHP":"22154",
         "TowerQuantity":"7"
     },
@@ -205,8 +205,8 @@
         "GetGold":"2",
         "monsterID":"1",
         "Quantity":"16",
-        "HP":"2444",
-        "TotalHP":"39104",
+        "HP":"7762.5",
+        "TotalHP":"124200",
         "TowerQuantity":"8"
     },
     {
@@ -215,8 +215,8 @@
         "GetGold":"2",
         "monsterID":"3",
         "Quantity":"16",
-        "HP":"2676",
-        "TotalHP":"42816",
+        "HP":"8296.1",
+        "TotalHP":"132737.6",
         "TowerQuantity":"8"
     },
     {
@@ -225,8 +225,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"16",
-        "HP":"3185",
-        "TotalHP":"50960",
+        "HP":"9873.9",
+        "TotalHP":"157982.4",
         "TowerQuantity":"8"
     },
     {
@@ -235,8 +235,8 @@
         "GetGold":"2",
         "monsterID":"4",
         "Quantity":"16",
-        "HP":"3462",
-        "TotalHP":"55392",
+        "HP":"10511",
+        "TotalHP":"168176",
         "TowerQuantity":"8"
     },
     {
@@ -245,7 +245,7 @@
         "GetGold":"82",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"28600",
+        "HP":"89700",
         "TotalHP":"28600",
         "TowerQuantity":"8"
     },
@@ -255,8 +255,8 @@
         "GetGold":"2",
         "monsterID":"4",
         "Quantity":"17",
-        "HP":"2998",
-        "TotalHP":"50966",
+        "HP":"10750",
+        "TotalHP":"182750",
         "TowerQuantity":"9"
     },
     {
@@ -265,8 +265,8 @@
         "GetGold":"2",
         "monsterID":"3",
         "Quantity":"17",
-        "HP":"3258",
-        "TotalHP":"55386",
+        "HP":"11405",
+        "TotalHP":"193885",
         "TowerQuantity":"9"
     },
     {
@@ -275,8 +275,8 @@
         "GetGold":"2",
         "monsterID":"0",
         "Quantity":"17",
-        "HP":"3824",
-        "TotalHP":"65008",
+        "HP":"13382.5",
+        "TotalHP":"227502.5",
         "TowerQuantity":"9"
     },
     {
@@ -285,8 +285,8 @@
         "GetGold":"2",
         "monsterID":"1",
         "Quantity":"17",
-        "HP":"4130",
-        "TotalHP":"70210",
+        "HP":"14147.5",
+        "TotalHP":"240507.5",
         "TowerQuantity":"9"
     },
     {
@@ -295,7 +295,7 @@
         "GetGold":"92",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"36185",
+        "HP":"120617.5",
         "TotalHP":"36185",
         "TowerQuantity":"9"
     },
@@ -305,8 +305,8 @@
         "GetGold":"3",
         "monsterID":"2",
         "Quantity":"18",
-        "HP":"4268",
-        "TotalHP":"76824",
+        "HP":"18319.3",
+        "TotalHP":"329747.4",
         "TowerQuantity":"10"
     },
     {
@@ -315,8 +315,8 @@
         "GetGold":"3",
         "monsterID":"0",
         "Quantity":"18",
-        "HP":"4610",
-        "TotalHP":"82980",
+        "HP":"19314",
+        "TotalHP":"347652",
         "TowerQuantity":"10"
     },
     {
@@ -325,8 +325,8 @@
         "GetGold":"3",
         "monsterID":"3",
         "Quantity":"18",
-        "HP":"5346",
-        "TotalHP":"96228",
+        "HP":"22393.8",
+        "TotalHP":"403088.4",
         "TowerQuantity":"10"
     },
     {
@@ -335,8 +335,8 @@
         "GetGold":"3",
         "monsterID":"0",
         "Quantity":"18",
-        "HP":"5742",
-        "TotalHP":"103356",
+        "HP":"23542.2",
+        "TotalHP":"423759.6",
         "TowerQuantity":"10"
     },
     {
@@ -345,7 +345,7 @@
         "GetGold":"104",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"53182",
+        "HP":"201683.4",
         "TotalHP":"53182",
         "TowerQuantity":"10"
     },
@@ -355,8 +355,8 @@
         "GetGold":"3",
         "monsterID":"0",
         "Quantity":"19",
-        "HP":"5065",
-        "TotalHP":"96235",
+        "HP":"24608",
+        "TotalHP":"467552",
         "TowerQuantity":"11"
     },
     {
@@ -365,8 +365,8 @@
         "GetGold":"3",
         "monsterID":"3",
         "Quantity":"19",
-        "HP":"5440",
-        "TotalHP":"103360",
+        "HP":"25811.2",
+        "TotalHP":"490412.8",
         "TowerQuantity":"11"
     },
     {
@@ -375,8 +375,8 @@
         "GetGold":"3",
         "monsterID":"2",
         "Quantity":"19",
-        "HP":"6460",
-        "TotalHP":"122740",
+        "HP":"29651.2",
+        "TotalHP":"563372.8",
         "TowerQuantity":"11"
     },
     {
@@ -385,8 +385,8 @@
         "GetGold":"3",
         "monsterID":"0",
         "Quantity":"19",
-        "HP":"6890",
-        "TotalHP":"130910",
+        "HP":"29632",
+        "TotalHP":"563008",
         "TowerQuantity":"11"
     },
     {
@@ -395,8 +395,8 @@
         "GetGold":"118",
         "monsterID":"5",
         "Quantity":"1",
-        "HP":"74473",
-        "TotalHP":"74473",
+        "HP":"535040",
+        "TotalHP":"140800",
         "TowerQuantity":"11"
     }
 ]

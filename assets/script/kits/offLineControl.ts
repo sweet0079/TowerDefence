@@ -77,7 +77,7 @@ export default class offLineControl extends cc.Component {
     //----- 公有方法 -----//
     init(num:number){
         this.money = parseInt(num.toString());
-        this.TripleMoneyLabel.string = "/" + parseInt((num * 3).toString());
+        this.TripleMoneyLabel.string = "/" + parseInt((this.money * 3).toString());
         this.MoneyLabel.string = "/" + this.money.toString();
     }
     //----- 私有方法 -----//

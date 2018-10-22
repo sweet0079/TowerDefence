@@ -422,7 +422,7 @@ export default class ShareControl extends cc.Component {
                 }
                 break;
             case 3:
-                this.TitleSpr.spriteFrame = this.TitleSpfArr[2];
+                // this.TitleSpr.spriteFrame = this.TitleSpfArr[2];
                 this.progressBar.node.active = false;
                 this.ItemLayer.active = true;
                 this.itemType = 0;

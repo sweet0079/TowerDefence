@@ -24,6 +24,14 @@ export default class PropControl extends cc.Component {
     @property(cc.Label) DoubleSpeedTimeLabel: cc.Label = null;
     //宝箱剩余时间
     @property(cc.Label) TreasureTimeLabel: cc.Label = null;
+    //自动合成剩余时间
+    @property(cc.Label) composeTimeLabel: cc.Label = null;
+    //进度条
+    @property(cc.ProgressBar) DoubleMoneyBar: cc.ProgressBar = null;
+    //进度条
+    @property(cc.ProgressBar) DoubleSpeedBar: cc.ProgressBar = null;
+    //进度条
+    @property(cc.ProgressBar) composeBar: cc.ProgressBar = null;
     //----- 属性声明 -----//
     //自动合成剩余时间
     private composeTime: number = 0;
@@ -183,11 +191,14 @@ export default class PropControl extends cc.Component {
             {
                 this.DoubleMoneyTimeLabel.string = min + ":" + sec;
             }
+            this.DoubleMoneyBar.progress = this.DoubleMoneyTime / 3600;
         }
         else
         {
             this.DoubleMoneyTimeLabel.node.parent.active = false;
         }
+
+
         if(this.DoubleSpeedTime > 0)
         {
             this.DoubleSpeedTimeLabel.node.parent.active = true;
@@ -203,11 +214,37 @@ export default class PropControl extends cc.Component {
             {
                 this.DoubleSpeedTimeLabel.string = min + ":" + sec;
             }
+            this.DoubleSpeedBar.progress = this.DoubleSpeedTime / 3600;
         }
         else
         {
             this.DoubleSpeedTimeLabel.node.parent.active = false;
         }
+
+        
+        if(this.composeTime > 0)
+        {
+            this.composeTimeLabel.node.parent.active = true;
+            let min;
+            let sec;
+            min = parseInt((this.composeTime / 60).toString());
+            sec = this.composeTime % 60;
+            if(sec < 10)
+            {
+                this.composeTimeLabel.string = min + ":0" + sec;
+            }
+            else
+            {
+                this.composeTimeLabel.string = min + ":" + sec;
+            }
+            this.composeBar.progress = this.composeTime / 3600;
+        }
+        else
+        {
+            this.DoubleSpeedTimeLabel.node.parent.active = false;
+        }
+
+
         let timestamp:number = new Date().getTime();
         if(this.LastTreasureTime)
         {

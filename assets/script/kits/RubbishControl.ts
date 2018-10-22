@@ -28,10 +28,12 @@ export default class RubbishControl extends cc.Component {
     //----- 公有方法 -----//
     ShowRubbish(){
         this.node.opacity = 255;
+        this.node.scale = 1.3;
     }
 
     hideRubbish(){
         this.node.opacity = 120;
+        this.node.scale = 1;
     }
     //----- 私有方法 -----//
     private stageChange(num){
